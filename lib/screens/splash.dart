@@ -1,4 +1,4 @@
-import 'package:firstproject/screens/navbar.dart';
+import 'package:firstproject/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 
 class ScreenSplash extends StatefulWidget {

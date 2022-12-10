@@ -1,11 +1,25 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/widgets/SearchScreen/searchbar.dart';
+import 'package:flutter/material.dart';
 
 class ScreenSearch extends StatelessWidget {
-  const ScreenSearch({super.key});
+  ScreenSearch({super.key});
+
+  final _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: mainBgColor,
+        body: Column(
+          children: [
+            SearchBar(
+              searchController: _searchController,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

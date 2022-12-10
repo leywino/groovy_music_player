@@ -17,7 +17,7 @@ class _NavBarBottomState extends State<NavBarBottom> {
   int _selectedIndex = 0;
   final _pages = [
     const ScreenHome(),
-    const ScreenSearch(),
+    ScreenSearch(),
     const ScreenSettings(),
   ];
   @override

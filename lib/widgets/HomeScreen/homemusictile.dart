@@ -11,6 +11,7 @@ class HomeMusicTiles extends StatefulWidget {
 class _HomeMusicTilesState extends State<HomeMusicTiles> {
   @override
   Widget build(BuildContext context) {
+    double vww = MediaQuery.of(context).size.width;
     return ListView.builder(
       shrinkWrap: true,
       itemCount: 4,
@@ -22,20 +23,27 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
           ),
           title: Text(
             'Without Me',
-            style: GoogleFonts.rubik(fontSize: 25, color: Colors.white),
+            style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
           ),
-          subtitle: Text(
-            'Halsey',
-            style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
+          subtitle: Padding(
+            padding: EdgeInsets.only(bottom: vww * 0.035),
+            child: Text(
+              'Halsey',
+              style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
+            ),
           ),
           trailing: Wrap(
+            
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.favorite_outline,
-                  color: Colors.white,
-                  size: 30,
+              Padding(
+                padding: EdgeInsets.only(bottom: vww * 0.035),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.favorite_outline,
+                    color: Colors.white,
+                    size: 25,
+                  ),
                 ),
               ),
               IconButton(
@@ -45,7 +53,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                 icon: Icon(
                   Icons.more_vert,
                   color: Colors.white,
-                  size: 30,
+                  size: 25,
                 ),
               ),
             ],
@@ -57,18 +65,42 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
 }
 
 showOptions(BuildContext context) {
-  return AlertDialog(
-    title: const Text('AlertDialog Title'),
-    content: const Text('AlertDialog description'),
-    actions: <Widget>[
-      TextButton(
-        onPressed: () => Navigator.pop(context, 'Cancel'),
-        child: const Text('Cancel'),
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: Colors.black,
+      content: SizedBox(
+        height: 100,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextButton.icon(
+              onPressed: () {},
+              icon: Icon(
+                Icons.favorite_outline,
+                size: 30,
+                color: Colors.white,
+              ),
+              label: Text(
+                'Add to Favorites',
+                style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+              ),
+            ),
+            TextButton.icon(
+              onPressed: () {},
+              icon: Icon(
+                Icons.playlist_add,
+                size: 30,
+                color: Colors.white,
+              ),
+              label: Text(
+                'Add to Playlist',
+                style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+              ),
+            )
+          ],
+        ),
       ),
-      TextButton(
-        onPressed: () => Navigator.pop(context, 'OK'),
-        child: const Text('OK'),
-      ),
-    ],
+    ),
   );
 }

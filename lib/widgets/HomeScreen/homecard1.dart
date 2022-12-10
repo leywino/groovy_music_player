@@ -1,24 +1,38 @@
-import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/screens/albums.dart';
+import 'package:firstproject/screens/favorites.dart';
+import 'package:firstproject/screens/playlists.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeCard1 extends StatelessWidget {
-  const HomeCard1(
-      {super.key,
-      this.cardcolor,
-      this.iconcolor,
-      this.cardicon,
-      this.cardtitle});
+  HomeCard1({
+    super.key,
+    this.cardcolor,
+    this.iconcolor,
+    this.cardicon,
+    this.cardtitle,
+    this.pageindex,
+  });
   final Color? cardcolor;
   final Color? iconcolor;
   final IconData? cardicon;
   final String? cardtitle;
+  final int? pageindex;
+
+  final pages = [
+    const ScreenPlaylists(),
+    const ScreenFavorites(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
     double vwh = MediaQuery.of(context).size.height;
     return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (ctx) => pages[pageindex!]));
+      },
       child: SizedBox(
         width: vww * 0.3,
         height: vwh * 0.17,
@@ -44,9 +58,6 @@ class HomeCard1 extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () {
-        print("Click event on Container");
-      },
     );
   }
 }

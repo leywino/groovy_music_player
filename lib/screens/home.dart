@@ -26,21 +26,24 @@ class ScreenHome extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  const HomeCard1(
+                  HomeCard1(
                     cardcolor: homeCard11,
                     iconcolor: homeCard12,
                     cardtitle: 'Playlists',
                     cardicon: Icons.queue_music,
+                    pageindex: 0,
                   ),
-                  const HomeCard1(
+                  HomeCard1(
                     cardcolor: homeCard21,
                     iconcolor: homeCard22,
                     cardtitle: 'Favorites',
                     cardicon: Icons.favorite,
+                    pageindex: 1,
                   ),
-                  const HomeCard2(
+                  HomeCard2(
                     cardcolor: homeCard31,
                     cardtitle: 'Album',
+                    pageindex: 0,
                   ),
                 ],
               ),
