@@ -9,3 +9,4 @@ const Color homeCard31 = Color.fromARGB(255, 42, 57, 144);
 const Color navbarcolor1 = Color.fromARGB(255, 109, 152, 134);
 const Color navbarcolor2 = Color.fromARGB(255, 242, 231, 213);
 const Color navbarcolor3 = Color.fromARGB(255, 57, 62, 70);
+const Color alertbg = Color.fromARGB(255, 34, 34, 34);

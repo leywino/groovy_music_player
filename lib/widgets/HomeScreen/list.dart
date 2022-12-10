@@ -1,3 +1,5 @@
+import 'package:firstproject/screens/nowplaying.dart';
+import 'package:firstproject/utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,9 +16,18 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
     double vww = MediaQuery.of(context).size.width;
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: 4,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: 10,
       itemBuilder: (context, index) {
         return ListTile(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (ctx) => NowPlayingScreen(),
+              ),
+            );
+          },
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.asset("assets/images/tileicon.jpg"),
@@ -33,7 +44,6 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
             ),
           ),
           trailing: Wrap(
-            
             children: [
               Padding(
                 padding: EdgeInsets.only(bottom: vww * 0.035),
@@ -68,7 +78,7 @@ showOptions(BuildContext context) {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      backgroundColor: Colors.black,
+      backgroundColor: alertbg,
       content: SizedBox(
         height: 100,
         child: Column(

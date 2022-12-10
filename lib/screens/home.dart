@@ -1,8 +1,8 @@
 import 'package:firstproject/utilities/colors.dart';
-import 'package:firstproject/widgets/HomeScreen/homecard1.dart';
-import 'package:firstproject/widgets/HomeScreen/homecard2.dart';
-import 'package:firstproject/widgets/HomeScreen/homemusictile.dart';
-import 'package:firstproject/widgets/HomeScreen/hometitle.dart';
+import 'package:firstproject/widgets/HomeScreen/card1.dart';
+import 'package:firstproject/widgets/HomeScreen/card2.dart';
+import 'package:firstproject/widgets/HomeScreen/list.dart';
+import 'package:firstproject/widgets/HomeScreen/title.dart';
 import 'package:flutter/material.dart';
 
 class ScreenHome extends StatelessWidget {
@@ -57,5 +57,13 @@ class ScreenHome extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
   }
 }
