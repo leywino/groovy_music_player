@@ -1,4 +1,5 @@
 import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/widgets/HomeScreen/bottomtile.dart';
 import 'package:firstproject/widgets/HomeScreen/card1.dart';
 import 'package:firstproject/widgets/HomeScreen/card2.dart';
 import 'package:firstproject/widgets/HomeScreen/list.dart';
@@ -8,11 +9,14 @@ import 'package:flutter/material.dart';
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
 
+  
+
   @override
   Widget build(BuildContext context) {
     double vwh = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        bottomSheet: HomeBottomTile(),
         backgroundColor: mainBgColor,
         body: SingleChildScrollView(
           child: Column(

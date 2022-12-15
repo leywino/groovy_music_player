@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
 class NPIcon extends StatelessWidget {
-  const NPIcon({super.key});
+  NPIcon({super.key, this.intindex});
+  final intindex;
+
+  final images = [
+    'assets/images/withoutme.jpg',
+    'assets/images/jocelyn.jpg',
+    'assets/images/history.jpg',
+    'assets/images/happier.jpg',
+    'assets/images/everything.jpg',
+    'assets/images/older.jpg',
+    'assets/images/imgood.jpg',
+    'assets/images/attention.jpg',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +30,7 @@ class NPIcon extends StatelessWidget {
         ),
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.asset("assets/images/tileicon.jpg")),
+            child: Image.asset(images[intindex])),
       ),
     );
   }

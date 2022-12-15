@@ -3,14 +3,14 @@ import 'package:firstproject/utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomeMusicTiles extends StatefulWidget {
-  HomeMusicTiles({super.key});
+class SearchList extends StatefulWidget {
+  SearchList({super.key});
 
   @override
-  State<HomeMusicTiles> createState() => _HomeMusicTilesState();
+  State<SearchList> createState() => _SearchListState();
 }
 
-class _HomeMusicTilesState extends State<HomeMusicTiles> {
+class _SearchListState extends State<SearchList> {
   final title = [
     'Without Me',
     'Jocelyn Flores',
@@ -55,7 +55,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (ctx) => NowPlayingScreen(intindex: index,),
+                builder: (ctx) => NowPlayingScreen(intindex: index),
               ),
             );
           },

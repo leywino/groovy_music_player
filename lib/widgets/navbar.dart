@@ -23,7 +23,10 @@ class _NavBarBottomState extends State<NavBarBottom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: FlashyTabBar(
         backgroundColor: navbarcolor1,
         selectedIndex: _selectedIndex,

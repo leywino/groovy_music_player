@@ -1,3 +1,4 @@
+import 'package:firstproject/screens/nowplaying.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,27 +10,52 @@ class FavoriteLists extends StatefulWidget {
 }
 
 class _FavoriteListsState extends State<FavoriteLists> {
+  final title = [
+    'Without Me',
+    'Jocelyn Flores',
+    'History',
+  ];
+  final artist = [
+    'Halsey',
+    'XXXTENTACICON',
+    'One Direction',
+  ];
+  final images = [
+    'assets/images/withoutme.jpg',
+    'assets/images/jocelyn.jpg',
+    'assets/images/history.jpg',
+  ];
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: 10,
+      itemCount: title.length,
       itemBuilder: (context, index) {
         return ListTile(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (ctx) => NowPlayingScreen(
+                  intindex: index,
+                ),
+              ),
+            );
+          },
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset("assets/images/tileicon.jpg"),
+            child: Image.asset(images[index]),
           ),
           title: Text(
-            'Without Me',
+            title[index],
             style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
           ),
           subtitle: Padding(
             padding: EdgeInsets.only(bottom: vww * 0.035),
             child: Text(
-              'Halsey',
+              artist[index],
               style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
             ),
           ),
@@ -38,8 +64,8 @@ class _FavoriteListsState extends State<FavoriteLists> {
             child: IconButton(
               onPressed: () {},
               icon: Icon(
-                Icons.favorite_outline,
-                color: Colors.white,
+                Icons.favorite,
+                color: Colors.pink,
                 size: 25,
               ),
             ),

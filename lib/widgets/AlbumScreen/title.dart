@@ -1,8 +1,8 @@
 import 'package:firstproject/utilities/colors.dart';
 import 'package:flutter/material.dart';
 
-class AlbumTiles extends StatelessWidget {
-  AlbumTiles({super.key});
+class AllbumTitle extends StatelessWidget {
+  AllbumTitle({super.key});
   final addController = TextEditingController();
   @override
   Widget build(BuildContext context) {

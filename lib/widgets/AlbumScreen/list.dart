@@ -1,3 +1,4 @@
+import 'package:firstproject/widgets/AlbumScreen/songslist.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,32 +10,78 @@ class AlbumLists extends StatefulWidget {
 }
 
 class _AlbumListsState extends State<AlbumLists> {
+  final title = [
+    'Voicenotes ',
+    'Made In The A.M. (Deluxe Edition)',
+    '17',
+    'Without Me (With Juice World)',
+    'Happier',
+    'I\'m Good (Blue)',
+  ];
+  final images = [
+    'assets/images/attention.jpg',
+    'assets/images/history.jpg',
+    'assets/images/jocelyn.jpg',
+    'assets/images/withoutme.jpg',
+    'assets/images/happier.jpg',
+    'assets/images/imgood.jpg',
+  ];
+  final artists = [
+    'Charlie Puth',
+    'One Direction',
+    'XXXTENTACION',
+    'Halsey',
+    'Marshmello',
+    'David Guetta, Bebe Rexha',
+  ];
+
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset("assets/images/tileicon.jpg"),
-          ),
-          title: Text(
-            'Without Me',
-            style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
-          ),
-          subtitle: Padding(
-            padding: EdgeInsets.only(bottom: vww * 0.035),
-            child: Text(
-              'Halsey',
-              style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
+    return Padding(
+      padding: EdgeInsets.only(left: vww * 0.055),
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: vww * 0.03,
+          mainAxisSpacing: vww * 0.03,
+        ),
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: title.length,
+        itemBuilder: (context, index) {
+          return GridTile(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctx) => AlbumSongList(intindex: index),
+                  ),
+                );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: SizedBox(
+                      height: vww * 0.4,
+                      child: Image.asset(images[index]),
+                    ),
+                  ),
+                  Text(
+                    title[index],
+                    style: GoogleFonts.rubik(color: Colors.white, fontSize: 18),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

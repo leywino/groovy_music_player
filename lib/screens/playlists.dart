@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ScreenPlaylists extends StatelessWidget {
-  const ScreenPlaylists({super.key});
+  ScreenPlaylists({super.key});
+ 
 
   @override
   Widget build(BuildContext context) {

@@ -2,9 +2,21 @@ import 'package:firstproject/utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PlaylistTitle extends StatelessWidget {
+class PlaylistTitle extends StatefulWidget {
   PlaylistTitle({super.key});
+
+  @override
+  State<PlaylistTitle> createState() => _PlaylistTitleState();
+}
+
+class _PlaylistTitleState extends State<PlaylistTitle> {
   final addController = TextEditingController();
+  @override
+  void initState() {
+    checkController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
@@ -84,8 +96,7 @@ class PlaylistTitle extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    
-                    onPressed: () {},
+                    onPressed: checkController() ? null : () {},
                     child: Text(
                       'OK',
                       style: GoogleFonts.rubik(
@@ -93,8 +104,8 @@ class PlaylistTitle extends StatelessWidget {
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                       ),
-                    ),
-                  )
+                    ), 
+                  ),
                 ],
               ),
             ],
@@ -102,5 +113,35 @@ class PlaylistTitle extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  bool checkController() {
+    if (addController.text.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Text okButton() {
+    if (addController.text.isEmpty) {
+      return Text(
+        'OK',
+        style: GoogleFonts.rubik(
+          fontSize: 18,
+          color: Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
+          fontWeight: FontWeight.w600,
+        ),
+      );
+    } else {
+      return Text(
+        'OK',
+        style: GoogleFonts.rubik(
+          fontSize: 18,
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        ),
+      );
+    }
   }
 }

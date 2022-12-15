@@ -1,30 +1,55 @@
 import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/widgets/PlaylistScreen/playlists.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PlaylistList extends StatelessWidget {
-  const PlaylistList({super.key});
+  PlaylistList({super.key});
+  final title = [
+    'Playlist 1',
+    'Playlist 2',
+  ];
+  final details = [
+    '4 songs',
+    '2 songs',
+  ];
+  final images = [
+    'assets/images/older.jpg',
+    'assets/images/attention.jpg',
+  ];
+  final pages = [
+    PlayListOne(),
+    PlayListTwo(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
     return ListView.builder(
-        itemCount: 5,
+        itemCount: title.length,
         shrinkWrap: true,
         itemBuilder: ((context, index) {
           return ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => pages[index],
+                ),
+              );
+            },
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.asset("assets/images/tileicon.jpg"),
+              child: Image.asset(images[index]),
             ),
             title: Text(
-              'Without Me',
+              title[index],
               style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
             ),
             subtitle: Padding(
               padding: EdgeInsets.only(bottom: vww * 0.035),
               child: Text(
-                'Halsey',
+                details[index],
                 style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
               ),
             ),
