@@ -1,4 +1,4 @@
-import 'package:firstproject/screens/nowplaying.dart';
+import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +11,7 @@ class HomeMusicTiles extends StatefulWidget {
 }
 
 class _HomeMusicTilesState extends State<HomeMusicTiles> {
-  final title = [
+  final List title = [
     'Without Me',
     'Jocelyn Flores',
     'History',
@@ -42,12 +42,14 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
     'assets/images/attention.jpg',
   ];
 
+  bool favcolor = true;
+  final List<bool> _selected = List.generate(20, (i) => false);
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: title.length,
       itemBuilder: (context, index) {
         return ListTile(
@@ -55,7 +57,9 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (ctx) => NowPlayingScreen(intindex: index,),
+                builder: (ctx) => NowPlayingScreen(
+                  intindex: index,
+                ),
               ),
             );
           },
@@ -79,10 +83,11 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
               Padding(
                 padding: EdgeInsets.only(bottom: vww * 0.035),
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () =>
+                      setState(() => _selected[index] = !_selected[index]),
                   icon: Icon(
-                    Icons.favorite_outline,
-                    color: Colors.white,
+                    _selected[index] ? Icons.favorite : Icons.favorite_outline,
+                    color: _selected[index] ? Colors.pink : Colors.white,
                     size: 25,
                   ),
                 ),

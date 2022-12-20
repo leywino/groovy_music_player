@@ -1,5 +1,5 @@
 import 'package:firstproject/utilities/colors.dart';
-import 'package:firstproject/widgets/HomeScreen/bottomtile.dart';
+import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:firstproject/widgets/HomeScreen/card1.dart';
 import 'package:firstproject/widgets/HomeScreen/card2.dart';
 import 'package:firstproject/widgets/HomeScreen/list.dart';
@@ -35,7 +35,7 @@ class ScreenHome extends StatelessWidget {
                     iconcolor: homeCard12,
                     cardtitle: 'Playlists',
                     cardicon: Icons.queue_music,
-                    pageindex: 0,
+                    pageindex: 0, 
                   ),
                   HomeCard1(
                     cardcolor: homeCard21,

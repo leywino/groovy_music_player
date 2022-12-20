@@ -1,7 +1,7 @@
 import 'package:firstproject/utilities/colors.dart';
-import 'package:firstproject/widgets/HomeScreen/bottomtile.dart';
-import 'package:firstproject/widgets/SearchScreen/musiclist.dart';
-import 'package:firstproject/widgets/SearchScreen/searchbar.dart';
+import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
+import 'package:firstproject/widgets/SearchScreen/music_list.dart';
+import 'package:firstproject/widgets/SearchScreen/search_bar.dart';
 import 'package:flutter/material.dart';
 
 class ScreenSearch extends StatelessWidget {
