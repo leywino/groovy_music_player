@@ -7,16 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NavBarBottom extends StatefulWidget {
-  const NavBarBottom({super.key});
-
+  NavBarBottom({super.key, this.songlength, required this.selectedIndex});
+  int? songlength;
+  int? selectedIndex;
   @override
   State<NavBarBottom> createState() => _NavBarBottomState();
 }
 
+
 class _NavBarBottomState extends State<NavBarBottom> {
-  int _selectedIndex = 0;
+  
   final _pages = [
-    const ScreenHome(),
+    ScreenHome(),
     ScreenSearch(),
     const ScreenSettings(),
   ];
@@ -24,15 +26,15 @@ class _NavBarBottomState extends State<NavBarBottom> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
-        index: _selectedIndex,
+        index: widget.selectedIndex,
         children: _pages,
       ),
       bottomNavigationBar: FlashyTabBar(
         backgroundColor: navbarcolor1,
-        selectedIndex: _selectedIndex,
+        selectedIndex: widget.selectedIndex ?? 0,
         showElevation: true,
         onItemSelected: (index) => setState(() {
-          _selectedIndex = index;
+          widget.selectedIndex  = index;
         }),
         items: [
           FlashyTabBarItem(

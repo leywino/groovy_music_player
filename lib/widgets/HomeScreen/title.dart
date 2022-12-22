@@ -10,7 +10,7 @@ class HomeTitle extends StatelessWidget {
     double vww = MediaQuery.of(context).size.width;
     double vwh = MediaQuery.of(context).size.height;
     return Padding(
-      padding: EdgeInsets.only(left: vww * 0.05),
+      padding: EdgeInsets.only(left: vww * 0.05, top: vwh * 0.01),
       child: Text(
         titletexthome!,
         style: GoogleFonts.rubik(

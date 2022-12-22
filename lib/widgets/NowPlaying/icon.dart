@@ -1,22 +1,16 @@
+import 'package:firstproject/database/song_model.dart';
 import 'package:flutter/material.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class NPIcon extends StatelessWidget {
   NPIcon({super.key, this.intindex});
-  final intindex;
 
-  final images = [
-    'assets/images/withoutme.jpg',
-    'assets/images/jocelyn.jpg',
-    'assets/images/history.jpg',
-    'assets/images/happier.jpg',
-    'assets/images/everything.jpg',
-    'assets/images/older.jpg',
-    'assets/images/imgood.jpg',
-    'assets/images/attention.jpg',
-  ];
+  final intindex;
 
   @override
   Widget build(BuildContext context) {
+        final box = SongBox.getInstance();
+  List<Songs> songdb = box.values.toList();
     double vwh = MediaQuery.of(context).size.height;
     double vww = MediaQuery.of(context).size.width;
     return Padding(
@@ -28,9 +22,24 @@ class NPIcon extends StatelessWidget {
             width: 2,
           ),
         ),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset(images[intindex])),
+        child: QueryArtworkWidget(
+          size: 2000,
+          quality: 100,
+          id: songdb[intindex].id!,
+          artworkQuality: FilterQuality.high,
+          type: ArtworkType.AUDIO,
+          artworkHeight: vwh * 0.40,
+          artworkWidth: vww * 0.90,
+          artworkBorder: BorderRadius.circular(10),
+          artworkFit: BoxFit.cover,
+          nullArtworkWidget: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Image.asset(
+              'assets/images/gradient.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/utilities/texts.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteTitle extends StatelessWidget {
@@ -23,8 +24,8 @@ class FavoriteTitle extends StatelessWidget {
                 color: homeCard22,
                 size: 45,
               ),
-              Text(
-                'Favorites',
+              const Text(
+                favorites,
                 style: TextStyle(fontSize: 35, color: Colors.white),
               ),
             ],

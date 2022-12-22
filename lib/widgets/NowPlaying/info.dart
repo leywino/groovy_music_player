@@ -1,3 +1,4 @@
+import 'package:firstproject/database/song_model.dart';
 import 'package:flutter/material.dart';
 
 class NPInfo extends StatelessWidget {
@@ -5,29 +6,10 @@ class NPInfo extends StatelessWidget {
 
   final intindex;
 
-  final title = [
-    'Without Me',
-    'Jocelyn Flores',
-    'History',
-    'Happier',
-    'Everything Black',
-    'Older',
-    'I\'m Good',
-    'Attention',
-  ];
-  final artist = [
-    'Halsey',
-    'XXXTENTACICON',
-    'One Direction',
-    'Marshmello',
-    'Unlike Pluto, Mike Taylor',
-    'Sasha Alex Sloan',
-    'David Guetta, Bebe Rexha',
-    'Charlie Puth',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final box = SongBox.getInstance();
+    List<Songs> songdb = box.values.toList();
     double vww = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -41,14 +23,14 @@ class NPInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title[intindex],
+                  songdb[intindex].songname!,
                   style: TextStyle(
                     fontSize: 22,
                     color: Colors.white,
                   ),
                 ),
                 Text(
-                  artist[intindex],
+                  songdb[intindex].artist!,
                   style: TextStyle(
                     fontSize: 22,
                     color: Colors.white.withOpacity(0.6),

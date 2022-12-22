@@ -1,8 +1,14 @@
+import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/adapters.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(SongsAdapter());
+  await Hive.openBox<Songs>(boxname);
   runApp(const MyApp());
 }
 
@@ -39,3 +45,5 @@ class MyBehavior extends ScrollBehavior {
     return child;
   }
 }
+
+

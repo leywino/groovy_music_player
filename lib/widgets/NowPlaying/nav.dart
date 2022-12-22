@@ -1,6 +1,5 @@
-import 'package:firstproject/screens/home.dart';
 import 'package:firstproject/screens/playlists.dart';
-import 'package:firstproject/screens/search.dart';
+import 'package:firstproject/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 
 class NPNav extends StatelessWidget {
@@ -27,7 +26,7 @@ class NPNav extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => ScreenHome(),
+                      builder: (ctx) => NavBarBottom(selectedIndex: 0),
                     ),
                   );
                 },
@@ -55,7 +54,7 @@ class NPNav extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => ScreenSearch(),
+                      builder: (ctx) => NavBarBottom(selectedIndex: 1),
                     ),
                   );
                 },

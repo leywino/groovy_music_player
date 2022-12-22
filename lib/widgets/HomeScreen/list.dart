@@ -1,7 +1,11 @@
+import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class HomeMusicTiles extends StatefulWidget {
   HomeMusicTiles({super.key});
@@ -11,142 +15,141 @@ class HomeMusicTiles extends StatefulWidget {
 }
 
 class _HomeMusicTilesState extends State<HomeMusicTiles> {
-  final List title = [
-    'Without Me',
-    'Jocelyn Flores',
-    'History',
-    'Happier',
-    'Everything Black',
-    'Older',
-    'I\'m Good',
-    'Attention',
-  ];
-  final artist = [
-    'Halsey',
-    'XXXTENTACICON',
-    'One Direction',
-    'Marshmello',
-    'Unlike Pluto, Mike Taylor',
-    'Sasha Alex Sloan',
-    'David Guetta, Bebe Rexha',
-    'Charlie Puth',
-  ];
-  final images = [
-    'assets/images/withoutme.jpg',
-    'assets/images/jocelyn.jpg',
-    'assets/images/history.jpg',
-    'assets/images/happier.jpg',
-    'assets/images/everything.jpg',
-    'assets/images/older.jpg',
-    'assets/images/imgood.jpg',
-    'assets/images/attention.jpg',
-  ];
-
+  final box = SongBox.getInstance();
   bool favcolor = true;
-  final List<bool> _selected = List.generate(20, (i) => false);
+  @override
+  void initState() {
+    List<Songs> songs = box.values.toList();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: title.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (ctx) => NowPlayingScreen(
-                  intindex: index,
+
+    return ValueListenableBuilder<Box<Songs>>(
+      valueListenable: box.listenable(),
+      builder: ((context, Box<Songs> allsongbox, child) {
+        List<Songs> songsdb = allsongbox.values.toList();
+        final List<bool> selected = List.generate(songsdb.length, (i) => false);
+        if (songsdb.isEmpty) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: songsdb.length,
+          itemBuilder: (context, index) {
+            Songs songs = songsdb[index];
+            return ListTile(
+              onTap: () {
+                HomeBottomTile.vindex.value = index;
+                NowPlayingScreen.spindex.value = index;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctx) => NowPlayingScreen(
+                      intindex: index,
+                      songs: songs,
+                      songdb: songsdb,
+                    ),
+                  ),
+                );
+              },
+              leading: QueryArtworkWidget(
+                artworkBorder: BorderRadius.circular(8),
+                keepOldArtwork: true,
+                id: songs.id!,
+                type: ArtworkType.AUDIO,
+              ),
+              title: Text(
+                songs.songname!,
+                style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+              ),
+              subtitle: Padding(
+                padding: EdgeInsets.only(bottom: vww * 0.035),
+                child: Text(
+                  songs.artist ?? "No Artist",
+                  style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
                 ),
+              ),
+              trailing: Wrap(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: vww * 0.035),
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() => selected[index] = !selected[index]);
+                      },
+                      icon: Icon(
+                        selected[index]
+                            ? Icons.favorite
+                            : Icons.favorite_outline,
+                        color: selected[index] ? Colors.pink : Colors.white,
+                        size: 25,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      showOptions(context);
+                    },
+                    icon: Icon(
+                      Icons.more_vert,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                  ),
+                ],
               ),
             );
           },
-          leading: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(images[index]),
-          ),
-          title: Text(
-            title[index],
-            style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
-          ),
-          subtitle: Padding(
-            padding: EdgeInsets.only(bottom: vww * 0.035),
-            child: Text(
-              artist[index],
-              style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
-            ),
-          ),
-          trailing: Wrap(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: vww * 0.035),
-                child: IconButton(
-                  onPressed: () =>
-                      setState(() => _selected[index] = !_selected[index]),
-                  icon: Icon(
-                    _selected[index] ? Icons.favorite : Icons.favorite_outline,
-                    color: _selected[index] ? Colors.pink : Colors.white,
-                    size: 25,
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  showOptions(context);
-                },
-                icon: Icon(
-                  Icons.more_vert,
-                  color: Colors.white,
-                  size: 25,
-                ),
-              ),
-            ],
-          ),
         );
-      },
+      }),
     );
   }
-}
 
-showOptions(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      backgroundColor: alertbg,
-      content: SizedBox(
-        height: 100,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextButton.icon(
-              onPressed: () {},
-              icon: Icon(
-                Icons.favorite_outline,
-                size: 30,
-                color: Colors.white,
+  showOptions(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: alertbg,
+        content: SizedBox(
+          height: 100,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextButton.icon(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.favorite_outline,
+                  size: 30,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Add to Favorites',
+                  style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+                ),
               ),
-              label: Text(
-                'Add to Favorites',
-                style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
-              ),
-            ),
-            TextButton.icon(
-              onPressed: () {},
-              icon: Icon(
-                Icons.playlist_add,
-                size: 30,
-                color: Colors.white,
-              ),
-              label: Text(
-                'Add to Playlist',
-                style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
-              ),
-            )
-          ],
+              TextButton.icon(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.playlist_add,
+                  size: 30,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Add to Playlist',
+                  style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+                ),
+              )
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }

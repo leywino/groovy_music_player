@@ -1,16 +1,20 @@
 import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
-import 'package:firstproject/widgets/HomeScreen/card1.dart';
-import 'package:firstproject/widgets/HomeScreen/card2.dart';
+import 'package:firstproject/widgets/HomeScreen/card.dart';
 import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:firstproject/widgets/HomeScreen/title.dart';
 import 'package:flutter/material.dart';
 
-class ScreenHome extends StatelessWidget {
-  const ScreenHome({super.key});
+class ScreenHome extends StatefulWidget {
+  ScreenHome({super.key});
 
-  
 
+  @override
+  State<ScreenHome> createState() => _ScreenHomeState();
+}
+
+class _ScreenHomeState extends State<ScreenHome> {
   @override
   Widget build(BuildContext context) {
     double vwh = MediaQuery.of(context).size.height;
@@ -22,38 +26,54 @@ class ScreenHome extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.only(top: vwh * 0.1, bottom: vwh * 0.015),
-                child: const HomeTitle(titletexthome: 'Discover'),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              const HomeTitle(titletexthome: discover),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  HomeCard1(
-                    cardcolor: homeCard11,
-                    iconcolor: homeCard12,
-                    cardtitle: 'Playlists',
-                    cardicon: Icons.queue_music,
-                    pageindex: 0, 
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      HomeCard(
+                        cardcolor: homeCard11,
+                        iconcolor: homeCard12,
+                        cardtitle: playlists,
+                        cardicon: Icons.queue_music,
+                        pageindex: 0,
+                      ),
+                      HomeCard(
+                        cardcolor: homeCard21,
+                        iconcolor: homeCard22,
+                        cardtitle: favorites,
+                        cardicon: Icons.favorite,
+                        pageindex: 1,
+                      ),
+                    ],
                   ),
-                  HomeCard1(
-                    cardcolor: homeCard21,
-                    iconcolor: homeCard22,
-                    cardtitle: 'Favorites',
-                    cardicon: Icons.favorite,
-                    pageindex: 1,
-                  ),
-                  HomeCard2(
-                    cardcolor: homeCard31,
-                    cardtitle: 'Album',
-                    pageindex: 0,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      HomeCard(
+                        cardcolor: homeCard31,
+                        iconcolor: homeCard32,
+                        cardtitle: most,
+                        cardicon: Icons.restart_alt,
+                        pageindex: 1,
+                      ),
+                      HomeCard(
+                        cardcolor: homeCard41,
+                        iconcolor: homeCard42,
+                        cardtitle: recently,
+                        cardicon: Icons.favorite,
+                        pageindex: 1,
+                      ),
+                    ],
                   ),
                 ],
               ),
               Padding(
                 padding: EdgeInsets.only(top: vwh * 0.015, bottom: vwh * 0.015),
-                child: const HomeTitle(titletexthome: 'All Songs'),
+                child: const HomeTitle(titletexthome: allsongs),
               ),
               HomeMusicTiles(),
             ],
