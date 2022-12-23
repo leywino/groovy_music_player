@@ -19,12 +19,12 @@ List<SongModel> getSongs = [];
 class _ScreenSplashState extends State<ScreenSplash> {
   @override
   void initState() {
-    requestStoragePermission();
+    reqStoragePerm();
     navigateToHome(context);
     super.initState();
   }
 
-  requestStoragePermission() async {
+  reqStoragePerm() async {
     bool permissionStatus = await audioquery.permissionsStatus();
     if (!permissionStatus) {
       await audioquery.permissionsRequest();

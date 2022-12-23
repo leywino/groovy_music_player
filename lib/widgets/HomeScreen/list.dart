@@ -27,7 +27,6 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
-
     return ValueListenableBuilder<Box<Songs>>(
       valueListenable: box.listenable(),
       builder: ((context, Box<Songs> allsongbox, child) {

@@ -1,7 +1,6 @@
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
-import 'package:firstproject/widgets/NowPlaying/bar.dart';
 import 'package:firstproject/widgets/NowPlaying/buttons.dart';
 import 'package:firstproject/widgets/NowPlaying/icon.dart';
 import 'package:firstproject/widgets/NowPlaying/info.dart';
@@ -33,8 +32,7 @@ class NowPlayingScreen extends StatelessWidget {
                 children: [
                   NPIcon(intindex: spider),
                   NPInfo(intindex: spider),
-                  NPBar(intindex: spider, songdb: songdb),
-                  NPButtons(intindex: spider, songs: songs, songdb: songdb),
+                  NPButtons(intindex: spider),
                   NPNav(),
                 ],
               );
