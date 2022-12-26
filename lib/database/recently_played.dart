@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
-part 'song_model.g.dart';
+part 'recently_played.g.dart';
 
-@HiveType(typeId: 0)
-class Songs {
+@HiveType(typeId: 3)
+class Recently {
   @HiveField(0)
   String? songname;
   @HiveField(1)
@@ -14,7 +14,7 @@ class Songs {
   @HiveField(4)
   int? id;
 
-  Songs({
+  Recently({
     required this.songname,
     required this.artist,
     required this.duration,
@@ -23,10 +23,9 @@ class Songs {
   });
 }
 
-
-class SongBox {
-  static Box<Songs>? _box;
-  static Box<Songs> getInstance() {
-    return _box ??= Hive.box('Songs');
+class RecentlyBox {
+  static Box<Recently>? _box;
+  static Box<Recently> getInstance() {
+    return _box ??= Hive.box('Recently');
   }
 }

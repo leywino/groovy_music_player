@@ -30,9 +30,8 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
     return PlayerBuilder.isPlaying(
       player: widget.player,
       builder: (context, isPlaying) {
-        return Visibility(
-          visible: isPlaying,
-          child: ValueListenableBuilder(
+        return player.builderCurrent(builder: (context, playing) {
+          return ValueListenableBuilder(
               valueListenable: HomeBottomTile.vindex,
               builder: (BuildContext context, int intindex, child) {
                 return ValueListenableBuilder<Box<Songs>>(
@@ -54,6 +53,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                             MaterialPageRoute(
                               builder: (ctx) => NowPlayingScreen(
                                 intindex: HomeBottomTile.intindex,
+                                opendb: songdb,
                               ),
                             ),
                           );
@@ -128,21 +128,23 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                   crossAxisAlignment: WrapCrossAlignment.center,
                                   children: [
                                     GestureDetector(
-                                      onTap: () {
-                                        if (isPlaying) {}
-                                        HomeBottomTile.intindex--;
-                                        previousMusic(isPlaying, player, songdb,
-                                            intindex);
-                                      },
+                                      onTap: checkIndexPrev(intindex, songdb)
+                                          ? null
+                                          : () {
+                                              if (isPlaying) {}
+                                              HomeBottomTile.intindex--;
+                                              previousMusic(isPlaying, player,
+                                                  songdb, intindex);
+                                            },
                                       child: Icon(
                                         Icons.skip_previous,
-                                        color: Colors.white,
+                                        color: checkIndexPrev(intindex, songdb)
+                                            ? Colors.white.withOpacity(0.5)
+                                            : Colors.white,
                                       ),
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        playMusic(isPlaying, widget.player,
-                                            songdb, intindex);
                                         player.playOrPause();
                                       },
                                       child: Icon(
@@ -154,14 +156,18 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: () {
-                                        HomeBottomTile.intindex++;
-                                        skipMusic(isPlaying, player, songdb,
-                                            intindex);
-                                      },
+                                      onTap: checkIndexSkip(intindex, songdb)
+                                          ? null
+                                          : () {
+                                              HomeBottomTile.intindex++;
+                                              skipMusic(isPlaying, player,
+                                                  songdb, intindex);
+                                            },
                                       child: Icon(
                                         Icons.skip_next,
-                                        color: Colors.white,
+                                        color: checkIndexSkip(intindex, songdb)
+                                            ? Colors.white.withOpacity(0.5)
+                                            : Colors.white,
                                       ),
                                     ),
                                   ],
@@ -174,8 +180,8 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                     );
                   }),
                 );
-              }),
-        );
+              });
+        });
       },
     );
   }

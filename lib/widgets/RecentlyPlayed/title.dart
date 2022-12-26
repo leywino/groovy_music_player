@@ -2,8 +2,8 @@ import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:flutter/material.dart';
 
-class FavoriteTitle extends StatelessWidget {
-  FavoriteTitle({super.key});
+class RecentlyTitle extends StatelessWidget {
+  RecentlyTitle({super.key});
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
@@ -19,12 +19,12 @@ class FavoriteTitle extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               const Icon(
-                Icons.favorite,
-                color: homeCard22,
+                Icons.history,
+                color: homeCard42,
                 size: 45,
               ),
               const Text(
-                favorites,
+                recently,
                 style: TextStyle(fontSize: 35, color: Colors.white),
               ),
             ],

@@ -1,6 +1,5 @@
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/utilities/colors.dart';
-import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:firstproject/widgets/NowPlaying/bar.dart';
 import 'package:firstproject/widgets/NowPlaying/buttons.dart';
 import 'package:firstproject/widgets/NowPlaying/icon.dart';
@@ -13,11 +12,10 @@ class NowPlayingScreen extends StatelessWidget {
   static ValueNotifier<int> spindex = ValueNotifier(spider!);
   static int? spider = 0;
 
-  NowPlayingScreen({super.key, this.intindex, this.songs, this.songdb});
+  NowPlayingScreen({super.key, this.intindex, this.opendb});
 
   final intindex;
-  final songs;
-  final songdb;
+  final opendb;
 
   final box = SongBox.getInstance();
 
@@ -31,8 +29,8 @@ class NowPlayingScreen extends StatelessWidget {
             builder: (context, int spider, child) {
               return Column(
                 children: [
-                  NPIcon(intindex: spider),
-                  NPInfo(intindex: spider),
+                  NPIcon(intindex: spider,opendb: opendb),
+                  NPInfo(intindex: spider,opendb: opendb),
                   NPBar(),
                   NPButtons(intindex: spider),
                   NPNav(),

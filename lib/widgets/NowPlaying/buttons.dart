@@ -1,7 +1,9 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:firstproject/database/recently_played.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
+import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:flutter/material.dart';
 
 class NPButtons extends StatefulWidget {
@@ -18,6 +20,7 @@ class NPButtons extends StatefulWidget {
 }
 
 AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
+final recentlybox = RecentlyBox.getInstance();
 
 class _NPButtonsState extends State<NPButtons> {
   @override
@@ -46,34 +49,48 @@ class _NPButtonsState extends State<NPButtons> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      previousMusic(isPlaying, player, songdb, widget.intindex);
-                    },
+                    onTap: checkIndexPrev(widget.intindex, songdb)
+                        ? null
+                        : () {
+                            previousMusic(
+                                isPlaying, player, songdb, widget.intindex);
+                          },
                     child: Icon(
                       Icons.skip_previous,
-                      color: Colors.white,
+                      color: checkIndexPrev(widget.intindex, songdb)
+                          ? Colors.white.withOpacity(0.5)
+                          : Colors.white,
                       size: 35,
                     ),
                   ),
+                  PlayerBuilder.isPlaying(
+                      player: player,
+                      builder: (context, isPlaying) {
+                        return GestureDetector(
+                          onTap: () async {
+                            player.playOrPause();
+                          },
+                          child: Icon(
+                            isPlaying
+                                ? Icons.pause_circle_filled
+                                : Icons.play_circle_filled,
+                            color: Colors.white,
+                            size: 60,
+                          ),
+                        );
+                      }),
                   GestureDetector(
-                    onTap: () async {
-                      playMusic(isPlaying, player, songdb, widget.intindex);
-                    },
-                    child: Icon(
-                      isPlaying
-                          ? Icons.pause_circle_filled
-                          : Icons.play_circle_filled,
-                      color: Colors.white,
-                      size: 60,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      skipMusic(isPlaying, player, songdb, widget.intindex);
-                    },
+                    onTap: checkIndexSkip(widget.intindex, songdb)
+                        ? null
+                        : () {
+                            skipMusic(
+                                isPlaying, player, songdb, widget.intindex);
+                          },
                     child: Icon(
                       Icons.skip_next,
-                      color: Colors.white,
+                      color: checkIndexSkip(widget.intindex, songdb)
+                          ? Colors.white.withOpacity(0.5)
+                          : Colors.white,
                       size: 35,
                     ),
                   ),
@@ -103,12 +120,27 @@ skipMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
   await player.open(
     Audio.file(songdb[intindex].songurl!),
     playInBackground: PlayInBackground.disabledPause,
-    audioFocusStrategy: AudioFocusStrategy.request(
+    audioFocusStrategy: const AudioFocusStrategy.request(
       resumeAfterInterruption: true,
       resumeOthersPlayersAfterDone: true,
     ),
   );
-  await player.play();
+  Recently recsongs = Recently(
+      songname: songdb[intindex].songname,
+      artist: songdb[intindex].artist,
+      duration: songdb[intindex].duration,
+      songurl: songdb[intindex].songurl,
+      id: songdb[intindex].id);
+  checkRecentlyPlayed(recsongs, intindex);
+  // await player.open(
+  //   Audio.file(songdb[intindex].songurl!),
+  //   showNotification: true,
+  //   playInBackground: PlayInBackground.disabledPause,
+  //   audioFocusStrategy: const AudioFocusStrategy.request(
+  //     resumeAfterInterruption: true,
+  //     resumeOthersPlayersAfterDone: true,
+  //   ),
+  // );
 }
 
 previousMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
@@ -124,18 +156,34 @@ previousMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
       resumeOthersPlayersAfterDone: true,
     ),
   );
-  await player.play();
+  Recently recsongs = Recently(
+      songname: songdb[intindex].songname,
+      artist: songdb[intindex].artist,
+      duration: songdb[intindex].duration,
+      songurl: songdb[intindex].songurl,
+      id: songdb[intindex].id);
+  checkRecentlyPlayed(recsongs, intindex);
+  // await player.play();
 }
 
 playMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
     int intindex) async {
   await player.open(
     Audio.file(songdb[intindex].songurl!),
+    showNotification: true,
     playInBackground: PlayInBackground.disabledPause,
     audioFocusStrategy: AudioFocusStrategy.request(
       resumeAfterInterruption: true,
       resumeOthersPlayersAfterDone: true,
     ),
   );
-  isPlaying ? await player.pause() : await player.play();
+  // isPlaying ? await player.pause() : await player.play();
+}
+
+bool checkIndexSkip(int intindex, List<Songs> songdb) {
+  return (intindex < songdb.length - 1) ? false : true;
+}
+
+bool checkIndexPrev(int intindex, List<Songs> songdb) {
+  return (intindex <= 0) ? true : false;
 }

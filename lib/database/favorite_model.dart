@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
-part 'song_model.g.dart';
+part 'favorite_model.g.dart';
 
-@HiveType(typeId: 0)
-class Songs {
+@HiveType(typeId: 1)
+class Favorite {
   @HiveField(0)
   String? songname;
   @HiveField(1)
@@ -14,7 +14,7 @@ class Songs {
   @HiveField(4)
   int? id;
 
-  Songs({
+  Favorite({
     required this.songname,
     required this.artist,
     required this.duration,
@@ -23,10 +23,9 @@ class Songs {
   });
 }
 
-
-class SongBox {
-  static Box<Songs>? _box;
-  static Box<Songs> getInstance() {
-    return _box ??= Hive.box('Songs');
+class FavoriteBox {
+  static Box<Favorite>? _box;
+  static Box<Favorite> getInstance() {
+    return _box ??= Hive.box('Favorite');
   }
 }

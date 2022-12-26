@@ -10,6 +10,8 @@ class NPBar extends StatefulWidget {
 }
 
 AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
+Duration duration = Duration.zero;
+Duration position = Duration.zero;
 
 class _NPBarState extends State<NPBar> {
   @override

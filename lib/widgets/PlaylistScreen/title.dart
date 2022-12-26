@@ -101,10 +101,12 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
                       'OK',
                       style: GoogleFonts.rubik(
                         fontSize: 18,
-                        color: Colors.white,
+                        color: checkController()
+                            ? Colors.white.withOpacity(0.5)
+                            : Colors.white,
                         fontWeight: FontWeight.w600,
                       ),
-                    ), 
+                    ),
                   ),
                 ],
               ),

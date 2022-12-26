@@ -1,3 +1,6 @@
+import 'package:firstproject/database/favorite_model.dart';
+import 'package:firstproject/database/playlist_model.dart';
+import 'package:firstproject/database/recently_played.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/splash.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +11,13 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(SongsAdapter());
-  await Hive.openBox<Songs>(boxname);
+  await Hive.openBox<Songs>('Songs');
+  Hive.registerAdapter(FavoriteAdapter());
+  await Hive.openBox<Favorite>('Favorite');
+  Hive.registerAdapter(PlaylistAdapter());
+  await Hive.openBox<Playlist>('Playlist');
+  Hive.registerAdapter(RecentlyAdapter());
+  await Hive.openBox<Recently>('Recently');
   runApp(const MyApp());
 }
 
@@ -45,5 +54,3 @@ class MyBehavior extends ScrollBehavior {
     return child;
   }
 }
-
-

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class NPIcon extends StatelessWidget {
-  NPIcon({super.key, this.intindex});
+  NPIcon({super.key, this.intindex, this.opendb});
 
   final intindex;
+  final opendb;
 
   @override
   Widget build(BuildContext context) {
-        final box = SongBox.getInstance();
-  List<Songs> songdb = box.values.toList();
+    final box = SongBox.getInstance();
     double vwh = MediaQuery.of(context).size.height;
     double vww = MediaQuery.of(context).size.width;
     return Padding(
@@ -25,7 +25,7 @@ class NPIcon extends StatelessWidget {
         child: QueryArtworkWidget(
           size: 2000,
           quality: 100,
-          id: songdb[intindex].id!,
+          id: opendb[intindex].id!,
           artworkQuality: FilterQuality.high,
           type: ArtworkType.AUDIO,
           artworkHeight: vwh * 0.40,

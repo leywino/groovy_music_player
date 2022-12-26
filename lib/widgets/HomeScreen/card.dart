@@ -1,5 +1,6 @@
 import 'package:firstproject/screens/favorites.dart';
 import 'package:firstproject/screens/playlists.dart';
+import 'package:firstproject/screens/recently_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,6 +22,7 @@ class HomeCard extends StatelessWidget {
   final pages = [
     ScreenPlaylists(),
     const ScreenFavorites(),
+    const ScreenRecently(),
   ];
 
   @override

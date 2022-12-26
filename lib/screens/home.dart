@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 class ScreenHome extends StatefulWidget {
   ScreenHome({super.key});
 
-
   @override
   State<ScreenHome> createState() => _ScreenHomeState();
 }
@@ -57,15 +56,15 @@ class _ScreenHomeState extends State<ScreenHome> {
                         cardcolor: homeCard31,
                         iconcolor: homeCard32,
                         cardtitle: most,
-                        cardicon: Icons.restart_alt,
+                        cardicon: Icons.repeat,
                         pageindex: 1,
                       ),
                       HomeCard(
                         cardcolor: homeCard41,
                         iconcolor: homeCard42,
                         cardtitle: recently,
-                        cardicon: Icons.favorite,
-                        pageindex: 1,
+                        cardicon: Icons.history,
+                        pageindex: 2,
                       ),
                     ],
                   ),

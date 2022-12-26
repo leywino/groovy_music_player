@@ -1,5 +1,5 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:firstproject/database/favorite_model.dart';
+import 'package:firstproject/database/recently_played.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:flutter/material.dart';
@@ -7,22 +7,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class FavoriteLists extends StatefulWidget {
-  const FavoriteLists({super.key});
+class RecentlyLists extends StatefulWidget {
+  const RecentlyLists({super.key});
 
   @override
-  State<FavoriteLists> createState() => _FavoriteListsState();
+  State<RecentlyLists> createState() => _RecentlyListsState();
 }
 
-final box2 = FavoriteBox.getInstance();
+final box3 = RecentlyBox.getInstance();
 final player = AssetsAudioPlayer.withId('key');
-List<Favorite> favsongslist = [];
+List<Recently> recentlysongslist = [];
 List<Audio> songdb = [];
 
-class _FavoriteListsState extends State<FavoriteLists> {
+class _RecentlyListsState extends State<RecentlyLists> {
   @override
   void initState() {
-    for (var items in favsongslist) {
+    for (var items in recentlysongslist) {
       songdb.add(Audio.file(items.songurl!,
           metas: Metas(
               title: items.songname,
@@ -35,26 +35,27 @@ class _FavoriteListsState extends State<FavoriteLists> {
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
-    return ValueListenableBuilder<Box<Favorite>>(
-      valueListenable: box2.listenable(),
-      builder: (context, Box<Favorite> allfavsongs, child) {
-        List<Favorite> favdb = allfavsongs.values.toList();
-        return favdb.isEmpty
+    return ValueListenableBuilder<Box<Recently>>(
+      valueListenable: box3.listenable(),
+      builder: (context, Box<Recently> allrecsongs, child) {
+        List<Recently> recdb = allrecsongs.values.toList();
+        return recdb.isEmpty
             ? Row(
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: vww * 0.05),
                     child: Text(
-                      'You have no favorite songs!',
-                      style: TextStyle(color: Colors.white, fontSize: 25),
+                      'You have no recently played songs!',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
                 ],
               )
             : ListView.builder(
+                reverse: true,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: favdb.length,
+                itemCount: recdb.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () async {
@@ -65,12 +66,12 @@ class _FavoriteListsState extends State<FavoriteLists> {
                         MaterialPageRoute(
                           builder: (ctx) => NowPlayingScreen(
                             intindex: index,
-                            opendb: favdb,
+                            opendb: recdb,
                           ),
                         ),
                       );
                       await player.open(
-                        Audio.file(favdb[index].songurl!),
+                        Audio.file(recdb[index].songurl!),
                         showNotification: true,
                         playInBackground: PlayInBackground.disabledPause,
                         audioFocusStrategy: const AudioFocusStrategy.request(
@@ -84,34 +85,21 @@ class _FavoriteListsState extends State<FavoriteLists> {
                       child: QueryArtworkWidget(
                         artworkBorder: BorderRadius.circular(8),
                         keepOldArtwork: true,
-                        id: favdb[index].id!,
+                        id: recdb[index].id!,
                         type: ArtworkType.AUDIO,
                       ),
                     ),
                     title: Text(
-                      favdb[index].songname!,
+                      recdb[index].songname!,
                       style:
                           GoogleFonts.rubik(fontSize: 20, color: Colors.white),
                     ),
                     subtitle: Padding(
                       padding: EdgeInsets.only(bottom: vww * 0.035),
                       child: Text(
-                        favdb[index].artist!,
+                        recdb[index].artist!,
                         style:
                             GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
-                      ),
-                    ),
-                    trailing: Padding(
-                      padding: EdgeInsets.only(bottom: vww * 0.035),
-                      child: IconButton(
-                        onPressed: () {
-                          box2.deleteAt(index);
-                        },
-                        icon: Icon(
-                          Icons.favorite,
-                          color: Colors.pink,
-                          size: 25,
-                        ),
                       ),
                     ),
                   );
@@ -122,10 +110,10 @@ class _FavoriteListsState extends State<FavoriteLists> {
   }
 }
 
-bool checkIndexSkip(int intindex, List<Favorite> favdb) {
-  return (intindex < favdb.length - 1) ? false : true;
+bool checkIndexSkip(int intindex, List<Recently> recdb) {
+  return (intindex < recdb.length - 1) ? false : true;
 }
 
-bool checkIndexPrev(int intindex, List<Favorite> favdb) {
+bool checkIndexPrev(int intindex, List<Recently> recdb) {
   return (intindex <= 0) ? true : false;
 }
