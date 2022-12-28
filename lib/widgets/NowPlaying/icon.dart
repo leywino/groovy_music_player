@@ -35,7 +35,7 @@ class NPIcon extends StatelessWidget {
           nullArtworkWidget: ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Image.asset(
-              'assets/images/gradient.jpg',
+              'assets/images/music.jpg',
               fit: BoxFit.cover,
             ),
           ),

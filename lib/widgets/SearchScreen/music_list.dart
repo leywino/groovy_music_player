@@ -1,7 +1,9 @@
+import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class SearchList extends StatefulWidget {
   SearchList({super.key});
@@ -10,45 +12,17 @@ class SearchList extends StatefulWidget {
   State<SearchList> createState() => _SearchListState();
 }
 
-class _SearchListState extends State<SearchList> {
-  final title = [
-    'Without Me',
-    'Jocelyn Flores',
-    'History',
-    'Happier',
-    'Everything Black',
-    'Older',
-    'I\'m Good',
-    'Attention',
-  ];
-  final artist = [
-    'Halsey',
-    'XXXTENTACICON',
-    'One Direction',
-    'Marshmello',
-    'Unlike Pluto, Mike Taylor',
-    'Sasha Alex Sloan',
-    'David Guetta, Bebe Rexha',
-    'Charlie Puth',
-  ];
-  final images = [
-    'assets/images/withoutme.jpg',
-    'assets/images/jocelyn.jpg',
-    'assets/images/history.jpg',
-    'assets/images/happier.jpg',
-    'assets/images/everything.jpg',
-    'assets/images/older.jpg',
-    'assets/images/imgood.jpg',
-    'assets/images/attention.jpg',
-  ];
+final songbox = SongBox.getInstance();
 
+class _SearchListState extends State<SearchList> {
   @override
   Widget build(BuildContext context) {
+    List<Songs> songdb = songbox.values.toList();
     double vww = MediaQuery.of(context).size.width;
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: title.length,
+      itemCount: songdb.length,
       itemBuilder: (context, index) {
         return ListTile(
           onTap: () {
@@ -61,16 +35,21 @@ class _SearchListState extends State<SearchList> {
           },
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(images[index]),
+            child: QueryArtworkWidget(
+              artworkBorder: BorderRadius.circular(8),
+              keepOldArtwork: true,
+              id: songdb[index].id!,
+              type: ArtworkType.AUDIO,
+            ),
           ),
           title: Text(
-            title[index],
+            songdb[index].songname!,
             style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
           ),
           subtitle: Padding(
             padding: EdgeInsets.only(bottom: vww * 0.035),
             child: Text(
-              artist[index],
+              songdb[index].artist!,
               style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
             ),
           ),

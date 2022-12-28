@@ -164,7 +164,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
               ),
               TextButton.icon(
                 onPressed: () {
-                  playlistBottomSheet(context, index);
+                  addPlaylist(context, index);
                 },
                 icon: Icon(
                   Icons.playlist_add,

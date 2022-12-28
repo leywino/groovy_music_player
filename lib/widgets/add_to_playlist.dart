@@ -1,265 +1,248 @@
 import 'package:firstproject/database/playlist_model.dart';
 import 'package:firstproject/database/song_model.dart';
+import 'package:firstproject/utilities/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:core';
 import 'package:hive_flutter/hive_flutter.dart';
 
 final formGlobalKey = GlobalKey<FormState>();
-final box = PlaylistBox.getInstance();
-final _textEditingController = TextEditingController();
-Future<dynamic> playlistBottomSheet(BuildContext context, int songindex) {
-  return showModalBottomSheet(
-    context: context,
-    builder: (context) {
-      return StatefulBuilder(
-          builder: (context, setState) => Container(
-                height: 200,
-                color: const Color.fromARGB(255, 0, 0, 0),
-                child: ValueListenableBuilder(
-                  valueListenable: box.listenable(),
-                  builder: (context, Box<Playlist> playlistbox, _) {
-                    List<Playlist> playlist = playlistbox.values.toList();
+final songbox = SongBox.getInstance();
+final playlistbox = PlaylistBox.getInstance();
+List<Playlists> playdb = playlistbox.values.toList();
+final addController = TextEditingController();
 
-                    if (playlistbox.isEmpty) {
-                      return Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: const [
-                                  Text(
-                                    "Create a playlist.",
-                                    style: TextStyle(
-                                        fontFamily: "Inter",
-                                        fontSize: 35,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.amber),
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      context: context,
-                                      builder: (context) =>
-                                          bottomSheet(context),
-                                    );
-                                  },
-                                  child: const Text("Create Playlist"))
-                            ],
+addPlaylist(BuildContext context, int songindex) {
+  playlistbox.isEmpty
+      ? showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: alertbg,
+            title: Text(
+              'Add New Playlist',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            content: TextField(
+              controller: addController,
+              style: GoogleFonts.rubik(color: Colors.white),
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(width: 3, color: Colors.white),
+                ),
+              ),
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          addController.clear();
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: GoogleFonts.rubik(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                      );
-                    }
-
-                    return Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: const [
-                              Text(
-                                "Your Playlists.",
-                                style: TextStyle(
-                                    fontFamily: "Inter",
-                                    fontSize: 35,
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          Expanded(
-                              child: ListView.builder(
-                                  itemCount: playlist.length,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      title: Text(
-                                        playlist[index].playlistname.toString(),
-                                        style: const TextStyle(
-                                            fontSize: 20, color: Colors.white),
-                                      ),
-                                      onTap: () {
-                                        Playlist? plsongs =
-                                            playlistbox.getAt(index);
-                                        List<Songs>? plnewsongs =
-                                            plsongs!.playlistsongs;
-                                        Box<Songs> box = Hive.box('Songs');
-                                        List<Songs> dbAllsongs =
-                                            box.values.toList();
-                                        bool isAlreadyAdded = plnewsongs!.any(
-                                            (element) =>
-                                                element.id ==
-                                                dbAllsongs[songindex].id);
-
-                                        if (!isAlreadyAdded) {
-                                          plnewsongs.add(Songs(
-                                            songname:
-                                                dbAllsongs[songindex].songname,
-                                            artist:
-                                                dbAllsongs[songindex].artist,
-                                            duration:
-                                                dbAllsongs[songindex].duration,
-                                            songurl:
-                                                dbAllsongs[songindex].songurl,
-                                            id: dbAllsongs[songindex].id,
-                                          ));
-
-                                          playlistbox.putAt(
-                                              index,
-                                              Playlist(
-                                                  playlistname: playlist[index]
-                                                      .playlistname,
-                                                  playlistsongs: plnewsongs));
-
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  backgroundColor: Colors.black,
-                                                  content: Text(
-                                                      '${dbAllsongs[songindex].songname}Added to ${playlist[index].playlistname}')));
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  backgroundColor: Colors.black,
-                                                  content: Text(
-                                                      '${dbAllsongs[songindex].songname} is already added')));
-                                        }
-                                        Navigator.pop(context);
-                                      },
-                                    );
-                                  }))
-                        ],
                       ),
-                    );
-                  },
-                ),
-              ));
-    },
-  );
-}
-
-Widget bottomSheet(BuildContext context) {
-  return Padding(
-    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-    child: Container(
-      height: 250,
-      color: Colors.black,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [playlistform(context)],
-      ),
-    ),
-  );
-}
-
-Padding playlistform(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.all(15.0),
-    child: InkWell(
-      child: Column(
-        children: [
-          Row(
-            children: const [
-              Text(
-                "C",
-                style: TextStyle(
-                    fontFamily: "Inter",
-                    fontSize: 35,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.grey),
-              ),
-              Text(
-                "reate playlist.",
-                style: TextStyle(
-                    fontFamily: "Inter",
-                    fontSize: 35,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white),
+                      ValueListenableBuilder<TextEditingValue>(
+                          valueListenable: addController,
+                          builder: (context, addController, child) {
+                            return TextButton(
+                              onPressed: addController.text.isEmpty
+                                  ? null
+                                  : () async {
+                                      await playlistbox.add(Playlists(
+                                          playlistname: addController.text,
+                                          playlistsongs: []));
+                                      showPlaylistList(context, songindex);
+                                    },
+                              child: Text(
+                                'OK',
+                                style: GoogleFonts.rubik(
+                                  fontSize: 18,
+                                  color: addController.text.isEmpty
+                                      ? Colors.white.withOpacity(0.5)
+                                      : Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            );
+                          }),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
-          const SizedBox(
-            height: 20,
+        )
+      : showPlaylistList(context, songindex);
+}
+
+createNewPlaylist(BuildContext context) {
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) => StatefulBuilder(
+      builder: (context, setState) {
+        return AlertDialog(
+          backgroundColor: alertbg,
+          title: Text(
+            'Add New Playlist',
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          Form(
-            key: formGlobalKey,
-            child: TextFormField(
-              style: TextStyle(color: Colors.white),
-              decoration: const InputDecoration(
-                filled: true,
-                fillColor: Colors.black,
-                focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red, width: 2.5)),
-                errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red, width: 2.5)),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey, width: 2.5)),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey, width: 2.5)),
-                hintText: "Enter a name",
-                hintStyle: TextStyle(color: Color.fromARGB(255, 137, 137, 137)),
+          content: TextField(
+            controller: addController,
+            style: GoogleFonts.rubik(color: Colors.white),
+            decoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(width: 3, color: Colors.white),
               ),
-              controller: _textEditingController,
-              cursorHeight: 25,
-              validator: (value) {
-                List<Playlist> values = box.values.toList();
-
-                bool isAlreadyAdded = values
-                    .where((element) => element.playlistname == value!.trim())
-                    .isNotEmpty;
-
-                if (value!.trim() == '') {
-                  return 'Name required';
-                }
-                if (value.trim().length > 15) {
-                  return 'Enter Characters below 15 ';
-                }
-
-                if (isAlreadyAdded) {
-                  return 'Name Already Exists';
-                }
-                return null;
-              },
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          formButtons(context)
-        ],
-      ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        addController.clear();
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: GoogleFonts.rubik(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    ValueListenableBuilder<TextEditingValue>(
+                        valueListenable: addController,
+                        builder: (context, controller, child) {
+                          return TextButton(
+                            onPressed: addController.text.isEmpty
+                                ? null
+                                : () async {
+                                    await playlistbox.add(Playlists(
+                                        playlistname: addController.text,
+                                        playlistsongs: []));
+                                    addController.clear();
+                                    Navigator.pop(context);
+                                  },
+                            child: Text(
+                              'OK',
+                              style: GoogleFonts.rubik(
+                                fontSize: 18,
+                                color: addController.text.isEmpty
+                                    ? Colors.white.withOpacity(0.5)
+                                    : Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          );
+                        }),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        );
+      },
     ),
   );
 }
 
-Row formButtons(BuildContext context) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      ElevatedButton(
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text("Cancel")),
-      ElevatedButton(
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-          onPressed: () {
-            final isValid = formGlobalKey.currentState!.validate();
-            if (isValid) {
-              box.add(Playlist(
-                  playlistname: _textEditingController.text,
-                  playlistsongs: []));
-              Navigator.pop(context);
-            }
-          },
-          child: const Text("Create"))
-    ],
-  );
+showPlaylistList(BuildContext context, int songindex) {
+  double vww = MediaQuery.of(context).size.width;
+  double vwh = MediaQuery.of(context).size.height;
+  showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+          backgroundColor: mainBgColor,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Playlists',
+                style: TextStyle(color: Colors.white),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.add_circle,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  createNewPlaylist(context);
+                },
+              ),
+            ],
+          ),
+          content: Container(
+            color: mainBgColor,
+            height: vwh * 0.3,
+            width: 0.3 * vww,
+            child: ValueListenableBuilder<Box<Playlists>>(
+                valueListenable: playlistbox.listenable(),
+                builder: (context, playdbbox, child) {
+                  List<Playlists> playdb = playdbbox.values.toList();
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: playdb.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            List<Songs> playsongdb =
+                                playdb[index].playlistsongs;
+                            List<Songs> songdb = songbox.values.toList();
+                            bool isAlreadyAdded = playsongdb.any((element) =>
+                                element.id == songdb[songindex].id);
+
+                            if (!isAlreadyAdded) {
+                              playsongdb.add(Songs(
+                                songname: songdb[songindex].songname,
+                                artist: songdb[songindex].artist,
+                                duration: songdb[songindex].duration,
+                                songurl: songdb[songindex].songurl,
+                                id: songdb[songindex].id,
+                              ));
+
+                              playlistbox.putAt(
+                                  index,
+                                  Playlists(
+                                      playlistname: playdb[index].playlistname,
+                                      playlistsongs: playsongdb));
+
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: Colors.black,
+                                  content: Text(
+                                      '${songdb[songindex].songname}Added to ${playdb[index].playlistname}')));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: Colors.black,
+                                  content: Text(
+                                      '${songdb[songindex].songname} is already added')));
+                            }
+                            Navigator.pop(context);
+                          },
+                          title: Text(
+                            playdb[index].playlistname,
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        );
+                      });
+                }),
+          )));
 }

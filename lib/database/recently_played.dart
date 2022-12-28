@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 part 'recently_played.g.dart';
 
+                    
 @HiveType(typeId: 3)
 class Recently {
   @HiveField(0)

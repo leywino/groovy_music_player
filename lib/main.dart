@@ -14,8 +14,8 @@ Future main() async {
   await Hive.openBox<Songs>('Songs');
   Hive.registerAdapter(FavoriteAdapter());
   await Hive.openBox<Favorite>('Favorite');
-  Hive.registerAdapter(PlaylistAdapter());
-  await Hive.openBox<Playlist>('Playlist');
+  Hive.registerAdapter(PlaylistsAdapter());
+  await Hive.openBox<Playlists>('Playlist');
   Hive.registerAdapter(RecentlyAdapter());
   await Hive.openBox<Recently>('Recently');
   runApp(const MyApp());

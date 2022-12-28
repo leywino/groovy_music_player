@@ -1,4 +1,6 @@
+import 'package:firstproject/database/playlist_model.dart';
 import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,8 +15,13 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
   final addController = TextEditingController();
   @override
   void initState() {
-    checkController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    addController.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,6 +66,7 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
 
   addPlaylist(BuildContext context) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: alertbg,
@@ -85,6 +93,7 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
+                      addController.clear();
                     },
                     child: Text(
                       'Cancel',
@@ -95,19 +104,31 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
                       ),
                     ),
                   ),
-                  TextButton(
-                    onPressed: checkController() ? null : () {},
-                    child: Text(
-                      'OK',
-                      style: GoogleFonts.rubik(
-                        fontSize: 18,
-                        color: checkController()
-                            ? Colors.white.withOpacity(0.5)
-                            : Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                  ValueListenableBuilder<TextEditingValue>(
+                      valueListenable: addController,
+                      builder: (context, controller, child) {
+                        return TextButton(
+                          onPressed: addController.text.isEmpty
+                              ? null
+                              : () async {
+                                  playlistbox.add(Playlists(
+                                      playlistname: addController.text,
+                                      playlistsongs: []));
+                                  Navigator.pop(context);
+                                  addController.clear();
+                                },
+                          child: Text(
+                            'OK',
+                            style: GoogleFonts.rubik(
+                              fontSize: 18,
+                              color: addController.text.isEmpty
+                                  ? Colors.white.withOpacity(0.5)
+                                  : Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        );
+                      }),
                 ],
               ),
             ],
@@ -115,14 +136,6 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
         ],
       ),
     );
-  }
-
-  bool checkController() {
-    if (addController.text.isEmpty) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   Text okButton() {
