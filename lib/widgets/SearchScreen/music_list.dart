@@ -55,17 +55,6 @@ class _SearchListState extends State<SearchList> {
           ),
           trailing: Wrap(
             children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: vww * 0.035),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.favorite_outline,
-                    color: Colors.white,
-                    size: 25,
-                  ),
-                ),
-              ),
               IconButton(
                 onPressed: () {
                   showOptions(context);

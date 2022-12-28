@@ -29,8 +29,8 @@ class NowPlayingScreen extends StatelessWidget {
             builder: (context, int spider, child) {
               return Column(
                 children: [
-                  NPIcon(intindex: spider,opendb: opendb),
-                  NPInfo(intindex: spider,opendb: opendb),
+                  NPIcon(intindex: spider, opendb: opendb),
+                  NPInfo(intindex: spider, opendb: opendb),
                   NPBar(),
                   NPButtons(intindex: spider),
                   NPNav(),

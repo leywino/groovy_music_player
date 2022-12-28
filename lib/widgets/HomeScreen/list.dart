@@ -150,16 +150,27 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
             children: [
               TextButton.icon(
                 onPressed: () {
-                  AddToFav(index, songdb);
+                  Favorite favval = Favorite(
+                      songname: songdb[index].songname,
+                      artist: songdb[index].artist,
+                      duration: songdb[index].duration,
+                      songurl: songdb[index].songurl,
+                      id: songdb[index].id);
+                  addToFavorites(index, favval, context);
+                  Navigator.pop(context);
                 },
                 icon: Icon(
-                  Icons.favorite_outline,
+                  !checkFavoriteStatus(index, songdb, context)
+                      ? Icons.favorite_outline
+                      : Icons.remove,
                   size: 30,
                   color: Colors.white,
                 ),
                 label: Text(
-                  'Add to Favorites',
-                  style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+                  !checkFavoriteStatus(index, songdb, context)
+                      ? 'Add to Favorites'
+                      : 'Remove from Favorites',
+                  style: GoogleFonts.rubik(fontSize: 18, color: Colors.white),
                 ),
               ),
               TextButton.icon(
@@ -173,7 +184,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                 ),
                 label: Text(
                   'Add to Playlist',
-                  style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+                  style: GoogleFonts.rubik(fontSize: 18, color: Colors.white),
                 ),
               )
             ],
@@ -181,23 +192,6 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
         ),
       ),
     );
-  }
-
-  AddToFav(int index, List<Songs> songdb) {
-    setState(() {
-      favoritebox.add(Favorite(
-          songname: songdb[index].songname,
-          artist: songdb[index].artist,
-          duration: songdb[index].duration,
-          songurl: songdb[index].songurl,
-          id: songdb[index].id));
-    });
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      duration: Duration(seconds: 1),
-      behavior: SnackBarBehavior.floating,
-      content: Text("Added to favourites"),
-    ));
-    Navigator.pop(context);
   }
 }
 
@@ -213,4 +207,40 @@ checkRecentlyPlayed(Recently value, index) {
     recentlybox.deleteAt(index);
     recentlybox.add(value);
   }
+}
+
+addToFavorites(int index, Favorite value, BuildContext context) async {
+  List<Favorite> favdb = favoritebox.values.toList();
+  bool isAlreadyThere =
+      favdb.where((element) => element.songname == value.songname).isEmpty;
+  if (isAlreadyThere == true) {
+    favoritebox.add(value);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      duration: Duration(seconds: 1),
+      behavior: SnackBarBehavior.floating,
+      content: Text("Added to favorites"),
+    ));
+  } else {
+    int index =
+        favdb.indexWhere((element) => element.songname == value.songname);
+    favoritebox.deleteAt(index);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      duration: Duration(seconds: 1),
+      behavior: SnackBarBehavior.floating,
+      content: Text("Removed from favorites"),
+    ));
+  }
+}
+
+bool checkFavoriteStatus(int index, List<Songs> songdb, BuildContext context) {
+  Favorite value = Favorite(
+      songname: songdb[index].songname,
+      artist: songdb[index].artist,
+      duration: songdb[index].duration,
+      songurl: songdb[index].songurl,
+      id: songdb[index].id);
+  List<Favorite> favdb = favoritebox.values.toList();
+  bool isAlreadyThere =
+      favdb.where((element) => element.songname == value.songname).isEmpty;
+  return isAlreadyThere ? false : true;
 }

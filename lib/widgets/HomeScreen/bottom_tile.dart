@@ -54,6 +54,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                               builder: (ctx) => NowPlayingScreen(
                                 intindex: HomeBottomTile.intindex,
                                 opendb: songdb,
+
                               ),
                             ),
                           );

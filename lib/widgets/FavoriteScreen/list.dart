@@ -66,6 +66,7 @@ class _FavoriteListsState extends State<FavoriteLists> {
                           builder: (ctx) => NowPlayingScreen(
                             intindex: index,
                             opendb: favdb,
+                        
                           ),
                         ),
                       );
@@ -106,6 +107,12 @@ class _FavoriteListsState extends State<FavoriteLists> {
                       child: IconButton(
                         onPressed: () {
                           box2.deleteAt(index);
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            duration: Duration(seconds: 1),
+                            behavior: SnackBarBehavior.floating,
+                            content: Text("Removed from favorites"),
+                          ));
                         },
                         icon: Icon(
                           Icons.favorite,

@@ -1,12 +1,19 @@
+import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/song_model.dart';
+import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:flutter/material.dart';
 
-class NPInfo extends StatelessWidget {
+class NPInfo extends StatefulWidget {
   NPInfo({super.key, this.intindex, this.opendb});
 
   final intindex;
   final opendb;
 
+  @override
+  State<NPInfo> createState() => _NPInfoState();
+}
+
+class _NPInfoState extends State<NPInfo> {
   @override
   Widget build(BuildContext context) {
     final box = SongBox.getInstance();
@@ -23,7 +30,7 @@ class NPInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  opendb[intindex].songname!,
+                  widget.opendb[widget.intindex].songname!,
                   style: TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 22,
@@ -33,7 +40,7 @@ class NPInfo extends StatelessWidget {
                 SizedBox(
                   width: vww * 0.75,
                   child: Text(
-                    opendb[intindex].artist!,
+                    widget.opendb[widget.intindex].artist!,
                     style: TextStyle(
                       overflow: TextOverflow.ellipsis,
                       fontSize: 22,
@@ -45,10 +52,24 @@ class NPInfo extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Favorite favval = Favorite(
+                  songname: widget.opendb[widget.intindex].songname,
+                  artist: widget.opendb[widget.intindex].artist,
+                  duration: widget.opendb[widget.intindex].duration,
+                  songurl: widget.opendb[widget.intindex].songurl,
+                  id: widget.opendb[widget.intindex].id);
+              addToFavorites(widget.intindex, favval, context);
+              setState(() {});
+            },
             icon: Icon(
-              Icons.favorite_outline,
-              color: Colors.white,
+              checkFavoriteStatus(widget.intindex, widget.opendb, context)
+                  ? Icons.favorite
+                  : Icons.favorite_outline,
+              color:
+                  checkFavoriteStatus(widget.intindex, widget.opendb, context)
+                      ? Colors.pink
+                      : Colors.white,
             ),
           ),
         ],
