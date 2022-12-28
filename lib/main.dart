@@ -1,6 +1,7 @@
 import 'package:firstproject/database/favorite_model.dart';
+import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/playlist_model.dart';
-import 'package:firstproject/database/recently_played.dart';
+import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/splash.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ Future main() async {
   await Hive.openBox<Playlists>('Playlist');
   Hive.registerAdapter(RecentlyAdapter());
   await Hive.openBox<Recently>('Recently');
+  Hive.registerAdapter(MostAdapter());
+  await Hive.openBox<Most>('Most');
   runApp(const MyApp());
 }
 

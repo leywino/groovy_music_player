@@ -1,4 +1,5 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
@@ -7,19 +8,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class RecentlyLists extends StatefulWidget {
-  const RecentlyLists({super.key});
+class MostLists extends StatefulWidget {
+  const MostLists({super.key});
 
   @override
-  State<RecentlyLists> createState() => _RecentlyListsState();
+  State<MostLists> createState() => _MostListsState();
 }
 
-final box3 = RecentlyBox.getInstance();
+final recentlybox = RecentlyBox.getInstance();
+final mostbox = MostBox.getInstance();
 final player = AssetsAudioPlayer.withId('key');
 List<Recently> recentlysongslist = [];
 List<Audio> songdb = [];
+List<Most> mostsongslist = [];
 
-class _RecentlyListsState extends State<RecentlyLists> {
+class _MostListsState extends State<MostLists> {
   @override
   void initState() {
     for (var items in recentlysongslist) {
@@ -29,23 +32,32 @@ class _RecentlyListsState extends State<RecentlyLists> {
               artist: items.artist,
               id: items.id.toString())));
     }
+    List<Most> songlist = mostbox.values.toList();
+
+    int i = 0;
+    for (var item in songlist) {
+      if (item.count! > 5) {
+        mostsongslist.insert(i, item);
+        i++;
+      }
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
-    return ValueListenableBuilder<Box<Recently>>(
-      valueListenable: box3.listenable(),
-      builder: (context, Box<Recently> allrecsongs, child) {
-        List<Recently> recdb = allrecsongs.values.toList();
-        return recdb.isEmpty
+    return ValueListenableBuilder<Box<Most>>(
+      valueListenable: mostbox.listenable(),
+      builder: (context, Box<Most> allrecsongs, child) {
+        List<Most> mostdb = allrecsongs.values.toList();
+        return mostdb.isEmpty
             ? Row(
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: vww * 0.05),
                     child: Text(
-                      'You have no recently played songs!',
+                      'You have no most played songs!',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
@@ -55,7 +67,7 @@ class _RecentlyListsState extends State<RecentlyLists> {
                 reverse: true,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: recdb.length,
+                itemCount: mostdb.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () async {
@@ -66,12 +78,12 @@ class _RecentlyListsState extends State<RecentlyLists> {
                         MaterialPageRoute(
                           builder: (ctx) => NowPlayingScreen(
                             intindex: index,
-                            opendb: recdb,
+                            opendb: mostdb,
                           ),
                         ),
                       );
                       await player.open(
-                        Audio.file(recdb[index].songurl!),
+                        Audio.file(mostdb[index].songurl!),
                         showNotification: true,
                         playInBackground: PlayInBackground.disabledPause,
                         audioFocusStrategy: const AudioFocusStrategy.request(
@@ -85,19 +97,19 @@ class _RecentlyListsState extends State<RecentlyLists> {
                       child: QueryArtworkWidget(
                         artworkBorder: BorderRadius.circular(8),
                         keepOldArtwork: true,
-                        id: recdb[index].id!,
+                        id: mostdb[index].id!,
                         type: ArtworkType.AUDIO,
                       ),
                     ),
                     title: Text(
-                      recdb[index].songname!,
+                      mostdb[index].songname!,
                       style:
                           GoogleFonts.rubik(fontSize: 20, color: Colors.white),
                     ),
                     subtitle: Padding(
                       padding: EdgeInsets.only(bottom: vww * 0.035),
                       child: Text(
-                        recdb[index].artist!,
+                        mostdb[index].artist!,
                         style:
                             GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
                       ),
@@ -110,10 +122,10 @@ class _RecentlyListsState extends State<RecentlyLists> {
   }
 }
 
-bool checkIndexSkip(int intindex, List<Recently> recdb) {
-  return (intindex < recdb.length - 1) ? false : true;
+bool checkIndexSkip(int intindex, List<Most> mostdb) {
+  return (intindex < mostdb.length - 1) ? false : true;
 }
 
-bool checkIndexPrev(int intindex, List<Recently> recdb) {
+bool checkIndexPrev(int intindex, List<Most> mostdb) {
   return (intindex <= 0) ? true : false;
 }

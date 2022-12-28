@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'recently_played.dart';
+part of 'recently_played_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

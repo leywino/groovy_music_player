@@ -1,9 +1,11 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:firstproject/database/recently_played.dart';
+import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:firstproject/widgets/HomeScreen/list.dart';
+import 'package:firstproject/widgets/add_to_playlist.dart';
+import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
 
 class NPButtons extends StatefulWidget {
@@ -95,7 +97,9 @@ class _NPButtonsState extends State<NPButtons> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      addPlaylist(context, widget.intindex);
+                    },
                     child: Icon(
                       Icons.playlist_add,
                       color: Colors.white,

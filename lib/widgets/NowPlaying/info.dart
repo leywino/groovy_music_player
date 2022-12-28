@@ -1,6 +1,7 @@
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/widgets/HomeScreen/list.dart';
+import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
 
 class NPInfo extends StatefulWidget {
@@ -63,13 +64,12 @@ class _NPInfoState extends State<NPInfo> {
               setState(() {});
             },
             icon: Icon(
-              checkFavoriteStatus(widget.intindex, widget.opendb, context)
+              checkFavoriteStatus(widget.intindex, context)
                   ? Icons.favorite
                   : Icons.favorite_outline,
-              color:
-                  checkFavoriteStatus(widget.intindex, widget.opendb, context)
-                      ? Colors.pink
-                      : Colors.white,
+              color: checkFavoriteStatus(widget.intindex, context)
+                  ? Colors.pink
+                  : Colors.white,
             ),
           ),
         ],

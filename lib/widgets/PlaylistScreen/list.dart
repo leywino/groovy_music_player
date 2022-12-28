@@ -201,7 +201,9 @@ editPlaylist(BuildContext context, TextEditingController editController,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: Text(
                     'Cancel',
                     style: GoogleFonts.rubik(

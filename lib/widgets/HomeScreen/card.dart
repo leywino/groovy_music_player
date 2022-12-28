@@ -1,4 +1,5 @@
 import 'package:firstproject/screens/favorites.dart';
+import 'package:firstproject/screens/most_screen.dart';
 import 'package:firstproject/screens/playlists.dart';
 import 'package:firstproject/screens/recently_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class HomeCard extends StatelessWidget {
   final pages = [
     ScreenPlaylists(),
     const ScreenFavorites(),
+    const ScreenMosts(),
     const ScreenRecently(),
   ];
 

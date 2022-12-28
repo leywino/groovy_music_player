@@ -1,9 +1,8 @@
 import 'package:hive/hive.dart';
-part 'recently_played.g.dart';
+part 'most_played_model.g.dart';
 
-                    
-@HiveType(typeId: 3)
-class Recently {
+@HiveType(typeId: 4)
+class Most {
   @HiveField(0)
   String? songname;
   @HiveField(1)
@@ -14,19 +13,22 @@ class Recently {
   String? songurl;
   @HiveField(4)
   int? id;
+  @HiveField(5)
+  int? count;
 
-  Recently({
+  Most({
     required this.songname,
     required this.artist,
     required this.duration,
     required this.id,
     required this.songurl,
+    this.count,
   });
 }
 
-class RecentlyBox {
-  static Box<Recently>? _box;
-  static Box<Recently> getInstance() {
-    return _box ??= Hive.box('Recently');
+class MostBox {
+  static Box<Most>? _box;
+  static Box<Most> getInstance() {
+    return _box ??= Hive.box('Most');
   }
 }

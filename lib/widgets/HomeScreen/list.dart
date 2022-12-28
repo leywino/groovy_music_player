@@ -1,11 +1,13 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/favorite_model.dart';
-import 'package:firstproject/database/recently_played.dart';
+import 'package:firstproject/database/most_played_model.dart';
+import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
+import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -21,6 +23,7 @@ class HomeMusicTiles extends StatefulWidget {
 final recentlybox = RecentlyBox.getInstance();
 final songbox = SongBox.getInstance();
 final favoritebox = FavoriteBox.getInstance();
+final mostbox = MostBox.getInstance();
 
 class _HomeMusicTilesState extends State<HomeMusicTiles> {
   final player = AssetsAudioPlayer.withId('key');
@@ -47,7 +50,6 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
-    List<Favorite> favdb = favoritebox.values.toList();
     return ValueListenableBuilder<Box<Songs>>(
       valueListenable: songbox.listenable(),
       builder: ((context, Box<Songs> allsongbox, child) {
@@ -65,6 +67,14 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
             Songs songs = songsdb[index];
             return ListTile(
               onTap: () async {
+                // Most mostsongs = Most(
+                //     songname: songsdb[index].songname,
+                //     artist: songsdb[index].artist,
+                //     duration: songsdb[index].duration,
+                //     songurl: songsdb[index].songurl,
+                //     id: songsdb[index].id);
+
+                // checkMostPlayed(mostsongs, index);
                 Recently recsongs = Recently(
                     songname: songsdb[index].songname,
                     artist: songsdb[index].artist,
@@ -160,14 +170,14 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                   Navigator.pop(context);
                 },
                 icon: Icon(
-                  !checkFavoriteStatus(index, songdb, context)
+                  !checkFavoriteStatus(index, context)
                       ? Icons.favorite_outline
                       : Icons.remove,
                   size: 30,
                   color: Colors.white,
                 ),
                 label: Text(
-                  !checkFavoriteStatus(index, songdb, context)
+                  !checkFavoriteStatus(index, context)
                       ? 'Add to Favorites'
                       : 'Remove from Favorites',
                   style: GoogleFonts.rubik(fontSize: 18, color: Colors.white),
@@ -195,52 +205,3 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
   }
 }
 
-checkRecentlyPlayed(Recently value, index) {
-  List<Recently> list = recentlybox.values.toList();
-  bool isAlready =
-      list.where((element) => element.songname == value.songname).isEmpty;
-  if (isAlready == true) {
-    recentlybox.add(value);
-  } else {
-    int index =
-        list.indexWhere((element) => element.songname == value.songname);
-    recentlybox.deleteAt(index);
-    recentlybox.add(value);
-  }
-}
-
-addToFavorites(int index, Favorite value, BuildContext context) async {
-  List<Favorite> favdb = favoritebox.values.toList();
-  bool isAlreadyThere =
-      favdb.where((element) => element.songname == value.songname).isEmpty;
-  if (isAlreadyThere == true) {
-    favoritebox.add(value);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      duration: Duration(seconds: 1),
-      behavior: SnackBarBehavior.floating,
-      content: Text("Added to favorites"),
-    ));
-  } else {
-    int index =
-        favdb.indexWhere((element) => element.songname == value.songname);
-    favoritebox.deleteAt(index);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      duration: Duration(seconds: 1),
-      behavior: SnackBarBehavior.floating,
-      content: Text("Removed from favorites"),
-    ));
-  }
-}
-
-bool checkFavoriteStatus(int index, List<Songs> songdb, BuildContext context) {
-  Favorite value = Favorite(
-      songname: songdb[index].songname,
-      artist: songdb[index].artist,
-      duration: songdb[index].duration,
-      songurl: songdb[index].songurl,
-      id: songdb[index].id);
-  List<Favorite> favdb = favoritebox.values.toList();
-  bool isAlreadyThere =
-      favdb.where((element) => element.songname == value.songname).isEmpty;
-  return isAlreadyThere ? false : true;
-}
