@@ -1,4 +1,5 @@
 import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:firstproject/widgets/MostPlayed/list.dart';
 import 'package:firstproject/widgets/MostPlayed/title.dart';
 import 'package:firstproject/widgets/PlaylistScreen/appbar.dart';
@@ -11,6 +12,7 @@ class ScreenMosts extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppbar(),
+      bottomSheet: HomeBottomTile(),
       backgroundColor: mainBgColor,
       body: SingleChildScrollView(
         child: Column(

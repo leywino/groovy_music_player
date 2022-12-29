@@ -2,8 +2,8 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
+import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
-import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +21,29 @@ class NPButtons extends StatefulWidget {
   State<NPButtons> createState() => _NPButtonsState();
 }
 
+List<Audio> convert = [];
 AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
 final recentlybox = RecentlyBox.getInstance();
 
 class _NPButtonsState extends State<NPButtons> {
+  @override
+  void initState() {
+    List<Songs> songdb = songbox.values.toList();
+    for (var item in songdb) {
+      convert.add(
+        Audio.file(
+          item.songurl!,
+          metas: Metas(
+            title: item.songname,
+            artist: item.artist,
+            id: item.id.toString(),
+          ),
+        ),
+      );
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final box = SongBox.getInstance();
@@ -56,6 +75,7 @@ class _NPButtonsState extends State<NPButtons> {
                         : () {
                             previousMusic(
                                 isPlaying, player, songdb, widget.intindex);
+                            player.previous();
                           },
                     child: Icon(
                       Icons.skip_previous,
@@ -87,6 +107,7 @@ class _NPButtonsState extends State<NPButtons> {
                         : () {
                             skipMusic(
                                 isPlaying, player, songdb, widget.intindex);
+                            player.next();
                           },
                     child: Icon(
                       Icons.skip_next,
@@ -121,14 +142,18 @@ skipMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
   NowPlayingScreen.spindex.value++;
   HomeBottomTile.vindex.value++;
 
-  await player.open(
-    Audio.file(songdb[intindex].songurl!),
-    playInBackground: PlayInBackground.disabledPause,
-    audioFocusStrategy: const AudioFocusStrategy.request(
-      resumeAfterInterruption: true,
-      resumeOthersPlayersAfterDone: true,
-    ),
-  );
+  // await player.open(
+  //   Audio.file(songdb[intindex].songurl!),
+  //   playInBackground: PlayInBackground.disabledPause,
+  //   audioFocusStrategy: const AudioFocusStrategy.request(
+  //     resumeAfterInterruption: true,
+  //     resumeOthersPlayersAfterDone: true,
+  //   ),
+  // );
+  // await player.open(Playlist(audios: convert, startIndex: intindex),
+  //     showNotification: true,
+  //     headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+  //     loopMode: LoopMode.playlist);
   Recently recsongs = Recently(
       songname: songdb[intindex].songname,
       artist: songdb[intindex].artist,
@@ -152,14 +177,18 @@ previousMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
   intindex--;
   NowPlayingScreen.spindex.value--;
   HomeBottomTile.vindex.value--;
-  await player.open(
-    Audio.file(songdb[intindex].songurl!),
-    playInBackground: PlayInBackground.disabledPause,
-    audioFocusStrategy: AudioFocusStrategy.request(
-      resumeAfterInterruption: true,
-      resumeOthersPlayersAfterDone: true,
-    ),
-  );
+  // await player.open(
+  //   Audio.file(songdb[intindex].songurl!),
+  //   playInBackground: PlayInBackground.disabledPause,
+  //   audioFocusStrategy: AudioFocusStrategy.request(
+  //     resumeAfterInterruption: true,
+  //     resumeOthersPlayersAfterDone: true,
+  //   ),
+  // );
+  // await player.open(Playlist(audios: convert, startIndex: intindex),
+  //     showNotification: true,
+  //     headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+  //     loopMode: LoopMode.playlist);
   Recently recsongs = Recently(
       songname: songdb[intindex].songname,
       artist: songdb[intindex].artist,

@@ -1,7 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
-import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -14,20 +13,33 @@ class RecentlyLists extends StatefulWidget {
   State<RecentlyLists> createState() => _RecentlyListsState();
 }
 
-final box3 = RecentlyBox.getInstance();
+final recentlybox = RecentlyBox.getInstance();
 final player = AssetsAudioPlayer.withId('key');
 List<Recently> recentlysongslist = [];
-List<Audio> songdb = [];
+List<Audio> allsongs = [];
 
 class _RecentlyListsState extends State<RecentlyLists> {
   @override
   void initState() {
-    for (var items in recentlysongslist) {
-      songdb.add(Audio.file(items.songurl!,
+    List<Recently> recentlydb = recentlybox.values.toList();
+    // for (var items in recentlysongslist) {
+    //   allsongs.add(Audio.file(items.songurl!,
+    //       metas: Metas(
+    //           title: items.songname,
+    //           artist: items.artist,
+    //           id: items.id.toString())));
+    // }
+    for (var item in recentlydb) {
+      allsongs.add(
+        Audio.file(
+          item.songurl.toString(),
           metas: Metas(
-              title: items.songname,
-              artist: items.artist,
-              id: items.id.toString())));
+            artist: item.artist,
+            title: item.songname,
+            id: item.id.toString(),
+          ),
+        ),
+      );
     }
     super.initState();
   }
@@ -36,7 +48,7 @@ class _RecentlyListsState extends State<RecentlyLists> {
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
     return ValueListenableBuilder<Box<Recently>>(
-      valueListenable: box3.listenable(),
+      valueListenable: recentlybox.listenable(),
       builder: (context, Box<Recently> allrecsongs, child) {
         List<Recently> recdb = allrecsongs.values.toList();
         return recdb.isEmpty
@@ -59,8 +71,8 @@ class _RecentlyListsState extends State<RecentlyLists> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () async {
-                      HomeBottomTile.vindex.value = index;
-                      NowPlayingScreen.spindex.value = index;
+                      // HomeBottomTile.vindex.value = index;
+                      // NowPlayingScreen.spindex.value = index;
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -70,15 +82,21 @@ class _RecentlyListsState extends State<RecentlyLists> {
                           ),
                         ),
                       );
-                      await player.open(
-                        Audio.file(recdb[index].songurl!),
-                        showNotification: true,
-                        playInBackground: PlayInBackground.disabledPause,
-                        audioFocusStrategy: const AudioFocusStrategy.request(
-                          resumeAfterInterruption: true,
-                          resumeOthersPlayersAfterDone: true,
-                        ),
-                      );
+                      player.open(Playlist(audios: allsongs, startIndex: index),
+                          showNotification: true,
+                          headPhoneStrategy:
+                              HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+                          loopMode: LoopMode.playlist);
+                      player.play();
+                      // await player.open(
+                      //   Audio.file(recdb[index].songurl!),
+                      //   showNotification: true,
+                      //   playInBackground: PlayInBackground.disabledPause,
+                      //   audioFocusStrategy: const AudioFocusStrategy.request(
+                      //     resumeAfterInterruption: true,
+                      //     resumeOthersPlayersAfterDone: true,
+                      //   ),
+                      // );
                     },
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
@@ -111,7 +129,7 @@ class _RecentlyListsState extends State<RecentlyLists> {
 }
 
 bool checkIndexSkip(int intindex, List<Recently> recdb) {
-  return (intindex < recdb.length - 1) ? false : true;
+  return (intindex > allsongs.length - 1) ? false : true;
 }
 
 bool checkIndexPrev(int intindex, List<Recently> recdb) {

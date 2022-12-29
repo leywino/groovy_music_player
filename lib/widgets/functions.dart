@@ -1,10 +1,6 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/recently_played_model.dart';
-import 'package:firstproject/database/song_model.dart';
-import 'package:firstproject/screens/now_playing.dart';
-import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +18,6 @@ checkRecentlyPlayed(Recently value, index) {
   }
 }
 
-
 checkMostPlayed(Most value, index) {
   List<Most> list = mostbox.values.toList();
   bool isAlreadyAdded =
@@ -38,7 +33,6 @@ checkMostPlayed(Most value, index) {
   int count = value.count ?? 0;
   value.count = count + 1;
 }
-
 
 addToFavorites(int index, Favorite value, BuildContext context) async {
   List<Favorite> favdb = favoritebox.values.toList();
@@ -63,7 +57,6 @@ addToFavorites(int index, Favorite value, BuildContext context) async {
   }
 }
 
-
 bool checkFavoriteStatus(int index, BuildContext context) {
   final songdb = songbox.values.toList();
   Favorite value = Favorite(
@@ -77,5 +70,3 @@ bool checkFavoriteStatus(int index, BuildContext context) {
       favdb.where((element) => element.songname == value.songname).isEmpty;
   return isAlreadyThere ? false : true;
 }
-
-

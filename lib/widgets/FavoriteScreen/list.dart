@@ -14,20 +14,26 @@ class FavoriteLists extends StatefulWidget {
   State<FavoriteLists> createState() => _FavoriteListsState();
 }
 
-final box2 = FavoriteBox.getInstance();
+final favoritebox = FavoriteBox.getInstance();
 final player = AssetsAudioPlayer.withId('key');
 List<Favorite> favsongslist = [];
-List<Audio> songdb = [];
+List<Audio> allsongs = [];
 
 class _FavoriteListsState extends State<FavoriteLists> {
   @override
   void initState() {
-    for (var items in favsongslist) {
-      songdb.add(Audio.file(items.songurl!,
+    final favSongsdb = favoritebox.values.toList();
+    for (var item in favSongsdb) {
+      allsongs.add(
+        Audio.file(
+          item.songurl.toString(),
           metas: Metas(
-              title: items.songname,
-              artist: items.artist,
-              id: items.id.toString())));
+            artist: item.artist,
+            title: item.songname,
+            id: item.id.toString(),
+          ),
+        ),
+      );
     }
     super.initState();
   }
@@ -36,7 +42,7 @@ class _FavoriteListsState extends State<FavoriteLists> {
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
     return ValueListenableBuilder<Box<Favorite>>(
-      valueListenable: box2.listenable(),
+      valueListenable: favoritebox.listenable(),
       builder: (context, Box<Favorite> allfavsongs, child) {
         List<Favorite> favdb = allfavsongs.values.toList();
         return favdb.isEmpty
@@ -58,18 +64,21 @@ class _FavoriteListsState extends State<FavoriteLists> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () async {
-                      HomeBottomTile.vindex.value = index;
-                      NowPlayingScreen.spindex.value = index;
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (ctx) => NowPlayingScreen(
                             intindex: index,
                             opendb: favdb,
-                        
                           ),
                         ),
                       );
+                      player.open(Playlist(audios: allsongs, startIndex: index),
+                          showNotification: true,
+                          headPhoneStrategy:
+                              HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+                          loopMode: LoopMode.playlist);
+                      player.play();
                       await player.open(
                         Audio.file(favdb[index].songurl!),
                         showNotification: true,
@@ -106,7 +115,7 @@ class _FavoriteListsState extends State<FavoriteLists> {
                       padding: EdgeInsets.only(bottom: vww * 0.035),
                       child: IconButton(
                         onPressed: () {
-                          box2.deleteAt(index);
+                          favoritebox.deleteAt(index);
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             duration: Duration(seconds: 1),

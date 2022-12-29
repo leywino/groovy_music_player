@@ -1,9 +1,8 @@
 import 'package:firstproject/database/playlist_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/utilities/colors.dart';
-import 'package:firstproject/widgets/FavoriteScreen/list.dart';
 import 'package:firstproject/widgets/PlaylistScreen/playlists.dart';
-import 'package:firstproject/widgets/RecentlyPlayed/list.dart';
+import 'package:firstproject/widgets/PlaylistScreen/title.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -82,37 +81,49 @@ class _PlaylistListState extends State<PlaylistList> {
                                     color: Colors.grey, fontSize: 18),
                               ),
                             ),
-                            trailing: Wrap(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(bottom: vww * 0.035),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      editPlaylist(context, editController,
-                                          index, playlistbox);
-                                    },
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.white,
-                                      size: 25,
+                            trailing: ValueListenableBuilder(
+                                valueListenable:
+                                    PlaylistTitle.editPlaylistOrNot,
+                                builder: (context, editPlBool, child) {
+                                  return Visibility(
+                                    visible: editPlBool,
+                                    child: Wrap(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              bottom: vww * 0.035),
+                                          child: IconButton(
+                                            onPressed: () {
+                                              editPlaylist(
+                                                  context,
+                                                  editController,
+                                                  index,
+                                                  playlistbox);
+                                            },
+                                            icon: Icon(
+                                              Icons.edit,
+                                              color: Colors.white,
+                                              size: 25,
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              deletePlaylist(
+                                                  context, index, playlistbox);
+                                            });
+                                          },
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                            size: 25,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      deletePlaylist(
-                                          context, index, playlistbox);
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    size: 25,
-                                  ),
-                                ),
-                              ],
-                            ),
+                                  );
+                                }),
                           );
                         }));
                   });

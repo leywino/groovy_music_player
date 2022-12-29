@@ -1,4 +1,5 @@
 import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:firstproject/widgets/PlaylistScreen/appbar.dart';
 import 'package:firstproject/widgets/PlaylistScreen/list.dart';
 import 'package:firstproject/widgets/PlaylistScreen/title.dart';
@@ -13,6 +14,7 @@ class ScreenPlaylists extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mainBgColor,
+      bottomSheet: HomeBottomTile(),
       appBar: CustomAppbar(),
       body: Column(
         children: [

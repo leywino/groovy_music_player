@@ -1,9 +1,39 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
+import 'package:firstproject/widgets/FavoriteScreen/list.dart';
 import 'package:flutter/material.dart';
 
-class FavoriteTitle extends StatelessWidget {
+class FavoriteTitle extends StatefulWidget {
   FavoriteTitle({super.key});
+
+  @override
+  State<FavoriteTitle> createState() => _FavoriteTitleState();
+}
+
+List<Audio> allsongs = [];
+
+class _FavoriteTitleState extends State<FavoriteTitle> {
+  final player = AssetsAudioPlayer.withId('key');
+
+  @override
+  void initState() {
+    final favSongsdb = favoritebox.values.toList();
+    for (var item in favSongsdb) {
+      allsongs.add(
+        Audio.file(
+          item.songurl.toString(),
+          metas: Metas(
+            artist: item.artist,
+            title: item.songname,
+            id: item.id.toString(),
+          ),
+        ),
+      );
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
@@ -29,6 +59,20 @@ class FavoriteTitle extends StatelessWidget {
               ),
             ],
           ),
+          GestureDetector(
+            onTap: () {
+              player.open(Playlist(audios: allsongs, startIndex: 0),
+                  showNotification: true,
+                  headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+                  loopMode: LoopMode.playlist);
+              player.play();
+            },
+            child: Icon(
+              Icons.play_circle,
+              color: Colors.white,
+              size: 50,
+            ),
+          )
         ],
       ),
     );

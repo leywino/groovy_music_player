@@ -54,7 +54,6 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                               builder: (ctx) => NowPlayingScreen(
                                 intindex: HomeBottomTile.intindex,
                                 opendb: songdb,
-
                               ),
                             ),
                           );
@@ -84,7 +83,8 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                           artworkBorder:
                                               BorderRadius.circular(8),
                                           keepOldArtwork: true,
-                                          id: songsdb[intindex].id!,
+                                          id: int.parse(
+                                              playing.audio.audio.metas.id!),
                                           type: ArtworkType.AUDIO,
                                         ),
                                       ),
@@ -98,7 +98,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            songsdb[intindex].songname!,
+                                            widget.player.getCurrentAudioTitle,
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
@@ -106,7 +106,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Text(
-                                            songsdb[intindex].artist!,
+                                            widget.player.getCurrentAudioArtist,
                                             style: TextStyle(
                                               color:
                                                   Colors.white.withOpacity(0.5),
@@ -136,6 +136,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                               HomeBottomTile.intindex--;
                                               previousMusic(isPlaying, player,
                                                   songdb, intindex);
+                                              player.previous();
                                             },
                                       child: Icon(
                                         Icons.skip_previous,
@@ -163,6 +164,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                               HomeBottomTile.intindex++;
                                               skipMusic(isPlaying, player,
                                                   songdb, intindex);
+                                              player.next();
                                             },
                                       child: Icon(
                                         Icons.skip_next,

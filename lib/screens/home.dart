@@ -57,7 +57,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                         iconcolor: homeCard32,
                         cardtitle: most,
                         cardicon: Icons.repeat,
-                        pageindex: 2,
+                        pageindex: 3,
                       ),
                       HomeCard(
                         cardcolor: homeCard41,

@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PlaylistTitle extends StatefulWidget {
+  static ValueNotifier<bool> editPlaylistOrNot =
+      ValueNotifier(editPlaylistBool);
+  static bool editPlaylistBool = false;
   PlaylistTitle({super.key});
 
   @override
@@ -49,16 +52,49 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
               ),
             ],
           ),
-          IconButton(
-            icon: Icon(
-              Icons.add_circle,
-              color: Colors.white,
-              size: 35,
-            ),
-            onPressed: () {
-              addPlaylist(context);
-            },
-          ),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    PlaylistTitle.editPlaylistOrNot.value =
+                        !PlaylistTitle.editPlaylistOrNot.value;
+                  });
+                },
+                child: Center(
+                  child: !PlaylistTitle.editPlaylistOrNot.value
+                      ? Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white, shape: BoxShape.circle),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: Icon(
+                              Icons.edit,
+                              color: mainBgColor,
+                              size: 22,
+                            ),
+                          ),
+                        )
+                      : Icon(
+                          Icons.check_circle_rounded,
+                          size: 36,
+                          color: Colors.green,
+                        ),
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.add_circle,
+                  color: Colors.white,
+                  size: 35,
+                ),
+                onPressed: () {
+                  addPlaylist(context);
+                },
+              ),
+            ],
+          )
         ],
       ),
     );
