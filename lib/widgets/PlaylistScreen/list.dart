@@ -53,7 +53,10 @@ class _PlaylistListState extends State<PlaylistList> {
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (ctx) {
-                                  return PlaylistSongList(intindex: index);
+                                  return PlaylistSongList(
+                                    intindex: index,
+                                    playlistname: playdb[index].playlistname,
+                                  );
                                 },
                               ));
                             },
@@ -186,6 +189,7 @@ deletePlaylist(BuildContext context, int index, Box<Playlists> playlistbox) {
 editPlaylist(BuildContext context, TextEditingController editController,
     int index, Box<Playlists> playlistbox) {
   final playdb = playlistbox.values.toList();
+  editController = TextEditingController(text: playdb[index].playlistname);
   showDialog(
     barrierDismissible: false,
     context: context,

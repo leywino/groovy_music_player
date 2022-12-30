@@ -57,27 +57,22 @@ addPlaylist(BuildContext context, int songindex) {
                           valueListenable: addController,
                           builder: (context, addController, child) {
                             return TextButton(
-                              onPressed: addController.text.isEmpty
+                              onPressed: (addController.text.isEmpty ||
+                                      checkIfAlreadyExists(addController.text))
                                   ? null
-                                  : !checkIfAlreadyExists(addController.text)
-                                      ? () async {
-                                          await playlistbox.add(Playlists(
-                                              playlistname: addController.text,
-                                              playlistsongs: []));
-                                          showPlaylistList(context, songindex);
-                                        }
-                                      : () {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  backgroundColor: Colors.black,
-                                                  content: Text(
-                                                      'Playlist already exists')));
-                                        },
+                                  : () async {
+                                      await playlistbox.add(Playlists(
+                                          playlistname: addController.text,
+                                          playlistsongs: []));
+                                      showPlaylistList(context, songindex);
+                                    },
                               child: Text(
                                 'OK',
                                 style: GoogleFonts.rubik(
                                   fontSize: 18,
-                                  color: addController.text.isEmpty
+                                  color: (addController.text.isEmpty ||
+                                          checkIfAlreadyExists(
+                                              addController.text))
                                       ? Colors.white.withOpacity(0.5)
                                       : Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -148,7 +143,8 @@ createNewPlaylist(BuildContext context) {
                         valueListenable: addController,
                         builder: (context, controller, child) {
                           return TextButton(
-                            onPressed: addController.text.isEmpty
+                            onPressed: (addController.text.isEmpty ||
+                                    checkIfAlreadyExists(addController.text))
                                 ? null
                                 : () async {
                                     await playlistbox.add(Playlists(
@@ -161,7 +157,9 @@ createNewPlaylist(BuildContext context) {
                               'OK',
                               style: GoogleFonts.rubik(
                                 fontSize: 18,
-                                color: addController.text.isEmpty
+                                color: (addController.text.isEmpty ||
+                                        checkIfAlreadyExists(
+                                            addController.text))
                                     ? Colors.white.withOpacity(0.5)
                                     : Colors.white,
                                 fontWeight: FontWeight.w600,
