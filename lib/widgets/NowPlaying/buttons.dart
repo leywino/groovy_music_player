@@ -137,7 +137,6 @@ class _NPButtonsState extends State<NPButtons> {
 
 skipMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
     int intindex) async {
-  await player.playOrPause();
   intindex++;
   NowPlayingScreen.spindex.value++;
   HomeBottomTile.vindex.value++;

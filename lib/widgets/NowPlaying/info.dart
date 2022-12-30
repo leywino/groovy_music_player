@@ -1,7 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/song_model.dart';
-import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
 

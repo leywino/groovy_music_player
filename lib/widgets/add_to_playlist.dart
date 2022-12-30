@@ -59,12 +59,20 @@ addPlaylist(BuildContext context, int songindex) {
                             return TextButton(
                               onPressed: addController.text.isEmpty
                                   ? null
-                                  : () async {
-                                      await playlistbox.add(Playlists(
-                                          playlistname: addController.text,
-                                          playlistsongs: []));
-                                      showPlaylistList(context, songindex);
-                                    },
+                                  : !checkIfAlreadyExists(addController.text)
+                                      ? () async {
+                                          await playlistbox.add(Playlists(
+                                              playlistname: addController.text,
+                                              playlistsongs: []));
+                                          showPlaylistList(context, songindex);
+                                        }
+                                      : () {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  backgroundColor: Colors.black,
+                                                  content: Text(
+                                                      'Playlist already exists')));
+                                        },
                               child: Text(
                                 'OK',
                                 style: GoogleFonts.rubik(
@@ -85,6 +93,13 @@ addPlaylist(BuildContext context, int songindex) {
           ),
         )
       : showPlaylistList(context, songindex);
+}
+
+bool checkIfAlreadyExists(String value) {
+  List<Playlists> list = playlistbox.values.toList();
+  bool isAlreadyAdded =
+      list.where((element) => element.playlistname == value.trim()).isNotEmpty;
+  return isAlreadyAdded;
 }
 
 createNewPlaylist(BuildContext context) {

@@ -18,6 +18,7 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
   final addController = TextEditingController();
   @override
   void initState() {
+    PlaylistTitle.editPlaylistOrNot.value = false;
     super.initState();
   }
 
@@ -146,13 +147,21 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
                         return TextButton(
                           onPressed: addController.text.isEmpty
                               ? null
-                              : () async {
-                                  playlistbox.add(Playlists(
-                                      playlistname: addController.text,
-                                      playlistsongs: []));
-                                  Navigator.pop(context);
-                                  addController.clear();
-                                },
+                              : !checkIfAlreadyExists(addController.text)
+                                  ? () async {
+                                      playlistbox.add(Playlists(
+                                          playlistname: addController.text,
+                                          playlistsongs: []));
+                                      Navigator.pop(context);
+                                      addController.clear();
+                                    }
+                                  : () {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              backgroundColor: Colors.black,
+                                              content: Text(
+                                                  'Playlist already exists')));
+                                    },
                           child: Text(
                             'OK',
                             style: GoogleFonts.rubik(
