@@ -2,7 +2,9 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
+import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
+import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -84,7 +86,7 @@ class _MostListsState extends State<MostLists> {
                       );
                       await player.open(
                         Audio.file(mostdb[index].songurl!),
-                        showNotification: true,
+                        showNotification: notificationBool,
                         playInBackground: PlayInBackground.disabledPause,
                         audioFocusStrategy: const AudioFocusStrategy.request(
                           resumeAfterInterruption: true,

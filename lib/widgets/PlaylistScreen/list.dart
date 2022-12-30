@@ -19,7 +19,7 @@ class _PlaylistListState extends State<PlaylistList> {
   final playlistbox = PlaylistBox.getInstance();
   final songbox = SongBox.getInstance();
 
-  late List<Songs> songsdb = songbox.values.toList();
+
 
   @override
   Widget build(BuildContext context) {

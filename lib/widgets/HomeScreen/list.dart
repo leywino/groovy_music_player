@@ -5,7 +5,9 @@ import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
+import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +105,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                 //   ),
                 // );
                 player.open(Playlist(audios: convert, startIndex: index),
-                    showNotification: true,
+                    showNotification: notificationBool,
                     headPhoneStrategy:
                         HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
                     loopMode: LoopMode.playlist);

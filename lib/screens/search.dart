@@ -1,13 +1,10 @@
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
-import 'package:firstproject/widgets/SearchScreen/music_list.dart';
-import 'package:firstproject/widgets/SearchScreen/search_bar.dart';
+import 'package:firstproject/widgets/SearchScreen/list.dart';
 import 'package:flutter/material.dart';
 
 class ScreenSearch extends StatelessWidget {
   ScreenSearch({super.key});
-
-  final _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +15,6 @@ class ScreenSearch extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SearchBar(
-                searchController: _searchController,
-              ),
               SearchList(),
             ],
           ),

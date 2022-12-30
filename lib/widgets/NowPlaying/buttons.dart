@@ -4,6 +4,7 @@ import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
+import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
@@ -202,7 +203,7 @@ playMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
     int intindex) async {
   await player.open(
     Audio.file(songdb[intindex].songurl!),
-    showNotification: true,
+    showNotification: notificationBool,
     playInBackground: PlayInBackground.disabledPause,
     audioFocusStrategy: AudioFocusStrategy.request(
       resumeAfterInterruption: true,

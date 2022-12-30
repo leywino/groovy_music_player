@@ -14,9 +14,7 @@ class NavBarBottom extends StatefulWidget {
   State<NavBarBottom> createState() => _NavBarBottomState();
 }
 
-
 class _NavBarBottomState extends State<NavBarBottom> {
-  
   final _pages = [
     ScreenHome(),
     ScreenSearch(),
@@ -25,16 +23,18 @@ class _NavBarBottomState extends State<NavBarBottom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: widget.selectedIndex,
-        children: _pages,
-      ),
+      body: widget.selectedIndex != 1
+          ? IndexedStack(
+              index: widget.selectedIndex,
+              children: _pages,
+            )
+          : _pages[1],
       bottomNavigationBar: FlashyTabBar(
         backgroundColor: navbarcolor1,
         selectedIndex: widget.selectedIndex ?? 0,
         showElevation: true,
         onItemSelected: (index) => setState(() {
-          widget.selectedIndex  = index;
+          widget.selectedIndex = index;
         }),
         items: [
           FlashyTabBarItem(

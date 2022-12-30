@@ -16,6 +16,9 @@ checkRecentlyPlayed(Recently value, index) {
     recentlybox.deleteAt(index);
     recentlybox.add(value);
   }
+  if (list.length >= 20) {
+    recentlybox.deleteAt(0);
+  }
 }
 
 checkMostPlayed(Most value, index) {

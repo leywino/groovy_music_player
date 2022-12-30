@@ -2,6 +2,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/FavoriteScreen/list.dart';
+import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteTitle extends StatefulWidget {
@@ -62,7 +63,7 @@ class _FavoriteTitleState extends State<FavoriteTitle> {
           GestureDetector(
             onTap: () {
               player.open(Playlist(audios: allsongs, startIndex: 0),
-                  showNotification: true,
+                  showNotification: notificationBool,
                   headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
                   loopMode: LoopMode.playlist);
               player.play();

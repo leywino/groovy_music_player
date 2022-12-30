@@ -9,5 +9,4 @@ const String share = 'Share';
 const String privacy = 'Privacy Policies';
 const String terms = 'Terms & Conditions';
 const String about = 'About';
-
-
+bool notificationBool = true;

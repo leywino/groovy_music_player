@@ -1,6 +1,8 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
+import 'package:firstproject/utilities/texts.dart';
+import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -83,7 +85,7 @@ class _RecentlyListsState extends State<RecentlyLists> {
                         ),
                       );
                       player.open(Playlist(audios: allsongs, startIndex: index),
-                          showNotification: true,
+                          showNotification: notificationBool,
                           headPhoneStrategy:
                               HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
                           loopMode: LoopMode.playlist);

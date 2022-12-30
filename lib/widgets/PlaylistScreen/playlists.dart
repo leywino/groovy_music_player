@@ -3,8 +3,10 @@ import 'package:firstproject/database/playlist_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/colors.dart';
+import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:firstproject/widgets/PlaylistScreen/appbar.dart';
+import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -130,7 +132,7 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                     player.open(
                                         Playlist(
                                             audios: allsongs, startIndex: 0),
-                                        showNotification: true,
+                                        showNotification: notificationBool,
                                         headPhoneStrategy: HeadPhoneStrategy
                                             .pauseOnUnplugPlayOnPlug,
                                         loopMode: LoopMode.playlist);
