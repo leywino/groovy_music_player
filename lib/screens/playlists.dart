@@ -4,10 +4,9 @@ import 'package:firstproject/widgets/PlaylistScreen/appbar.dart';
 import 'package:firstproject/widgets/PlaylistScreen/list.dart';
 import 'package:firstproject/widgets/PlaylistScreen/title.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ScreenPlaylists extends StatelessWidget {
-  ScreenPlaylists({super.key});
+  const ScreenPlaylists({super.key});
  
 
   @override
@@ -15,9 +14,9 @@ class ScreenPlaylists extends StatelessWidget {
     return Scaffold(
       backgroundColor: mainBgColor,
       bottomSheet: HomeBottomTile(),
-      appBar: CustomAppbar(),
+      appBar: const CustomAppbar(),
       body: Column(
-        children: [
+        children: const [
           PlaylistTitle(),
           PlaylistList(),
         ],

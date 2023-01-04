@@ -33,8 +33,7 @@ checkMostPlayed(Most value, index) {
     mostbox.deleteAt(index);
     mostbox.put(index, value);
   }
-  int count = value.count ?? 0;
-  value.count = count + 1;
+  value.count++;
 }
 
 addToFavorites(int index, Favorite value, BuildContext context) async {

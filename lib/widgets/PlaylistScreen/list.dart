@@ -9,7 +9,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class PlaylistList extends StatefulWidget {
-  PlaylistList({super.key});
+  const PlaylistList({super.key});
 
   @override
   State<PlaylistList> createState() => _PlaylistListState();
@@ -34,7 +34,7 @@ class _PlaylistListState extends State<PlaylistList> {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: vww * 0.05),
-                      child: Text(
+                      child: const Text(
                         'You have no playlists!',
                         style: TextStyle(color: Colors.white, fontSize: 25),
                       ),
@@ -103,7 +103,7 @@ class _PlaylistListState extends State<PlaylistList> {
                                                   index,
                                                   playlistbox);
                                             },
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.edit,
                                               color: Colors.white,
                                               size: 25,
@@ -117,7 +117,7 @@ class _PlaylistListState extends State<PlaylistList> {
                                                   context, index, playlistbox);
                                             });
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.delete,
                                             color: Colors.red,
                                             size: 25,
@@ -139,7 +139,7 @@ deletePlaylist(BuildContext context, int index, Box<Playlists> playlistbox) {
     context: context,
     builder: (context) => AlertDialog(
       backgroundColor: alertbg,
-      title: Text(
+      title: const Text(
         'Are you sure you want to delete the playlist?',
         style: TextStyle(color: Colors.white, fontSize: 20),
       ),
@@ -195,14 +195,14 @@ editPlaylist(BuildContext context, TextEditingController editController,
     context: context,
     builder: (context) => AlertDialog(
       backgroundColor: alertbg,
-      title: Text(
+      title: const Text(
         'Rename',
         style: TextStyle(color: Colors.white, fontSize: 20),
       ),
       content: TextField(
         controller: editController,
         style: GoogleFonts.rubik(color: Colors.white),
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(width: 3, color: Colors.white),
           ),

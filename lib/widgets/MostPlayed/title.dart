@@ -3,7 +3,7 @@ import 'package:firstproject/utilities/texts.dart';
 import 'package:flutter/material.dart';
 
 class MostTitle extends StatelessWidget {
-  MostTitle({super.key});
+  const MostTitle({super.key});
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
@@ -17,6 +17,7 @@ class MostTitle extends StatelessWidget {
         children: [
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
+            // ignore: prefer_const_literals_to_create_immutables
             children: [
               const Icon(
                 Icons.repeat,

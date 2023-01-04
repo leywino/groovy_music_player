@@ -2,7 +2,6 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/texts.dart';
-import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -58,7 +57,7 @@ class _RecentlyListsState extends State<RecentlyLists> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: vww * 0.05),
-                    child: Text(
+                    child: const Text(
                       'You have no recently played songs!',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),

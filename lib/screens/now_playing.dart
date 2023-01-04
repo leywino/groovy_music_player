@@ -8,21 +8,22 @@ import 'package:firstproject/widgets/NowPlaying/nav.dart';
 import 'package:firstproject/widgets/PlaylistScreen/appbar.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class NowPlayingScreen extends StatelessWidget {
   static ValueNotifier<int> spindex = ValueNotifier(spider!);
   static int? spider = 0;
 
   NowPlayingScreen({super.key, this.intindex, this.opendb});
 
-  final intindex;
-  final opendb;
+  int? intindex;
+  dynamic opendb;
 
   final box = SongBox.getInstance();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppbar(),
+        appBar: const CustomAppbar(),
         backgroundColor: mainBgColor,
         body: ValueListenableBuilder(
             valueListenable: spindex,
@@ -31,9 +32,9 @@ class NowPlayingScreen extends StatelessWidget {
                 children: [
                   NPIcon(intindex: spider, opendb: opendb),
                   NPInfo(intindex: spider, opendb: opendb),
-                  NPBar(),
+                  const NPBar(),
                   NPButtons(intindex: spider),
-                  NPNav(),
+                  const NPNav(),
                 ],
               );
             }));

@@ -30,7 +30,7 @@ class NPNav extends StatelessWidget {
                     ),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.home,
                   color: Colors.white,
                 ),
@@ -40,11 +40,11 @@ class NPNav extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => ScreenPlaylists(),
+                      builder: (ctx) => const ScreenPlaylists(),
                     ),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.menu,
                   color: Colors.white,
                 ),
@@ -58,7 +58,7 @@ class NPNav extends StatelessWidget {
                     ),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.search,
                   color: Colors.white,
                 ),

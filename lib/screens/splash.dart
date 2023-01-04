@@ -1,5 +1,5 @@
+import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/song_model.dart';
-import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:firstproject/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -13,6 +13,7 @@ class ScreenSplash extends StatefulWidget {
 
 final audioquery = OnAudioQuery();
 final box = SongBox.getInstance();
+final mostbox = MostBox.getInstance();
 List<SongModel> allSongs = [];
 List<SongModel> getSongs = [];
 
@@ -35,9 +36,19 @@ class _ScreenSplashState extends State<ScreenSplash> {
           allSongs.add(element);
         }
       }
-
       for (var element in allSongs) {
-        await box.add(Songs(
+        mostbox.add(
+          Most(
+              songname: element.title,
+              artist: element.artist!,
+              duration: element.duration!,
+              id: element.id,
+              songurl: element.uri!,
+              count: 1),
+        );
+      }
+      for (var element in allSongs) {
+        box.add(Songs(
           songname: element.title,
           artist: element.artist,
           duration: element.duration,
@@ -45,7 +56,6 @@ class _ScreenSplashState extends State<ScreenSplash> {
           songurl: element.uri,
         ));
       }
-      List<Songs> songsdb = box.values.toList();
     }
     if (!mounted) return;
     setState(() {});

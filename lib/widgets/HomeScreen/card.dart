@@ -21,7 +21,7 @@ class HomeCard extends StatelessWidget {
   final int? pageindex;
 
   final pages = [
-    ScreenPlaylists(),
+    const ScreenPlaylists(),
     const ScreenFavorites(),
     const ScreenMosts(),
     const ScreenRecently(),

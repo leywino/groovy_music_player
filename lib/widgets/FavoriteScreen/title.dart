@@ -2,11 +2,11 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/FavoriteScreen/list.dart';
-import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteTitle extends StatefulWidget {
-  FavoriteTitle({super.key});
+
+  const FavoriteTitle({super.key});
 
   @override
   State<FavoriteTitle> createState() => _FavoriteTitleState();
@@ -48,13 +48,14 @@ class _FavoriteTitleState extends State<FavoriteTitle> {
         children: [
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              const Icon(
+            
+            children: const [
+              Icon(
                 Icons.favorite,
                 color: homeCard22,
                 size: 45,
               ),
-              const Text(
+              Text(
                 favorites,
                 style: TextStyle(fontSize: 35, color: Colors.white),
               ),
@@ -68,7 +69,7 @@ class _FavoriteTitleState extends State<FavoriteTitle> {
                   loopMode: LoopMode.playlist);
               player.play();
             },
-            child: Icon(
+            child: const Icon(
               Icons.play_circle,
               color: Colors.white,
               size: 50,

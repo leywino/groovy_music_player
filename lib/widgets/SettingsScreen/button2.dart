@@ -2,6 +2,7 @@ import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ignore: must_be_immutable
 class SettingsTextButton2 extends StatelessWidget {
   SettingsTextButton2({super.key, this.settingsicon, this.settingstitle});
 
@@ -28,7 +29,7 @@ class SettingsTextButton2 extends StatelessWidget {
             ),
           ),
         ),
-        SettingsSwitch(),
+        const SettingsSwitch(),
       ],
     );
   }

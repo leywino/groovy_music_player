@@ -20,9 +20,10 @@ class _NPBarState extends State<NPBar> {
     double vwh = MediaQuery.of(context).size.height;
     return PlayerBuilder.realtimePlayingInfos(
       player: player,
-      builder: (context, RealtimePlayingInfos) {
-        final duration = RealtimePlayingInfos.current!.audio.duration;
-        final position = RealtimePlayingInfos.currentPosition;
+      // ignore: avoid_types_as_parameter_names
+      builder: (context, realtimePlayingInfos) {
+        final duration = realtimePlayingInfos.current!.audio.duration;
+        final position = realtimePlayingInfos.currentPosition;
         return Padding(
           padding: EdgeInsets.only(
               left: vww * 0.06,

@@ -10,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class SearchList extends StatefulWidget {
-  SearchList({super.key});
+  const SearchList({super.key});
   @override
   State<SearchList> createState() => _SearchListState();
 }
@@ -32,7 +32,6 @@ class _SearchListState extends State<SearchList> {
 
   @override
   Widget build(BuildContext context) {
-    List<Songs> songdb = songbox.values.toList();
     double vww = MediaQuery.of(context).size.width;
     return Column(
       children: [
@@ -50,20 +49,20 @@ class _SearchListState extends State<SearchList> {
               style: GoogleFonts.rubik(color: Colors.white),
               controller: searchController,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(top: 5),
+                contentPadding: const EdgeInsets.only(top: 5),
                 fillColor: Colors.black,
                 filled: true,
                 suffixIcon: IconButton(
                   onPressed: () {
                     clearText();
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.clear,
                     color: Colors.white,
                   ),
                 ),
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 15),
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 15),
                   child: Icon(
                     Icons.search_rounded,
                     color: Colors.white,
@@ -84,61 +83,76 @@ class _SearchListState extends State<SearchList> {
             ),
           ),
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: searchlist.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              onTap: () {
-                player.open(Playlist(audios: allsongs, startIndex: index),
-                    showNotification: notificationBool,
-                    headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-                    loopMode: LoopMode.playlist);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (ctx) => NowPlayingScreen(intindex: index),
-                  ),
-                );
-              },
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: QueryArtworkWidget(
-                  artworkBorder: BorderRadius.circular(8),
-                  keepOldArtwork: true,
-                  id: searchlist[index].id!,
-                  type: ArtworkType.AUDIO,
+        searchlist.isEmpty
+            ? Padding(
+                padding: EdgeInsets.symmetric(horizontal: vww * 0.03),
+                child: Row(
+                  children: const [
+                    Text(
+                      'No songs found',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    )
+                  ],
                 ),
-              ),
-              title: Text(
-                searchlist[index].songname!,
-                style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
-              ),
-              subtitle: Padding(
-                padding: EdgeInsets.only(bottom: vww * 0.035),
-                child: Text(
-                  searchlist[index].artist!,
-                  style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
-                ),
-              ),
-              trailing: Wrap(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      showOptions(context);
+              )
+            : ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: searchlist.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () {
+                      player.open(Playlist(audios: allsongs, startIndex: index),
+                          showNotification: notificationBool,
+                          headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+                          loopMode: LoopMode.playlist);
+                      setState(() {});
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => NowPlayingScreen(),
+                        ),
+                      );
                     },
-                    icon: Icon(
-                      Icons.more_vert,
-                      color: Colors.white,
-                      size: 25,
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: QueryArtworkWidget(
+                        artworkBorder: BorderRadius.circular(8),
+                        keepOldArtwork: true,
+                        id: searchlist[index].id!,
+                        type: ArtworkType.AUDIO,
+                      ),
                     ),
-                  ),
-                ],
+                    title: Text(
+                      searchlist[index].songname!,
+                      style:
+                          GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+                    ),
+                    subtitle: Padding(
+                      padding: EdgeInsets.only(bottom: vww * 0.035),
+                      child: Text(
+                        searchlist[index].artist!,
+                        style:
+                            GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
+                      ),
+                    ),
+                    trailing: Wrap(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            showOptions(context);
+                          },
+                          icon: const Icon(
+                            Icons.more_vert,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ],
     );
   }
@@ -155,7 +169,7 @@ class _SearchListState extends State<SearchList> {
             children: [
               TextButton.icon(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.favorite_outline,
                   size: 30,
                   color: Colors.white,
@@ -167,7 +181,7 @@ class _SearchListState extends State<SearchList> {
               ),
               TextButton.icon(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.playlist_add,
                   size: 30,
                   color: Colors.white,
@@ -195,7 +209,7 @@ class _SearchListState extends State<SearchList> {
               element.songname!.toLowerCase().contains(value.toLowerCase()))
           .toList();
       allsongs.clear();
-      for (var item in searchsongsdb!) {
+      for (var item in searchlist) {
         allsongs.add(
           Audio.file(
             item.songurl.toString(),

@@ -50,7 +50,7 @@ class _FavoriteListsState extends State<FavoriteLists> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: vww * 0.05),
-                    child: Text(
+                    child: const Text(
                       'You have no favorite songs!',
                       style: TextStyle(color: Colors.white, fontSize: 25),
                     ),
@@ -123,7 +123,7 @@ class _FavoriteListsState extends State<FavoriteLists> {
                             content: Text("Removed from favorites"),
                           ));
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.favorite,
                           color: Colors.pink,
                           size: 25,

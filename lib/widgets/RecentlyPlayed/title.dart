@@ -3,7 +3,7 @@ import 'package:firstproject/utilities/texts.dart';
 import 'package:flutter/material.dart';
 
 class RecentlyTitle extends StatelessWidget {
-  RecentlyTitle({super.key});
+  const RecentlyTitle({super.key});
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
@@ -17,13 +17,13 @@ class RecentlyTitle extends StatelessWidget {
         children: [
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              const Icon(
+            children: const [
+              Icon(
                 Icons.history,
                 color: homeCard42,
                 size: 45,
               ),
-              const Text(
+              Text(
                 recently,
                 style: TextStyle(fontSize: 35, color: Colors.white),
               ),

@@ -7,7 +7,7 @@ import 'package:firstproject/widgets/HomeScreen/title.dart';
 import 'package:flutter/material.dart';
 
 class ScreenHome extends StatefulWidget {
-  ScreenHome({super.key});
+  const ScreenHome({super.key});
 
   @override
   State<ScreenHome> createState() => _ScreenHomeState();
@@ -57,7 +57,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                         iconcolor: homeCard32,
                         cardtitle: most,
                         cardicon: Icons.repeat,
-                        pageindex: 3,
+                        pageindex: 2,
                       ),
                       HomeCard(
                         cardcolor: homeCard41,
@@ -74,7 +74,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                 padding: EdgeInsets.only(top: vwh * 0.015, bottom: vwh * 0.015),
                 child: const HomeTitle(titletexthome: allsongs),
               ),
-              HomeMusicTiles(),
+              const HomeMusicTiles(),
             ],
           ),
         ),

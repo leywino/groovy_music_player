@@ -17,12 +17,12 @@ class MostAdapter extends TypeAdapter<Most> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Most(
-      songname: fields[0] as String?,
-      artist: fields[1] as String?,
-      duration: fields[2] as int?,
-      id: fields[4] as int?,
-      songurl: fields[3] as String?,
-      count: fields[5] as int?,
+      songname: fields[0] as String,
+      artist: fields[1] as String,
+      duration: fields[2] as int,
+      id: fields[4] as int,
+      songurl: fields[3] as String,
+      count: fields[5] as int,
     );
   }
 

@@ -19,14 +19,14 @@ addPlaylist(BuildContext context, int songindex) {
           context: context,
           builder: (context) => AlertDialog(
             backgroundColor: alertbg,
-            title: Text(
+            title: const Text(
               'Add New Playlist',
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             content: TextField(
               controller: addController,
               style: GoogleFonts.rubik(color: Colors.white),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(width: 3, color: Colors.white),
                 ),
@@ -64,6 +64,7 @@ addPlaylist(BuildContext context, int songindex) {
                                       await playlistbox.add(Playlists(
                                           playlistname: addController.text,
                                           playlistsongs: []));
+                                      // ignore: use_build_context_synchronously
                                       showPlaylistList(context, songindex);
                                     },
                               child: Text(
@@ -105,14 +106,14 @@ createNewPlaylist(BuildContext context) {
       builder: (context, setState) {
         return AlertDialog(
           backgroundColor: alertbg,
-          title: Text(
+          title: const Text(
             'Add New Playlist',
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           content: TextField(
             controller: addController,
             style: GoogleFonts.rubik(color: Colors.white),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(width: 3, color: Colors.white),
               ),
@@ -151,6 +152,7 @@ createNewPlaylist(BuildContext context) {
                                         playlistname: addController.text,
                                         playlistsongs: []));
                                     addController.clear();
+                                    // ignore: use_build_context_synchronously
                                     Navigator.pop(context);
                                   },
                             child: Text(
@@ -188,12 +190,12 @@ showPlaylistList(BuildContext context, int songindex) {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Playlists',
                 style: TextStyle(color: Colors.white),
               ),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.add_circle,
                   color: Colors.white,
                 ),
@@ -252,7 +254,7 @@ showPlaylistList(BuildContext context, int songindex) {
                           },
                           title: Text(
                             playdb[index].playlistname,
-                            style: TextStyle(color: Colors.white, fontSize: 18),
+                            style: const TextStyle(color: Colors.white, fontSize: 18),
                           ),
                         );
                       });

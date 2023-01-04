@@ -4,24 +4,25 @@ import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
-import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class NPButtons extends StatefulWidget {
   static ValueNotifier<bool> playingOrNot = ValueNotifier(isPlaying);
   static bool isPlaying = false;
   NPButtons({super.key, required this.intindex});
 
   int intindex = HomeBottomTile.intindex;
-  Duration duration = Duration();
-  Duration position = Duration();
+  Duration duration = const Duration();
+  Duration position = const Duration();
 
   @override
   State<NPButtons> createState() => _NPButtonsState();
 }
 
+bool willRepeat = false;
 List<Audio> convert = [];
 AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
 final recentlybox = RecentlyBox.getInstance();
@@ -49,9 +50,6 @@ class _NPButtonsState extends State<NPButtons> {
   Widget build(BuildContext context) {
     final box = SongBox.getInstance();
     List<Songs> songdb = box.values.toList();
-
-    double vwh = MediaQuery.of(context).size.height;
-
     return PlayerBuilder.isPlaying(
         player: player,
         builder: (context, isPlaying) {
@@ -63,20 +61,36 @@ class _NPButtonsState extends State<NPButtons> {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () {},
-                    child: Icon(
-                      Icons.repeat,
-                      color: Colors.white,
-                      size: 35,
-                    ),
+                    onTap: () {
+                      setState(() {
+                        willRepeat = !willRepeat;
+                      });
+                      !willRepeat
+                          ? player.setLoopMode(LoopMode.none)
+                          : player.setLoopMode(LoopMode.single);
+                    },
+                    child: willRepeat
+                        ? const Icon(
+                            Icons.repeat,
+                            color: Colors.green,
+                            size: 35,
+                          )
+                        : const Icon(
+                            Icons.repeat,
+                            color: Colors.white,
+                            size: 35,
+                          ),
                   ),
                   GestureDetector(
                     onTap: checkIndexPrev(widget.intindex, songdb)
                         ? null
-                        : () {
+                        : () async {
                             previousMusic(
                                 isPlaying, player, songdb, widget.intindex);
-                            player.previous();
+                            if (isPlaying == false) {
+                              await player.pause();
+                            }
+                            await player.previous();
                           },
                     child: Icon(
                       Icons.skip_previous,
@@ -105,10 +119,13 @@ class _NPButtonsState extends State<NPButtons> {
                   GestureDetector(
                     onTap: checkIndexSkip(widget.intindex, songdb)
                         ? null
-                        : () {
+                        : () async {
                             skipMusic(
                                 isPlaying, player, songdb, widget.intindex);
-                            player.next();
+                            if (isPlaying == false) {
+                              await player.pause();
+                            }
+                            await player.next();
                           },
                     child: Icon(
                       Icons.skip_next,
@@ -122,7 +139,7 @@ class _NPButtonsState extends State<NPButtons> {
                     onTap: () {
                       addPlaylist(context, widget.intindex);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.playlist_add,
                       color: Colors.white,
                       size: 35,
@@ -205,7 +222,7 @@ playMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
     Audio.file(songdb[intindex].songurl!),
     showNotification: notificationBool,
     playInBackground: PlayInBackground.disabledPause,
-    audioFocusStrategy: AudioFocusStrategy.request(
+    audioFocusStrategy: const AudioFocusStrategy.request(
       resumeAfterInterruption: true,
       resumeOthersPlayersAfterDone: true,
     ),

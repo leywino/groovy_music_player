@@ -1,14 +1,14 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/favorite_model.dart';
-import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class NPInfo extends StatefulWidget {
   NPInfo({super.key, this.intindex, this.opendb});
 
-  final intindex;
-  final opendb;
+  int? intindex;
+  dynamic opendb;
   final player = AssetsAudioPlayer.withId('key');
 
   @override
@@ -18,7 +18,6 @@ class NPInfo extends StatefulWidget {
 class _NPInfoState extends State<NPInfo> {
   @override
   Widget build(BuildContext context) {
-    final box = SongBox.getInstance();
     double vww = MediaQuery.of(context).size.width;
     return widget.player.builderCurrent(
       builder: (context, playing) {
@@ -36,7 +35,7 @@ class _NPInfoState extends State<NPInfo> {
                     Text(
                       // widget.opendb[widget.intindex].songname!,
                       widget.player.getCurrentAudioTitle,
-                      style: TextStyle(
+                      style: const TextStyle(
                         overflow: TextOverflow.ellipsis,
                         fontSize: 22,
                         color: Colors.white,
@@ -64,14 +63,14 @@ class _NPInfoState extends State<NPInfo> {
                       duration: widget.opendb[widget.intindex].duration,
                       songurl: widget.opendb[widget.intindex].songurl,
                       id: widget.opendb[widget.intindex].id);
-                  addToFavorites(widget.intindex, favval, context);
+                  addToFavorites(widget.intindex!, favval, context);
                   setState(() {});
                 },
                 icon: Icon(
-                  checkFavoriteStatus(widget.intindex, context)
+                  checkFavoriteStatus(widget.intindex!, context)
                       ? Icons.favorite
                       : Icons.favorite_outline,
-                  color: checkFavoriteStatus(widget.intindex, context)
+                  color: checkFavoriteStatus(widget.intindex!, context)
                       ? Colors.pink
                       : Colors.white,
                 ),

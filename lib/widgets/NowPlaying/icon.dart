@@ -1,18 +1,17 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:firstproject/database/song_model.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
+// ignore: must_be_immutable
 class NPIcon extends StatelessWidget {
   NPIcon({super.key, this.intindex, this.opendb});
 
-  final intindex;
-  final opendb;
+  int? intindex;
+  dynamic opendb;
   final player = AssetsAudioPlayer.withId('key');
 
   @override
   Widget build(BuildContext context) {
-    final box = SongBox.getInstance();
     double vwh = MediaQuery.of(context).size.height;
     double vww = MediaQuery.of(context).size.width;
     return player.builderCurrent(builder: (context, playing) {

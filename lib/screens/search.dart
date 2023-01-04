@@ -4,7 +4,7 @@ import 'package:firstproject/widgets/SearchScreen/list.dart';
 import 'package:flutter/material.dart';
 
 class ScreenSearch extends StatelessWidget {
-  ScreenSearch({super.key});
+  const ScreenSearch({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class ScreenSearch extends StatelessWidget {
         backgroundColor: mainBgColor,
         body: SingleChildScrollView(
           child: Column(
-            children: [
+            children: const [
               SearchList(),
             ],
           ),

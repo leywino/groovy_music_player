@@ -16,9 +16,9 @@ class ScreenFavorites extends StatelessWidget {
       backgroundColor: mainBgColor,
       body: SingleChildScrollView(
         child: Column(
-          children: [
+          children: const [
             FavoriteTitle(),
-            const FavoriteLists(),
+            FavoriteLists(),
           ],
         ),
       ),

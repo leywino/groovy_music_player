@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
+// ignore: must_be_immutable
 class HomeBottomTile extends StatefulWidget {
   static ValueNotifier<int> vindex = ValueNotifier(intindex);
   static int intindex = 0;
@@ -99,7 +100,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                         children: [
                                           Text(
                                             widget.player.getCurrentAudioTitle,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
                                             ),

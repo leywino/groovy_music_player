@@ -15,13 +15,13 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
         child: Container(
           height: 40,
           decoration:
-              BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+              const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
           child: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
+            icon: const Padding(
+              padding: EdgeInsets.only(left: 8.0),
               child: Icon(
                 Icons.arrow_back_ios,
                 size: 20,
@@ -35,6 +35,5 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(50.0);
+  Size get preferredSize => const Size.fromHeight(50.0);
 }

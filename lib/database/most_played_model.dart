@@ -4,17 +4,17 @@ part 'most_played_model.g.dart';
 @HiveType(typeId: 4)
 class Most {
   @HiveField(0)
-  String? songname;
+  String songname;
   @HiveField(1)
-  String? artist;
+  String artist;
   @HiveField(2)
-  int? duration;
+  int duration;
   @HiveField(3)
-  String? songurl;
+  String songurl;
   @HiveField(4)
-  int? id;
+  int id;
   @HiveField(5)
-  int? count;
+  int count;
 
   Most({
     required this.songname,
@@ -22,7 +22,7 @@ class Most {
     required this.duration,
     required this.id,
     required this.songurl,
-    this.count,
+    required this.count,
   });
 }
 

@@ -7,7 +7,6 @@ import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
-import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class HomeMusicTiles extends StatefulWidget {
-  HomeMusicTiles({super.key});
+  const HomeMusicTiles({super.key});
 
   @override
   State<HomeMusicTiles> createState() => _HomeMusicTilesState();
@@ -56,6 +55,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
       valueListenable: songbox.listenable(),
       builder: ((context, Box<Songs> allsongbox, child) {
         List<Songs> songsdb = allsongbox.values.toList();
+        List<Most> mostlist = mostbox.values.toList();
         if (songsdb.isEmpty) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -67,16 +67,10 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
           itemCount: songsdb.length,
           itemBuilder: (context, index) {
             Songs songs = songsdb[index];
+            Most mostsongs = mostlist[index];
             return ListTile(
               onTap: () async {
-                // Most mostsongs = Most(
-                //     songname: songsdb[index].songname,
-                //     artist: songsdb[index].artist,
-                //     duration: songsdb[index].duration,
-                //     songurl: songsdb[index].songurl,
-                //     id: songsdb[index].id);
-
-                // checkMostPlayed(mostsongs, index);
+                checkMostPlayed(mostsongs, index);
                 Recently recsongs = Recently(
                     songname: songsdb[index].songname,
                     artist: songsdb[index].artist,
@@ -135,7 +129,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                     onPressed: () {
                       showOptions(context, songsdb, index);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.more_vert,
                       color: Colors.white,
                       size: 25,
@@ -189,7 +183,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                 onPressed: () {
                   addPlaylist(context, index);
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.playlist_add,
                   size: 30,
                   color: Colors.white,

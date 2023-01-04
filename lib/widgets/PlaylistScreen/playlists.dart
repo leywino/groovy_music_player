@@ -6,12 +6,12 @@ import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:firstproject/widgets/PlaylistScreen/appbar.dart';
-import 'package:firstproject/widgets/SettingsScreen/switch.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
+// ignore: must_be_immutable
 class PlaylistSongList extends StatefulWidget {
   static ValueNotifier<bool> hideEditNotifier = ValueNotifier(hideEdit);
   PlaylistSongList({super.key, this.intindex, this.playlistname});
@@ -54,7 +54,7 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
     double vwh = MediaQuery.of(context).size.height;
     return Scaffold(
       bottomSheet: HomeBottomTile(),
-      appBar: CustomAppbar(),
+      appBar: const CustomAppbar(),
       backgroundColor: mainBgColor,
       body: ValueListenableBuilder<Box<Playlists>>(
           valueListenable: playlistbox.listenable(),
@@ -64,9 +64,9 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
             return songs.isEmpty
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        padding: EdgeInsets.symmetric(vertical: 15),
                         child: Text(
                           'No songs found in playlist',
                           style: TextStyle(color: Colors.white, fontSize: 30),
@@ -87,8 +87,8 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                           children: [
                             Text(
                               playdb[widget.intindex!].playlistname,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 30),
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 30),
                             ),
                             Wrap(
                               spacing: 2,
@@ -107,12 +107,11 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                         },
                                         child: hideEdits
                                             ? Container(
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                     color: Colors.white,
                                                     shape: BoxShape.circle),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(4),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.all(4),
                                                   child: Icon(
                                                     Icons.edit,
                                                     color: mainBgColor,
@@ -120,7 +119,7 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                                   ),
                                                 ),
                                               )
-                                            : Icon(
+                                            : const Icon(
                                                 Icons.check_circle_rounded,
                                                 size: 38,
                                                 color: Colors.green,
@@ -138,7 +137,7 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                         loopMode: LoopMode.playlist);
                                     player.play();
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.play_circle,
                                     color: Colors.white,
                                     size: 50,
@@ -154,7 +153,7 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                         child: ListView.builder(
                             itemCount:
                                 playdb[widget.intindex!].playlistsongs.length,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: ((context, index) {
                               return ListTile(
@@ -228,7 +227,7 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                                         playlistsongs: songs));
                                               });
                                             },
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.delete,
                                               color: Colors.red,
                                               size: 25,

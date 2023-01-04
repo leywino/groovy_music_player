@@ -16,9 +16,9 @@ class ScreenRecently extends StatelessWidget {
       bottomSheet: HomeBottomTile(),
       body: SingleChildScrollView(
         child: Column(
-          children: [
+          children: const [
             RecentlyTitle(),
-            const RecentlyLists(),
+            RecentlyLists(),
           ],
         ),
       ),

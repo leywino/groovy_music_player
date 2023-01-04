@@ -8,7 +8,7 @@ class PlaylistTitle extends StatefulWidget {
   static ValueNotifier<bool> editPlaylistOrNot =
       ValueNotifier(editPlaylistBool);
   static bool editPlaylistBool = false;
-  PlaylistTitle({super.key});
+  const PlaylistTitle({super.key});
 
   @override
   State<PlaylistTitle> createState() => _PlaylistTitleState();
@@ -41,8 +41,8 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
         children: [
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              const Icon(
+            children: const [
+              Icon(
                 Icons.queue_music,
                 color: homeCard12,
                 size: 45,
@@ -66,10 +66,10 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
                 child: Center(
                   child: !PlaylistTitle.editPlaylistOrNot.value
                       ? Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Colors.white, shape: BoxShape.circle),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4),
+                          child: const Padding(
+                            padding: EdgeInsets.all(4),
                             child: Icon(
                               Icons.edit,
                               color: mainBgColor,
@@ -77,7 +77,7 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
                             ),
                           ),
                         )
-                      : Icon(
+                      : const Icon(
                           Icons.check_circle_rounded,
                           size: 36,
                           color: Colors.green,
@@ -85,7 +85,7 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
                 ),
               ),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.add_circle,
                   color: Colors.white,
                   size: 35,
@@ -107,14 +107,14 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: alertbg,
-        title: Text(
+        title: const Text(
           'Add New Playlist',
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         content: TextField(
           controller: addController,
           style: GoogleFonts.rubik(color: Colors.white),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(width: 3, color: Colors.white),
             ),
@@ -157,7 +157,7 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
                                     }
                                   : () {
                                       ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
+                                          .showSnackBar(const SnackBar(
                                               backgroundColor: Colors.black,
                                               content: Text(
                                                   'Playlist already exists')));
@@ -189,7 +189,7 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
         'OK',
         style: GoogleFonts.rubik(
           fontSize: 18,
-          color: Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
+          color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
           fontWeight: FontWeight.w600,
         ),
       );

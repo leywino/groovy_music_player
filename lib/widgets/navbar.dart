@@ -6,6 +6,7 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ignore: must_be_immutable
 class NavBarBottom extends StatefulWidget {
   NavBarBottom({super.key, this.songlength, required this.selectedIndex});
   int? songlength;
@@ -16,8 +17,8 @@ class NavBarBottom extends StatefulWidget {
 
 class _NavBarBottomState extends State<NavBarBottom> {
   final _pages = [
-    ScreenHome(),
-    ScreenSearch(),
+    const ScreenHome(),
+    const ScreenSearch(),
     const ScreenSettings(),
   ];
   @override
@@ -40,7 +41,7 @@ class _NavBarBottomState extends State<NavBarBottom> {
           FlashyTabBarItem(
             activeColor: navbarcolor2,
             inactiveColor: navbarcolor3,
-            icon: Icon(
+            icon: const Icon(
               Icons.home,
               size: 25,
             ),
@@ -52,7 +53,7 @@ class _NavBarBottomState extends State<NavBarBottom> {
           FlashyTabBarItem(
             activeColor: navbarcolor2,
             inactiveColor: navbarcolor3,
-            icon: Icon(
+            icon: const Icon(
               Icons.search,
               size: 25,
             ),
@@ -64,7 +65,7 @@ class _NavBarBottomState extends State<NavBarBottom> {
           FlashyTabBarItem(
             activeColor: navbarcolor2,
             inactiveColor: navbarcolor3,
-            icon: Icon(
+            icon: const Icon(
               Icons.settings,
               size: 25,
             ),
