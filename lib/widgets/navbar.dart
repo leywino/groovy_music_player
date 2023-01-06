@@ -23,58 +23,63 @@ class _NavBarBottomState extends State<NavBarBottom> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: widget.selectedIndex != 1
-          ? IndexedStack(
-              index: widget.selectedIndex,
-              children: _pages,
-            )
-          : _pages[1],
-      bottomNavigationBar: FlashyTabBar(
-        backgroundColor: navbarcolor1,
-        selectedIndex: widget.selectedIndex ?? 0,
-        showElevation: true,
-        onItemSelected: (index) => setState(() {
-          widget.selectedIndex = index;
-        }),
-        items: [
-          FlashyTabBarItem(
-            activeColor: navbarcolor2,
-            inactiveColor: navbarcolor3,
-            icon: const Icon(
-              Icons.home,
-              size: 25,
-            ),
-            title: Text(
-              'Home',
-              style: GoogleFonts.rubik(fontSize: 18),
-            ),
+    return Container(
+      color: Colors.white.withOpacity(0),
+      child: SafeArea(
+        child: Scaffold(
+          body: widget.selectedIndex != 1
+              ? IndexedStack(
+                  index: widget.selectedIndex,
+                  children: _pages,
+                )
+              : _pages[1],
+          bottomNavigationBar: FlashyTabBar(
+            backgroundColor: navbarcolor1,
+            selectedIndex: widget.selectedIndex ?? 0,
+            showElevation: true,
+            onItemSelected: (index) => setState(() {
+              widget.selectedIndex = index;
+            }),
+            items: [
+              FlashyTabBarItem(
+                activeColor: navbarcolor2,
+                inactiveColor: navbarcolor3,
+                icon: const Icon(
+                  Icons.home,
+                  size: 25,
+                ),
+                title: Text(
+                  'Home',
+                  style: GoogleFonts.rubik(fontSize: 18),
+                ),
+              ),
+              FlashyTabBarItem(
+                activeColor: navbarcolor2,
+                inactiveColor: navbarcolor3,
+                icon: const Icon(
+                  Icons.search,
+                  size: 25,
+                ),
+                title: Text(
+                  'Search',
+                  style: GoogleFonts.rubik(fontSize: 18),
+                ),
+              ),
+              FlashyTabBarItem(
+                activeColor: navbarcolor2,
+                inactiveColor: navbarcolor3,
+                icon: const Icon(
+                  Icons.settings,
+                  size: 25,
+                ),
+                title: Text(
+                  'Settings',
+                  style: GoogleFonts.rubik(fontSize: 18),
+                ),
+              ),
+            ],
           ),
-          FlashyTabBarItem(
-            activeColor: navbarcolor2,
-            inactiveColor: navbarcolor3,
-            icon: const Icon(
-              Icons.search,
-              size: 25,
-            ),
-            title: Text(
-              'Search',
-              style: GoogleFonts.rubik(fontSize: 18),
-            ),
-          ),
-          FlashyTabBarItem(
-            activeColor: navbarcolor2,
-            inactiveColor: navbarcolor3,
-            icon: const Icon(
-              Icons.settings,
-              size: 25,
-            ),
-            title: Text(
-              'Settings',
-              style: GoogleFonts.rubik(fontSize: 18),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

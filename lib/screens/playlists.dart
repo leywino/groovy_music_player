@@ -11,15 +11,20 @@ class ScreenPlaylists extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: mainBgColor,
-      bottomSheet: HomeBottomTile(),
-      appBar: const CustomAppbar(),
-      body: Column(
-        children: const [
-          PlaylistTitle(),
-          PlaylistList(),
-        ],
+    return Container(
+      color: Colors.white.withOpacity(0),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: mainBgColor,
+          bottomSheet: HomeBottomTile(),
+          appBar: const CustomAppbar(),
+          body: Column(
+            children: const [
+              PlaylistTitle(),
+              PlaylistList(),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -32,13 +32,16 @@ class _NPInfoState extends State<NPInfo> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      // widget.opendb[widget.intindex].songname!,
-                      widget.player.getCurrentAudioTitle,
-                      style: const TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        fontSize: 22,
-                        color: Colors.white,
+                    SizedBox(
+                      width: vww * 0.75,
+                      child: Text(
+                        // widget.opendb[widget.intindex].songname!,
+                        widget.player.getCurrentAudioTitle,
+                        style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: 22,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     SizedBox(

@@ -5,7 +5,6 @@ import 'package:firstproject/widgets/FavoriteScreen/list.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteTitle extends StatefulWidget {
-
   const FavoriteTitle({super.key});
 
   @override
@@ -48,7 +47,6 @@ class _FavoriteTitleState extends State<FavoriteTitle> {
         children: [
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            
             children: const [
               Icon(
                 Icons.favorite,
@@ -61,20 +59,28 @@ class _FavoriteTitleState extends State<FavoriteTitle> {
               ),
             ],
           ),
-          GestureDetector(
-            onTap: () {
-              player.open(Playlist(audios: allsongs, startIndex: 0),
-                  showNotification: notificationBool,
-                  headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
-                  loopMode: LoopMode.playlist);
-              player.play();
+          player.builderIsPlaying(
+            builder: (context, isPlaying) {
+              return GestureDetector(
+                onTap: () {
+                  if (!isPlaying) {
+                    player.open(Playlist(audios: allsongs, startIndex: 0),
+                        showNotification: notificationBool,
+                        headPhoneStrategy:
+                            HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+                        loopMode: LoopMode.playlist);
+                  } else {
+                    player.stop();
+                  }
+                },
+                child: Icon(
+                  isPlaying ? Icons.stop_circle : Icons.play_circle,
+                  color: Colors.white,
+                  size: 50,
+                ),
+              );
             },
-            child: const Icon(
-              Icons.play_circle,
-              color: Colors.white,
-              size: 50,
-            ),
-          )
+          ),
         ],
       ),
     );

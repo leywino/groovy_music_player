@@ -66,28 +66,30 @@ class _MostListsState extends State<MostLists> {
             itemCount: mostsongslist.length,
             itemBuilder: (context, index) {
               return ListTile(
-                onTap: () async {
-                  // HomeBottomTile.vindex.value = index;
-                  // NowPlayingScreen.spindex.value = index;
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (ctx) => NowPlayingScreen(
-                  //       intindex: index,
-                  //       opendb: mostdb,
-                  //     ),
-                  //   ),
-                  // );
-                  await player.open(
-                    Audio.file(mostsongslist[index].songurl),
-                    showNotification: notificationBool,
-                    playInBackground: PlayInBackground.disabledPause,
-                    audioFocusStrategy: const AudioFocusStrategy.request(
-                      resumeAfterInterruption: true,
-                      resumeOthersPlayersAfterDone: true,
-                    ),
-                  );
-                },
+                onTap: null,
+                // onTap: () async {
+                //   // HomeBottomTile.vindex.value = index;
+                //   // NowPlayingScreen.spindex.value = index;
+                //   // Navigator.push(
+                //   //   context,
+                //   //   MaterialPageRoute(
+                //   //     builder: (ctx) => NowPlayingScreen(
+                //   //       intindex: index,
+                //   //       opendb: mostdb,
+                //   //     ),
+                //   //   ),
+                //   // );
+
+                //   // await player.open(
+                //   //   Audio.file(mostsongslist[index].songurl),
+                //   //   showNotification: notificationBool,
+                //   //   playInBackground: PlayInBackground.disabledPause,
+                //   //   audioFocusStrategy: const AudioFocusStrategy.request(
+                //   //     resumeAfterInterruption: true,
+                //   //     resumeOthersPlayersAfterDone: true,
+                //   //   ),
+                //   // );
+                // },
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: QueryArtworkWidget(

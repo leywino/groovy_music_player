@@ -63,18 +63,23 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/images/logo.png', height: 80),
-              const SizedBox(
-                height: 20,
+    return Container(
+      color: Colors.white.withOpacity(0),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/logo.png', height: 80),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

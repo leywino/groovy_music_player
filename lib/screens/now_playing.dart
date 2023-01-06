@@ -22,21 +22,26 @@ class NowPlayingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: const CustomAppbar(),
-        backgroundColor: mainBgColor,
-        body: ValueListenableBuilder(
-            valueListenable: spindex,
-            builder: (context, int spider, child) {
-              return Column(
-                children: [
-                  NPIcon(intindex: spider, opendb: opendb),
-                  NPInfo(intindex: spider, opendb: opendb),
-                  const NPBar(),
-                  NPButtons(intindex: spider),
-                  const NPNav(),
-                ],
-              );
-            }));
+    return Container(
+      color: Colors.white.withOpacity(0),
+      child: SafeArea(
+        child: Scaffold(
+            appBar: const CustomAppbar(),
+            backgroundColor: mainBgColor,
+            body: ValueListenableBuilder(
+                valueListenable: spindex,
+                builder: (context, int spider, child) {
+                  return Column(
+                    children: [
+                      NPIcon(intindex: spider, opendb: opendb),
+                      NPInfo(intindex: spider, opendb: opendb),
+                      const NPBar(),
+                      NPButtons(intindex: spider),
+                      const NPNav(),
+                    ],
+                  );
+                })),
+      ),
+    );
   }
 }

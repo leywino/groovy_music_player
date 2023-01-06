@@ -15,17 +15,22 @@ class ScreenMosts extends StatefulWidget {
 class _ScreenMostsState extends State<ScreenMosts> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppbar(),
-      bottomSheet: HomeBottomTile(),
-      backgroundColor: mainBgColor,
-      body: SingleChildScrollView(
-        child: Column(
-          // ignore: prefer_const_literals_to_create_immutables
-          children: [
-            const MostTitle(),
-            const MostLists(),
-          ],
+    return Container(
+      color: Colors.white.withOpacity(0),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: const CustomAppbar(),
+          bottomSheet: HomeBottomTile(),
+          backgroundColor: mainBgColor,
+          body: SingleChildScrollView(
+            child: Column(
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                const MostTitle(),
+                const MostLists(),
+              ],
+            ),
+          ),
         ),
       ),
     );

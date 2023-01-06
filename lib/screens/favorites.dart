@@ -10,16 +10,21 @@ class ScreenFavorites extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppbar(),
-      bottomSheet: HomeBottomTile(),
-      backgroundColor: mainBgColor,
-      body: SingleChildScrollView(
-        child: Column(
-          children: const [
-            FavoriteTitle(),
-            FavoriteLists(),
-          ],
+    return Container(
+      color: Colors.white.withOpacity(0),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: const CustomAppbar(),
+          bottomSheet: HomeBottomTile(),
+          backgroundColor: mainBgColor,
+          body: SingleChildScrollView(
+            child: Column(
+              children: const [
+                FavoriteTitle(),
+                FavoriteLists(),
+              ],
+            ),
+          ),
         ),
       ),
     );

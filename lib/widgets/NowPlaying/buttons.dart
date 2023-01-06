@@ -1,7 +1,9 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
+import 'package:firstproject/screens/splash.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
@@ -22,10 +24,13 @@ class NPButtons extends StatefulWidget {
   State<NPButtons> createState() => _NPButtonsState();
 }
 
+bool skipSeekBool = true;
+bool prevSeekBool = true;
 bool willRepeat = false;
 List<Audio> convert = [];
 AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
 final recentlybox = RecentlyBox.getInstance();
+List<Most> mostdb = mostbox.values.toList();
 
 class _NPButtonsState extends State<NPButtons> {
   @override
@@ -50,6 +55,7 @@ class _NPButtonsState extends State<NPButtons> {
   Widget build(BuildContext context) {
     final box = SongBox.getInstance();
     List<Songs> songdb = box.values.toList();
+
     return PlayerBuilder.isPlaying(
         player: player,
         builder: (context, isPlaying) {
@@ -82,6 +88,20 @@ class _NPButtonsState extends State<NPButtons> {
                           ),
                   ),
                   GestureDetector(
+                    onHorizontalDragStart: (details) async {
+                      await player.seekBy(const Duration(seconds: -10));
+                      setState(() {
+                        prevSeekBool = !prevSeekBool;
+                      });
+                      await Future.delayed(const Duration(seconds: 1), () {
+                        setState(() {
+                          prevSeekBool = !prevSeekBool;
+                        });
+                      });
+                      // setState(() {
+                      //   prevSeekBool = !prevSeekBool;
+                      // });
+                    },
                     onTap: checkIndexPrev(widget.intindex, songdb)
                         ? null
                         : () async {
@@ -93,7 +113,9 @@ class _NPButtonsState extends State<NPButtons> {
                             await player.previous();
                           },
                     child: Icon(
-                      Icons.skip_previous,
+                      prevSeekBool
+                          ? Icons.skip_previous
+                          : Icons.fast_rewind_rounded,
                       color: checkIndexPrev(widget.intindex, songdb)
                           ? Colors.white.withOpacity(0.5)
                           : Colors.white,
@@ -117,6 +139,20 @@ class _NPButtonsState extends State<NPButtons> {
                         );
                       }),
                   GestureDetector(
+                    onHorizontalDragStart: (details) async {
+                      await player.seekBy(const Duration(seconds: 10));
+                      setState(() {
+                        skipSeekBool = !skipSeekBool;
+                      });
+                      await Future.delayed(const Duration(seconds: 1), () {
+                        setState(() {
+                          skipSeekBool = !skipSeekBool;
+                        });
+                      });
+                      // setState(() {
+                      //   prevSeekBool = !prevSeekBool;
+                      // });
+                    },
                     onTap: checkIndexSkip(widget.intindex, songdb)
                         ? null
                         : () async {
@@ -128,7 +164,9 @@ class _NPButtonsState extends State<NPButtons> {
                             await player.next();
                           },
                     child: Icon(
-                      Icons.skip_next,
+                      skipSeekBool
+                          ? Icons.skip_next
+                          : Icons.fast_forward_rounded,
                       color: checkIndexSkip(widget.intindex, songdb)
                           ? Colors.white.withOpacity(0.5)
                           : Colors.white,
@@ -158,7 +196,8 @@ skipMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
   intindex++;
   NowPlayingScreen.spindex.value++;
   HomeBottomTile.vindex.value++;
-
+  Most mostsongs = mostdb[intindex];
+  checkMostPlayed(mostsongs, intindex);
   // await player.open(
   //   Audio.file(songdb[intindex].songurl!),
   //   playInBackground: PlayInBackground.disabledPause,
@@ -194,6 +233,9 @@ previousMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
   intindex--;
   NowPlayingScreen.spindex.value--;
   HomeBottomTile.vindex.value--;
+
+  Most mostsongs = mostdb[intindex];
+  checkMostPlayed(mostsongs, intindex);
   // await player.open(
   //   Audio.file(songdb[intindex].songurl!),
   //   playInBackground: PlayInBackground.disabledPause,

@@ -9,14 +9,19 @@ class ScreenSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        bottomSheet: HomeBottomTile(),
-        backgroundColor: mainBgColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: const [
-              SearchList(),
-            ],
+      child: Container(
+        color: Colors.white.withOpacity(0),
+        child: SafeArea(
+          child: Scaffold(
+            bottomSheet: HomeBottomTile(),
+            backgroundColor: mainBgColor,
+            body: SingleChildScrollView(
+              child: Column(
+                children: const [
+                  SearchList(),
+                ],
+              ),
+            ),
           ),
         ),
       ),

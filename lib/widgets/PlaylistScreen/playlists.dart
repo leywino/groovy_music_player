@@ -52,194 +52,207 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
     double vwh = MediaQuery.of(context).size.height;
-    return Scaffold(
-      bottomSheet: HomeBottomTile(),
-      appBar: const CustomAppbar(),
-      backgroundColor: mainBgColor,
-      body: ValueListenableBuilder<Box<Playlists>>(
-          valueListenable: playlistbox.listenable(),
-          builder: (context, plbox, child) {
-            List<Playlists> playdb = plbox.values.toList();
-            List<Songs> songs = playdb[widget.intindex!].playlistsongs;
-            return songs.isEmpty
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        child: Text(
-                          'No songs found in playlist',
-                          style: TextStyle(color: Colors.white, fontSize: 30),
-                        ),
-                      )
-                    ],
-                  )
-                : Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: vww * 0.04,
-                            right: vww * 0.04,
-                            top: vwh * 0.02),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              playdb[widget.intindex!].playlistname,
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 30),
+    return Container(
+      color: Colors.white.withOpacity(0),
+      child: SafeArea(
+        child: Scaffold(
+          bottomSheet: HomeBottomTile(),
+          appBar: const CustomAppbar(),
+          backgroundColor: mainBgColor,
+          body: ValueListenableBuilder<Box<Playlists>>(
+              valueListenable: playlistbox.listenable(),
+              builder: (context, plbox, child) {
+                List<Playlists> playdb = plbox.values.toList();
+                List<Songs> songs = playdb[widget.intindex!].playlistsongs;
+                return songs.isEmpty
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            child: Text(
+                              'No songs found in playlist',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 30),
                             ),
-                            Wrap(
-                              spacing: 2,
-                              crossAxisAlignment: WrapCrossAlignment.center,
+                          )
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: vww * 0.04,
+                                right: vww * 0.04,
+                                top: vwh * 0.02),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                ValueListenableBuilder(
-                                    valueListenable:
-                                        PlaylistSongList.hideEditNotifier,
-                                    builder: (context, hideEdits, value) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          PlaylistSongList
-                                                  .hideEditNotifier.value =
-                                              !PlaylistSongList
-                                                  .hideEditNotifier.value;
-                                        },
-                                        child: hideEdits
-                                            ? Container(
-                                                decoration: const BoxDecoration(
-                                                    color: Colors.white,
-                                                    shape: BoxShape.circle),
-                                                child: const Padding(
-                                                  padding: EdgeInsets.all(4),
-                                                  child: Icon(
-                                                    Icons.edit,
-                                                    color: mainBgColor,
-                                                    size: 28,
-                                                  ),
-                                                ),
-                                              )
-                                            : const Icon(
-                                                Icons.check_circle_rounded,
-                                                size: 38,
-                                                color: Colors.green,
-                                              ),
-                                      );
-                                    }),
-                                GestureDetector(
-                                  onTap: () {
-                                    player.open(
-                                        Playlist(
-                                            audios: allsongs, startIndex: 0),
-                                        showNotification: notificationBool,
-                                        headPhoneStrategy: HeadPhoneStrategy
-                                            .pauseOnUnplugPlayOnPlug,
-                                        loopMode: LoopMode.playlist);
-                                    player.play();
-                                  },
-                                  child: const Icon(
-                                    Icons.play_circle,
-                                    color: Colors.white,
-                                    size: 50,
-                                  ),
+                                Text(
+                                  playdb[widget.intindex!].playlistname,
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 30),
                                 ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: vwh * 0.05),
-                        child: ListView.builder(
-                            itemCount:
-                                playdb[widget.intindex!].playlistsongs.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: ((context, index) {
-                              return ListTile(
-                                onTap: () async {
-                                  final songdb =
-                                      playdb[widget.intindex!].playlistsongs;
-                                  HomeBottomTile.vindex.value = index;
-                                  NowPlayingScreen.spindex.value = index;
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (ctx) {
-                                        return NowPlayingScreen(
-                                          intindex: 1,
-                                          opendb: songdb,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                  await player.open(Audio.file(
-                                    playdb[widget.intindex!]
-                                        .playlistsongs[index]
-                                        .songurl!,
-                                  ));
-                                },
-                                leading: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: QueryArtworkWidget(
-                                    artworkBorder: BorderRadius.circular(8),
-                                    keepOldArtwork: true,
-                                    id: playdb[widget.intindex!]
-                                        .playlistsongs[index]
-                                        .id!,
-                                    type: ArtworkType.AUDIO,
-                                  ),
-                                ),
-                                title: Text(
-                                  playdb[widget.intindex!]
-                                      .playlistsongs[index]
-                                      .songname!,
-                                  style: GoogleFonts.rubik(
-                                      fontSize: 20, color: Colors.white),
-                                ),
-                                subtitle: Padding(
-                                  padding: EdgeInsets.only(bottom: vww * 0.035),
-                                  child: Text(
-                                    playdb[widget.intindex!]
-                                        .playlistsongs[index]
-                                        .artist!,
-                                    style: GoogleFonts.rubik(
-                                        color: Colors.grey, fontSize: 18),
-                                  ),
-                                ),
-                                trailing: ValueListenableBuilder(
-                                    valueListenable:
-                                        PlaylistSongList.hideEditNotifier,
-                                    builder: (context, hideEdits, child) {
-                                      return Visibility(
-                                          visible: !hideEdits,
-                                          child: IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                songs.removeAt(index);
-                                                playdb
-                                                    .removeAt(widget.intindex!);
-                                                playlistbox.putAt(
-                                                    widget.intindex!,
-                                                    Playlists(
-                                                        playlistname: widget
-                                                            .playlistname!,
-                                                        playlistsongs: songs));
-                                              });
+                                Wrap(
+                                  spacing: 2,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    ValueListenableBuilder(
+                                        valueListenable:
+                                            PlaylistSongList.hideEditNotifier,
+                                        builder: (context, hideEdits, value) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              PlaylistSongList
+                                                      .hideEditNotifier.value =
+                                                  !PlaylistSongList
+                                                      .hideEditNotifier.value;
                                             },
-                                            icon: const Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
-                                              size: 25,
-                                            ),
-                                          ));
-                                    }),
-                              );
-                            })),
-                      ),
-                    ],
-                  );
-          }),
+                                            child: hideEdits
+                                                ? Container(
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                            color: Colors.white,
+                                                            shape: BoxShape
+                                                                .circle),
+                                                    child: const Padding(
+                                                      padding:
+                                                          EdgeInsets.all(4),
+                                                      child: Icon(
+                                                        Icons.edit,
+                                                        color: mainBgColor,
+                                                        size: 28,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : const Icon(
+                                                    Icons.check_circle_rounded,
+                                                    size: 38,
+                                                    color: Colors.green,
+                                                  ),
+                                          );
+                                        }),
+                                    GestureDetector(
+                                      onTap: () {
+                                        player.open(
+                                            Playlist(
+                                                audios: allsongs,
+                                                startIndex: 0),
+                                            showNotification: notificationBool,
+                                            headPhoneStrategy: HeadPhoneStrategy
+                                                .pauseOnUnplugPlayOnPlug,
+                                            loopMode: LoopMode.playlist);
+                                        player.play();
+                                      },
+                                      child: const Icon(
+                                        Icons.play_circle,
+                                        color: Colors.white,
+                                        size: 50,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: vwh * 0.05),
+                            child: ListView.builder(
+                                itemCount: playdb[widget.intindex!]
+                                    .playlistsongs
+                                    .length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: ((context, index) {
+                                  return ListTile(
+                                    onTap: () async {
+                                      final songdb = playdb[widget.intindex!]
+                                          .playlistsongs;
+                                      HomeBottomTile.vindex.value = index;
+                                      NowPlayingScreen.spindex.value = index;
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (ctx) {
+                                            return NowPlayingScreen(
+                                              intindex: 1,
+                                              opendb: songdb,
+                                            );
+                                          },
+                                        ),
+                                      );
+                                      await player.open(Audio.file(
+                                        playdb[widget.intindex!]
+                                            .playlistsongs[index]
+                                            .songurl!,
+                                      ));
+                                    },
+                                    leading: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: QueryArtworkWidget(
+                                        artworkBorder: BorderRadius.circular(8),
+                                        keepOldArtwork: true,
+                                        id: playdb[widget.intindex!]
+                                            .playlistsongs[index]
+                                            .id!,
+                                        type: ArtworkType.AUDIO,
+                                      ),
+                                    ),
+                                    title: Text(
+                                      playdb[widget.intindex!]
+                                          .playlistsongs[index]
+                                          .songname!,
+                                      style: GoogleFonts.rubik(
+                                          fontSize: 20, color: Colors.white),
+                                    ),
+                                    subtitle: Padding(
+                                      padding:
+                                          EdgeInsets.only(bottom: vww * 0.035),
+                                      child: Text(
+                                        playdb[widget.intindex!]
+                                            .playlistsongs[index]
+                                            .artist!,
+                                        style: GoogleFonts.rubik(
+                                            color: Colors.grey, fontSize: 18),
+                                      ),
+                                    ),
+                                    trailing: ValueListenableBuilder(
+                                        valueListenable:
+                                            PlaylistSongList.hideEditNotifier,
+                                        builder: (context, hideEdits, child) {
+                                          return Visibility(
+                                              visible: !hideEdits,
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    songs.removeAt(index);
+                                                    playdb.removeAt(
+                                                        widget.intindex!);
+                                                    playlistbox.putAt(
+                                                        widget.intindex!,
+                                                        Playlists(
+                                                            playlistname: widget
+                                                                .playlistname!,
+                                                            playlistsongs:
+                                                                songs));
+                                                  });
+                                                },
+                                                icon: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                  size: 25,
+                                                ),
+                                              ));
+                                        }),
+                                  );
+                                })),
+                          ),
+                        ],
+                      );
+              }),
+        ),
+      ),
     );
   }
 }

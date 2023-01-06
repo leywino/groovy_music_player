@@ -10,16 +10,21 @@ class ScreenRecently extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppbar(),
-      backgroundColor: mainBgColor,
-      bottomSheet: HomeBottomTile(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: const [
-            RecentlyTitle(),
-            RecentlyLists(),
-          ],
+    return Container(
+      color: Colors.white.withOpacity(0),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: const CustomAppbar(),
+          backgroundColor: mainBgColor,
+          bottomSheet: HomeBottomTile(),
+          body: SingleChildScrollView(
+            child: Column(
+              children: const [
+                RecentlyTitle(),
+                RecentlyLists(),
+              ],
+            ),
+          ),
         ),
       ),
     );
