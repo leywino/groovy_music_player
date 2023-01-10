@@ -56,6 +56,7 @@ class _PlaylistListState extends State<PlaylistList> {
                                   return PlaylistSongList(
                                     intindex: index,
                                     playlistname: playdb[index].playlistname,
+                                    playlistsongs: playdb[index].playlistsongs,
                                   );
                                 },
                               ));

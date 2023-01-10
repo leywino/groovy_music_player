@@ -88,7 +88,7 @@ class _RecentlyListsState extends State<RecentlyLists> {
                           headPhoneStrategy:
                               HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
                           loopMode: LoopMode.playlist);
-                      player.play();
+                      // player.play();
                       // await player.open(
                       //   Audio.file(recdb[index].songurl!),
                       //   showNotification: true,

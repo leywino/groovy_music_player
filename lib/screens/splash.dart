@@ -93,7 +93,10 @@ navigateToHome(BuildContext ctx) async {
     () {
       Navigator.of(ctx).pushReplacement(
         MaterialPageRoute(
-          builder: (ctx) => NavBarBottom(selectedIndex: 0),
+          builder: (ctx) => NavBarBottom(
+            selectedIndex: 0,
+            allSongs: allSongs,
+          ),
         ),
       );
     },

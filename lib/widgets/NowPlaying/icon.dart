@@ -28,6 +28,7 @@ class NPIcon extends StatelessWidget {
             size: 2000,
             quality: 100,
             id: int.parse(playing.audio.audio.metas.id!),
+            // id: playdb[0].playlistsongs[0].id!,
             artworkQuality: FilterQuality.high,
             type: ArtworkType.AUDIO,
             artworkHeight: vwh * 0.40,

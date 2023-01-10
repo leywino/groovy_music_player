@@ -78,7 +78,7 @@ class _FavoriteListsState extends State<FavoriteLists> {
                           headPhoneStrategy:
                               HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
                           loopMode: LoopMode.playlist);
-                      player.play();
+                      // player.play();
                       await player.open(
                         Audio.file(favdb[index].songurl!),
                         showNotification: notificationBool,

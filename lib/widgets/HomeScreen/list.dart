@@ -103,7 +103,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                     headPhoneStrategy:
                         HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
                     loopMode: LoopMode.playlist);
-                player.play();
+                // player.play();
               },
               leading: QueryArtworkWidget(
                 artworkBorder: BorderRadius.circular(8),
@@ -111,15 +111,26 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                 id: songs.id!,
                 type: ArtworkType.AUDIO,
               ),
-              title: Text(
-                songs.songname!,
-                style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+              title: SizedBox(
+                height: 20,
+                child: Text(
+                  songs.songname!,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+                ),
               ),
               subtitle: Padding(
                 padding: EdgeInsets.only(bottom: vww * 0.035),
-                child: Text(
-                  songs.artist ?? "No Artist",
-                  style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
+                child: SizedBox(
+                  height: 20,
+                  child: Text(
+                    songs.artist ?? "No Artist",
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.rubik(
+                      color: Colors.grey,
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
               ),
               trailing: Wrap(

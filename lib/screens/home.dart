@@ -6,9 +6,10 @@ import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:firstproject/widgets/HomeScreen/title.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ScreenHome extends StatefulWidget {
-  const ScreenHome({super.key});
-
+  ScreenHome({super.key, this.allSongs});
+  dynamic allSongs;
   @override
   State<ScreenHome> createState() => _ScreenHomeState();
 }

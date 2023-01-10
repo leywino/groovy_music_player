@@ -86,6 +86,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                           keepOldArtwork: true,
                                           id: int.parse(
                                               playing.audio.audio.metas.id!),
+                                          // id: playdb[0].playlistsongs[0].id!,
                                           type: ArtworkType.AUDIO,
                                         ),
                                       ),

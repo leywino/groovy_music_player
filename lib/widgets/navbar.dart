@@ -8,7 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable
 class NavBarBottom extends StatefulWidget {
-  NavBarBottom({super.key, this.songlength, required this.selectedIndex});
+  NavBarBottom(
+      {super.key, this.songlength, required this.selectedIndex, this.allSongs});
+  dynamic allSongs;
   int? songlength;
   int? selectedIndex;
   @override
@@ -16,13 +18,15 @@ class NavBarBottom extends StatefulWidget {
 }
 
 class _NavBarBottomState extends State<NavBarBottom> {
-  final _pages = [
-    const ScreenHome(),
-    const ScreenSearch(),
-    const ScreenSettings(),
-  ];
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      ScreenHome(
+        allSongs: widget.allSongs,
+      ),
+      const ScreenSearch(),
+      const ScreenSettings(),
+    ];
     return Container(
       color: Colors.white.withOpacity(0),
       child: SafeArea(
@@ -30,9 +34,9 @@ class _NavBarBottomState extends State<NavBarBottom> {
           body: widget.selectedIndex != 1
               ? IndexedStack(
                   index: widget.selectedIndex,
-                  children: _pages,
+                  children: pages,
                 )
-              : _pages[1],
+              : pages[1],
           bottomNavigationBar: FlashyTabBar(
             backgroundColor: navbarcolor1,
             selectedIndex: widget.selectedIndex ?? 0,

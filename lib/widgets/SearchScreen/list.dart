@@ -1,9 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/FavoriteScreen/list.dart';
+import 'package:firstproject/widgets/add_to_playlist.dart';
+import 'package:firstproject/widgets/functions.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -136,20 +141,20 @@ class _SearchListState extends State<SearchList> {
                             GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
                       ),
                     ),
-                    trailing: Wrap(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            showOptions(context);
-                          },
-                          icon: const Icon(
-                            Icons.more_vert,
-                            color: Colors.white,
-                            size: 25,
-                          ),
-                        ),
-                      ],
-                    ),
+                    // trailing: Wrap(
+                    //   children: [
+                    //     IconButton(
+                    //       onPressed: () {
+                    //         // showOptions(context, index);
+                    //       },
+                    //       icon: const Icon(
+                    //         Icons.more_vert,
+                    //         color: Colors.white,
+                    //         size: 25,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   );
                 },
               ),
@@ -157,7 +162,7 @@ class _SearchListState extends State<SearchList> {
     );
   }
 
-  showOptions(BuildContext context) {
+  showOptions(BuildContext context, int index) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -168,19 +173,38 @@ class _SearchListState extends State<SearchList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextButton.icon(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite_outline,
+                // ignore: duplicate_ignore
+                onPressed: () async {
+                  Favorite favval = Favorite(
+                      songname: searchlist[index].songname,
+                      artist: searchlist[index].artist,
+                      duration: searchlist[index].duration,
+                      songurl: searchlist[index].songurl,
+                      id: searchlist[index].id);
+                  await addToFavorites(index, favval, context);
+
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  !checkFavoriteStatus(index, context)
+                      ? Icons.favorite_outline
+                      : Icons.remove,
                   size: 30,
                   color: Colors.white,
                 ),
                 label: Text(
-                  'Add to Favorites',
-                  style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+                  !checkFavoriteStatus(index, context)
+                      ? 'Add to Favorites'
+                      : 'Remove from Favorites',
+                  style: GoogleFonts.rubik(fontSize: 18, color: Colors.white),
                 ),
               ),
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () async {
+                  await addPlaylist(context, index);
+
+                  Navigator.pop(context);
+                },
                 icon: const Icon(
                   Icons.playlist_add,
                   size: 30,

@@ -1,7 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/recently_played_model.dart';
-import 'package:firstproject/utilities/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
