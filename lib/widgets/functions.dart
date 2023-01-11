@@ -1,5 +1,6 @@
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/most_played_model.dart';
+import 'package:firstproject/database/playlist_model.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ checkRecentlyPlayed(Recently value, index) {
     recentlybox.deleteAt(0);
   }
 }
-
+final playlistbox = PlaylistBox.getInstance();
 checkMostPlayed(Most value, index) {
   List<Most> list = mostbox.values.toList();
   bool isAlreadyAdded =
@@ -69,6 +70,6 @@ bool checkFavoriteStatus(int index, BuildContext context) {
       id: songdb[index].id);
   List<Favorite> favdb = favoritebox.values.toList();
   bool isAlreadyThere =
-      favdb.where((element) => element.songname == value.songname).isEmpty;
+      (favdb.where((element) => element.songname == value.songname).isEmpty );
   return isAlreadyThere ? false : true;
 }

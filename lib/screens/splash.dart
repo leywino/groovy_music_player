@@ -1,5 +1,6 @@
 import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/song_model.dart';
+import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -67,13 +68,13 @@ class _ScreenSplashState extends State<ScreenSplash> {
       color: Colors.white.withOpacity(0),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: mainBgColor,
           body: SafeArea(
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/logo.png', height: 80),
+                  Image.asset('assets/images/splash.png', height: 150),
                   const SizedBox(
                     height: 20,
                   ),

@@ -30,15 +30,14 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
   @override
   void initState() {
     PlaylistSongList.hideEditNotifier.value = true;
-    final playlistdb = playlistbox.values.toList();
-    for (var song in widget.playlistsongs!) {
+    for (var item in widget.playlistsongs!) {
       allsongs.add(
         Audio.file(
-          song.songurl.toString(),
+          item.songurl.toString(),
           metas: Metas(
-            artist: song.artist,
-            title: song.songname,
-            id: song.id.toString(),
+            artist: item.artist,
+            title: item.songname,
+            id: item.id.toString(),
           ),
         ),
       );
@@ -193,27 +192,27 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                                 },
                                               ),
                                             );
-                                            await player.open(Audio.file(
-                                              playdb[widget.intindex!]
-                                                  .playlistsongs[index]
-                                                  .songurl!,
-                                            ));
+                                            player.open(
+                                                Playlist(
+                                                    audios: allsongs,
+                                                    startIndex: index),
+                                                showNotification:
+                                                    notificationBool,
+                                                loopMode: LoopMode.playlist);
                                           },
                                           leading: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: player.builderCurrent(
-                                                  builder: (context, playing) {
-                                                return QueryArtworkWidget(
-                                                  artworkBorder:
-                                                      BorderRadius.circular(8),
-                                                  keepOldArtwork: true,
-                                                  id: playdb[widget.intindex!]
-                                                      .playlistsongs[index]
-                                                      .id!,
-                                                  type: ArtworkType.AUDIO,
-                                                );
-                                              })),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: QueryArtworkWidget(
+                                              artworkBorder:
+                                                  BorderRadius.circular(8),
+                                              keepOldArtwork: true,
+                                              id: playdb[widget.intindex!]
+                                                  .playlistsongs[index]
+                                                  .id!,
+                                              type: ArtworkType.AUDIO,
+                                            ),
+                                          ),
                                           title: Text(
                                             playdb[widget.intindex!]
                                                 .playlistsongs[index]
