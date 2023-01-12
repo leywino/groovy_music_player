@@ -2,8 +2,11 @@
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/favorite_model.dart';
+import 'package:firstproject/database/most_played_model.dart';
+import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
+import 'package:firstproject/screens/splash.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/FavoriteScreen/list.dart';
@@ -21,7 +24,7 @@ class SearchList extends StatefulWidget {
 }
 
 final songbox = SongBox.getInstance();
-
+List<Most> mostlist = mostbox.values.toList();
 List<Songs>? searchsongsdb = songbox.values.toList();
 List<Audio> allsongs = [];
 var searchController = TextEditingController();
@@ -31,6 +34,18 @@ class _SearchListState extends State<SearchList> {
   void initState() {
     searchsongsdb = songbox.values.toList();
     super.initState();
+    for (var item in searchlist) {
+      allsongs.add(
+        Audio.file(
+          item.songurl.toString(),
+          metas: Metas(
+            artist: item.artist,
+            title: item.songname,
+            id: item.id.toString(),
+          ),
+        ),
+      );
+    }
   }
 
   List<Songs> searchlist = List.from(searchsongsdb!);
@@ -105,8 +120,17 @@ class _SearchListState extends State<SearchList> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: searchlist.length,
                 itemBuilder: (context, index) {
+                  // Most mostsongs = mostlist[index];
                   return ListTile(
                     onTap: () {
+                      // checkMostPlayed(mostsongs, index);
+                      // Recently recsongs = Recently(
+                      //     songname: searchlist[index].songname,
+                      //     artist: searchlist[index].artist,
+                      //     duration: searchlist[index].duration,
+                      //     songurl: searchlist[index].songurl,
+                      //     id: searchlist[index].id);
+                      // checkRecentlyPlayed(recsongs, index);
                       player.open(Playlist(audios: allsongs, startIndex: index),
                           showNotification: notificationBool,
                           headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,

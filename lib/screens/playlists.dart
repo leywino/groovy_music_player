@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 class ScreenPlaylists extends StatelessWidget {
   const ScreenPlaylists({super.key});
- 
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +17,13 @@ class ScreenPlaylists extends StatelessWidget {
           backgroundColor: mainBgColor,
           bottomSheet: HomeBottomTile(),
           appBar: const CustomAppbar(),
-          body: Column(
-            children: const [
-              PlaylistTitle(),
-              PlaylistList(),
-            ],
+          body: SingleChildScrollView(
+            child: Column(
+              children: const [
+                PlaylistTitle(),
+                PlaylistList(),
+              ],
+            ),
           ),
         ),
       ),

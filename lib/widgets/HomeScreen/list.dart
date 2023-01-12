@@ -82,7 +82,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                     duration: songsdb[index].duration,
                     songurl: songsdb[index].songurl,
                     id: songsdb[index].id);
-                checkRecentlyPlayed(recsongs, index);
+                checkRecentlyPlayed(recsongs);
                 HomeBottomTile.vindex.value = index;
                 NowPlayingScreen.spindex.value = index;
 

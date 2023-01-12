@@ -44,6 +44,7 @@ class _PlaylistListState extends State<PlaylistList> {
                   builder: (context, playlistbox, child) {
                     List<Playlists> playdb = playlistbox.values.toList();
                     return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: playdb.length,
                         shrinkWrap: true,
                         itemBuilder: ((context, index) {

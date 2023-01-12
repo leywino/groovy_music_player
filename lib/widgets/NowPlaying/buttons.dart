@@ -210,13 +210,13 @@ skipMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
   //     showNotification: true,
   //     headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
   //     loopMode: LoopMode.playlist);
-  Recently recsongs = Recently(
-      songname: songdb[intindex].songname,
-      artist: songdb[intindex].artist,
-      duration: songdb[intindex].duration,
-      songurl: songdb[intindex].songurl,
-      id: songdb[intindex].id);
-  checkRecentlyPlayed(recsongs, intindex);
+  // Recently recsongs = Recently(
+  //     songname: songdb[intindex].songname,
+  //     artist: songdb[intindex].artist,
+  //     duration: songdb[intindex].duration,
+  //     songurl: songdb[intindex].songurl,
+  //     id: songdb[intindex].id);
+  // checkRecentlyPlayed(recsongs, intindex);
   // await player.open(
   //   Audio.file(songdb[intindex].songurl!),
   //   showNotification: true,
@@ -248,13 +248,13 @@ previousMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
   //     showNotification: true,
   //     headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
   //     loopMode: LoopMode.playlist);
-  Recently recsongs = Recently(
-      songname: songdb[intindex].songname,
-      artist: songdb[intindex].artist,
-      duration: songdb[intindex].duration,
-      songurl: songdb[intindex].songurl,
-      id: songdb[intindex].id);
-  checkRecentlyPlayed(recsongs, intindex);
+  // Recently recsongs = Recently(
+  //     songname: songdb[intindex].songname,
+  //     artist: songdb[intindex].artist,
+  //     duration: songdb[intindex].duration,
+  //     songurl: songdb[intindex].songurl,
+  //     id: songdb[intindex].id);
+  // checkRecentlyPlayed(recsongs, intindex);
   // await player.play();
 }
 
