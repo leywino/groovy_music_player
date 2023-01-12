@@ -12,7 +12,7 @@ class SettingsMenuPop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Color.fromARGB(255, 35, 35, 35),
+      backgroundColor: const Color.fromARGB(255, 35, 35, 35),
       shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
       child: Column(
@@ -26,7 +26,7 @@ class SettingsMenuPop extends StatelessWidget {
                     if (snapshot.hasData) {
                       return Markdown(
                           styleSheet: MarkdownStyleSheet.fromTheme(ThemeData(
-                              textTheme: TextTheme(
+                              textTheme: const TextTheme(
                                   bodyText2: TextStyle(
                                       fontFamily: "Inter",
                                       fontSize: 15.0,
