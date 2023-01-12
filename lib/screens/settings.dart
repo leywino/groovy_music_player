@@ -1,5 +1,6 @@
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
+import 'package:firstproject/widgets/SettingsScreen/settings_pop.dart';
 import 'package:firstproject/widgets/SettingsScreen/title.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,7 +46,13 @@ class ScreenSettings extends StatelessWidget {
                     ),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (builder) {
+                            return SettingsMenuPop(mdFileName: 'privacy.md');
+                          });
+                    },
                     icon: const Icon(
                       Icons.lock,
                       size: 40,
@@ -60,7 +67,13 @@ class ScreenSettings extends StatelessWidget {
                     ),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (builder) {
+                            return SettingsMenuPop(mdFileName: 'terms.md');
+                          });
+                    },
                     icon: const Icon(
                       Icons.receipt,
                       size: 40,
@@ -75,7 +88,25 @@ class ScreenSettings extends StatelessWidget {
                     ),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      showAboutDialog(
+                          context: context,
+                          applicationName: "Groovy",
+                          applicationIcon: Image.asset(
+                            "assets/images/logo.png",
+                            height: 64,
+                            width: 64,
+                          ),
+                          applicationVersion: "1.0",
+                          children: [
+                            const Text(
+                                "Groovy is a simple local music player which allows use to hear music from internal storage and also do functions like add to favorites, create playlists, recently played, mostly played etc."),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text("App developed by Muhammad Arshad")
+                          ]);
+                    },
                     icon: const Icon(
                       Icons.info,
                       size: 40,

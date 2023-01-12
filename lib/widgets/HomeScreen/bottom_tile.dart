@@ -88,6 +88,14 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                               playing.audio.audio.metas.id!),
                                           // id: playdb[0].playlistsongs[0].id!,
                                           type: ArtworkType.AUDIO,
+                                          nullArtworkWidget: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            child: Image.asset(
+                                              'assets/images/music.jpg',
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),

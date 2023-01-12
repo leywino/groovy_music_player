@@ -126,6 +126,13 @@ class _SearchListState extends State<SearchList> {
                         keepOldArtwork: true,
                         id: searchlist[index].id!,
                         type: ArtworkType.AUDIO,
+                        nullArtworkWidget: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: Image.asset(
+                            'assets/images/music.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
                     title: Text(

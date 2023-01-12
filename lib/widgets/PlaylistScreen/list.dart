@@ -19,8 +19,6 @@ class _PlaylistListState extends State<PlaylistList> {
   final playlistbox = PlaylistBox.getInstance();
   final songbox = SongBox.getInstance();
 
-
-
   @override
   Widget build(BuildContext context) {
     final editController = TextEditingController();
@@ -69,6 +67,13 @@ class _PlaylistListState extends State<PlaylistList> {
                                       keepOldArtwork: true,
                                       id: playdb[index].playlistsongs[0].id!,
                                       type: ArtworkType.AUDIO,
+                                      nullArtworkWidget: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child: Image.asset(
+                                          'assets/images/music.jpg',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   )
                                 : Image.asset('assets/images/music.jpg'),

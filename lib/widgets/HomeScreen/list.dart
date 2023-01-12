@@ -70,6 +70,11 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
             Most mostsongs = mostlist[index];
             return ListTile(
               onTap: () async {
+                player.open(Playlist(audios: convert, startIndex: index),
+                    showNotification: notificationBool,
+                    headPhoneStrategy:
+                        HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+                    loopMode: LoopMode.playlist);
                 checkMostPlayed(mostsongs, index);
                 Recently recsongs = Recently(
                     songname: songsdb[index].songname,
@@ -80,15 +85,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                 checkRecentlyPlayed(recsongs, index);
                 HomeBottomTile.vindex.value = index;
                 NowPlayingScreen.spindex.value = index;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (ctx) => NowPlayingScreen(
-                      intindex: index,
-                      opendb: songsdb,
-                    ),
-                  ),
-                );
+
                 // await player.open(
                 //   Audio.file(songsdb[index].songurl!),
                 //   showNotification: true,
@@ -98,18 +95,30 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                 //     resumeOthersPlayersAfterDone: true,
                 //   ),
                 // );
-                player.open(Playlist(audios: convert, startIndex: index),
-                    showNotification: notificationBool,
-                    headPhoneStrategy:
-                        HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
-                    loopMode: LoopMode.playlist);
+
                 // player.play();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctx) => NowPlayingScreen(
+                      intindex: index,
+                      opendb: songsdb,
+                    ),
+                  ),
+                );
               },
               leading: QueryArtworkWidget(
                 artworkBorder: BorderRadius.circular(8),
                 keepOldArtwork: true,
                 id: songs.id!,
                 type: ArtworkType.AUDIO,
+                nullArtworkWidget: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Image.asset(
+                    'assets/images/music.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
               title: SizedBox(
                 height: 20,

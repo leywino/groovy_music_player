@@ -96,6 +96,13 @@ class _FavoriteListsState extends State<FavoriteLists> {
                         keepOldArtwork: true,
                         id: favdb[index].id!,
                         type: ArtworkType.AUDIO,
+                        nullArtworkWidget: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: Image.asset(
+                            'assets/images/music.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
                     title: Text(
