@@ -1,5 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/favorite_model.dart';
+import 'package:firstproject/database/song_model.dart';
+import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +16,7 @@ class NPInfo extends StatefulWidget {
   @override
   State<NPInfo> createState() => _NPInfoState();
 }
-
+List<Songs> songsdb = songbox.values.toList();
 class _NPInfoState extends State<NPInfo> {
   @override
   Widget build(BuildContext context) {
@@ -61,11 +63,11 @@ class _NPInfoState extends State<NPInfo> {
               IconButton(
                 onPressed: () {
                   Favorite favval = Favorite(
-                      songname: widget.opendb[widget.intindex].songname,
-                      artist: widget.opendb[widget.intindex].artist,
-                      duration: widget.opendb[widget.intindex].duration,
-                      songurl: widget.opendb[widget.intindex].songurl,
-                      id: widget.opendb[widget.intindex].id);
+                      songname: songsdb[widget.intindex!].songname,
+                      artist: songsdb[widget.intindex!].artist,
+                      duration: songsdb[widget.intindex!].duration,
+                      songurl: songsdb[widget.intindex!].songurl,
+                      id: songsdb[widget.intindex!].id);
                   addToFavorites(widget.intindex!, favval, context);
                   setState(() {});
                 },

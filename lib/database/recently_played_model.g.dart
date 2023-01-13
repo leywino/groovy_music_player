@@ -22,13 +22,14 @@ class RecentlyAdapter extends TypeAdapter<Recently> {
       duration: fields[2] as int?,
       id: fields[4] as int?,
       songurl: fields[3] as String?,
+      index: fields[5] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Recently obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.songname)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class RecentlyAdapter extends TypeAdapter<Recently> {
       ..writeByte(3)
       ..write(obj.songurl)
       ..writeByte(4)
-      ..write(obj.id);
+      ..write(obj.id)
+      ..writeByte(5)
+      ..write(obj.index);
   }
 
   @override

@@ -6,14 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class RecentlyList2 extends StatefulWidget {
-  const RecentlyList2({super.key});
+class RecentlyList extends StatefulWidget {
+  const RecentlyList({super.key});
 
   @override
-  State<RecentlyList2> createState() => _RecentlyList2State();
+  State<RecentlyList> createState() => _RecentlyListState();
 }
 
-class _RecentlyList2State extends State<RecentlyList2> {
+class _RecentlyListState extends State<RecentlyList> {
   final player = AssetsAudioPlayer.withId('key');
 
   final List<Recently> recentplay = [];
@@ -96,6 +96,8 @@ class _RecentlyList2State extends State<RecentlyList2> {
                       ),
                     ),
                     onTap: () {
+                      // HomeBottomTile.vindex.value = index;
+                      // NowPlayingScreen.spindex.value = index;
                       player.open(
                           Playlist(
                               audios: recentplayedaudio, startIndex: index),
@@ -106,7 +108,7 @@ class _RecentlyList2State extends State<RecentlyList2> {
                         context,
                         MaterialPageRoute(
                           builder: (ctx) => NowPlayingScreen(
-                            intindex: index,
+                            intindex: recentdb[index].index!,
                             opendb: recentdb,
                           ),
                         ),

@@ -23,13 +23,14 @@ class MostAdapter extends TypeAdapter<Most> {
       id: fields[4] as int,
       songurl: fields[3] as String,
       count: fields[5] as int,
+      index: fields[6] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Most obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.songname)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class MostAdapter extends TypeAdapter<Most> {
       ..writeByte(4)
       ..write(obj.id)
       ..writeByte(5)
-      ..write(obj.count);
+      ..write(obj.count)
+      ..writeByte(6)
+      ..write(obj.index);
   }
 
   @override

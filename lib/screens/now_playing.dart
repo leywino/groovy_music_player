@@ -31,14 +31,16 @@ class NowPlayingScreen extends StatelessWidget {
             body: ValueListenableBuilder(
                 valueListenable: spindex,
                 builder: (context, int spider, child) {
-                  return Column(
-                    children: [
-                      NPIcon(intindex: spider, opendb: opendb),
-                      NPInfo(intindex: spider, opendb: opendb),
-                      const NPBar(),
-                      NPButtons(intindex: spider),
-                      const NPNav(),
-                    ],
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        NPIcon(intindex: intindex, opendb: opendb),
+                        NPInfo(intindex: intindex, opendb: opendb),
+                        const NPBar(),
+                        NPButtons(intindex: spider),
+                        const NPNav(),
+                      ],
+                    ),
                   );
                 })),
       ),

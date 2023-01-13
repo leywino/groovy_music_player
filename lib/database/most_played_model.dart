@@ -15,6 +15,8 @@ class Most {
   int id;
   @HiveField(5)
   int count;
+  @HiveField(6)
+  int? index;
 
   Most({
     required this.songname,
@@ -23,6 +25,7 @@ class Most {
     required this.id,
     required this.songurl,
     required this.count,
+    this.index,
   });
 }
 

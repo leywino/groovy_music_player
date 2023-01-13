@@ -1,6 +1,8 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/recently_played_model.dart';
+import 'package:firstproject/screens/now_playing.dart';
+import 'package:firstproject/utilities/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -18,11 +20,11 @@ final player = AssetsAudioPlayer.withId('key');
 List<Recently> recentlysongslist = [];
 List<Audio> songdb = [];
 List<Most> mostsongslist = [];
+List<Most> mostdb = mostbox.values.toList();
 
 class _MostListsState extends State<MostLists> {
   @override
   void initState() {
-    // mostsongslist.clear();
     for (var items in mostsongslist) {
       songdb.add(Audio.file(items.songurl,
           metas: Metas(
@@ -49,13 +51,11 @@ class _MostListsState extends State<MostLists> {
     double vww = MediaQuery.of(context).size.width;
     return mostsongslist.isEmpty
         ? Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: vww * 0.05),
-                child: const Text(
-                  'You have no most played songs!',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text(
+                'You have no most played songs!',
+                style: TextStyle(color: Colors.white, fontSize: 20),
               ),
             ],
           )
@@ -65,30 +65,34 @@ class _MostListsState extends State<MostLists> {
             itemCount: mostsongslist.length,
             itemBuilder: (context, index) {
               return ListTile(
-                onTap: null,
-                // onTap: () async {
-                //   // HomeBottomTile.vindex.value = index;
-                //   // NowPlayingScreen.spindex.value = index;
-                //   // Navigator.push(
-                //   //   context,
-                //   //   MaterialPageRoute(
-                //   //     builder: (ctx) => NowPlayingScreen(
-                //   //       intindex: index,
-                //   //       opendb: mostdb,
-                //   //     ),
-                //   //   ),
-                //   // );
-
-                //   // await player.open(
-                //   //   Audio.file(mostsongslist[index].songurl),
-                //   //   showNotification: notificationBool,
-                //   //   playInBackground: PlayInBackground.disabledPause,
-                //   //   audioFocusStrategy: const AudioFocusStrategy.request(
-                //   //     resumeAfterInterruption: true,
-                //   //     resumeOthersPlayersAfterDone: true,
-                //   //   ),
-                //   // );
-                // },
+                // onTap: null,
+                onTap: () async {
+                  // HomeBottomTile.vindex.value = index;
+                  // NowPlayingScreen.spindex.value = index;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => NowPlayingScreen(
+                        intindex: mostdb[index].index,
+                        opendb: mostdb,
+                      ),
+                    ),
+                  );
+                  player.open(Playlist(audios: songdb, startIndex: index),
+                      showNotification: notificationBool,
+                      headPhoneStrategy:
+                          HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+                      loopMode: LoopMode.playlist);
+                  // await player.open(
+                  //   Audio.file(mostsongslist[index].songurl),
+                  //   showNotification: notificationBool,
+                  //   playInBackground: PlayInBackground.disabledPause,
+                  //   audioFocusStrategy: const AudioFocusStrategy.request(
+                  //     resumeAfterInterruption: true,
+                  //     resumeOthersPlayersAfterDone: true,
+                  //   ),
+                  // );
+                },
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: QueryArtworkWidget(
