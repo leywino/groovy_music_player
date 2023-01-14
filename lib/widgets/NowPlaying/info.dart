@@ -72,10 +72,10 @@ class _NPInfoState extends State<NPInfo> {
                   setState(() {});
                 },
                 icon: Icon(
-                  checkFavoriteStatus(widget.intindex!, context)
+                  checkFavoriteStatus(playing.index, context)
                       ? Icons.favorite
                       : Icons.favorite_outline,
-                  color: checkFavoriteStatus(widget.intindex!, context)
+                  color: checkFavoriteStatus(playing.index, context)
                       ? Colors.pink
                       : Colors.white,
                 ),
