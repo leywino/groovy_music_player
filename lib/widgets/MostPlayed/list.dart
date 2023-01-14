@@ -70,6 +70,12 @@ class _MostListsState extends State<MostLists> {
                 onTap: () async {
                   // HomeBottomTile.vindex.value = index;
                   // NowPlayingScreen.spindex.value = index;
+                  await player.open(Playlist(audios: songdb, startIndex: index),
+                      showNotification: notificationBool,
+                      headPhoneStrategy:
+                          HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+                      loopMode: LoopMode.playlist);
+                  // ignore: use_build_context_synchronously
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -79,11 +85,7 @@ class _MostListsState extends State<MostLists> {
                       ),
                     ),
                   );
-                  player.open(Playlist(audios: songdb, startIndex: index),
-                      showNotification: notificationBool,
-                      headPhoneStrategy:
-                          HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
-                      loopMode: LoopMode.playlist);
+                  
                   // await player.open(
                   //   Audio.file(mostsongslist[index].songurl),
                   //   showNotification: notificationBool,

@@ -39,6 +39,12 @@ class _FavoriteListsState extends State<FavoriteLists> {
   }
 
   @override
+  void dispose() {
+    allfavaudio.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
     double vwh = MediaQuery.of(context).size.height;
@@ -101,7 +107,8 @@ class _FavoriteListsState extends State<FavoriteLists> {
                         nullArtworkWidget: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: Image.asset(
-                            'assets/images/music.jpg',height: 50,
+                            'assets/images/music.jpg',
+                            height: 50,
                             fit: BoxFit.cover,
                           ),
                         ),

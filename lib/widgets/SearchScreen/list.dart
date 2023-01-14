@@ -121,7 +121,7 @@ class _SearchListState extends State<SearchList> {
                 itemBuilder: (context, index) {
                   // Most mostsongs = mostlist[index];
                   return ListTile(
-                    onTap: () {
+                    onTap: () async{
                       // checkMostPlayed(mostsongs, index);
                       // Recently recsongs = Recently(
                       //     songname: searchlist[index].songname,
@@ -130,7 +130,7 @@ class _SearchListState extends State<SearchList> {
                       //     songurl: searchlist[index].songurl,
                       //     id: searchlist[index].id);
                       // checkRecentlyPlayed(recsongs, index);
-                      player.open(Playlist(audios: allsongs, startIndex: index),
+                      await player.open(Playlist(audios: allsongs, startIndex: index),
                           showNotification: notificationBool,
                           headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
                           loopMode: LoopMode.playlist);

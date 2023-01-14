@@ -134,8 +134,8 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                           );
                                         }),
                                     GestureDetector(
-                                      onTap: () {
-                                        player.open(
+                                      onTap: () async{
+                                        await player.open(
                                             Playlist(
                                                 audios: allsongs,
                                                 startIndex: 0),

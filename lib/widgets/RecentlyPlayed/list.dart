@@ -73,7 +73,8 @@ class _RecentlyListState extends State<RecentlyList> {
                         nullArtworkWidget: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: Image.asset(
-                            'assets/images/music.jpg',height: 50,
+                            'assets/images/music.jpg',
+                            height: 50,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -92,15 +93,16 @@ class _RecentlyListState extends State<RecentlyList> {
                             GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
                       ),
                     ),
-                    onTap: () {
+                    onTap: () async {
                       // HomeBottomTile.vindex.value = index;
                       // NowPlayingScreen.spindex.value = index;
-                      player.open(
+                      await player.open(
                           Playlist(
                               audios: recentplayedaudio, startIndex: index),
                           showNotification: true,
                           headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
                           loopMode: LoopMode.playlist);
+                      // ignore: use_build_context_synchronously
                       Navigator.push(
                         context,
                         MaterialPageRoute(
