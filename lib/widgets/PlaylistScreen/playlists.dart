@@ -29,7 +29,6 @@ List<Audio> allsongs = [];
 class _PlaylistSongListState extends State<PlaylistSongList> {
   @override
   void initState() {
-    PlaylistSongList.hideEditNotifier.value = true;
     for (var item in widget.playlistsongs!) {
       allsongs.add(
         Audio.file(
@@ -206,6 +205,14 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                             child: QueryArtworkWidget(
                                               artworkBorder:
                                                   BorderRadius.circular(8),
+                                              nullArtworkWidget: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                child: Image.asset(
+                                                  'assets/images/music.jpg',
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
                                               keepOldArtwork: true,
                                               id: playdb[widget.intindex!]
                                                   .playlistsongs[index]
@@ -242,6 +249,7 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                                   visible: !hideEdits,
                                                   child: IconButton(
                                                     onPressed: () {
+                                                      allsongs.clear();
                                                       setState(() {
                                                         songs.removeAt(index);
                                                         playdb.removeAt(
@@ -254,6 +262,27 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                                                 playlistsongs:
                                                                     songs));
                                                       });
+
+                                                      Navigator.pushReplacement(
+                                                        context,
+                                                        PageRouteBuilder(
+                                                          pageBuilder: (context,
+                                                                  animation1,
+                                                                  animation2) =>
+                                                              PlaylistSongList(
+                                                            intindex:
+                                                                widget.intindex,
+                                                            playlistname: widget
+                                                                .playlistname,
+                                                            playlistsongs: widget
+                                                                .playlistsongs,
+                                                          ),
+                                                          transitionDuration:
+                                                              Duration.zero,
+                                                          reverseTransitionDuration:
+                                                              Duration.zero,
+                                                        ),
+                                                      );
                                                     },
                                                     icon: const Icon(
                                                       Icons.delete,
