@@ -1,3 +1,4 @@
+import 'package:firstproject/screens/favorites.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
@@ -5,6 +6,7 @@ import 'package:firstproject/widgets/HomeScreen/card.dart';
 import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:firstproject/widgets/HomeScreen/title.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable
 class ScreenHome extends StatefulWidget {
@@ -18,6 +20,8 @@ class _ScreenHomeState extends State<ScreenHome> {
   @override
   Widget build(BuildContext context) {
     double vwh = MediaQuery.of(context).size.height;
+
+    double vww = MediaQuery.of(context).size.width;
     return Container(
       color: Colors.white.withOpacity(0),
       child: SafeArea(
@@ -43,12 +47,39 @@ class _ScreenHomeState extends State<ScreenHome> {
                           cardicon: Icons.queue_music,
                           pageindex: 0,
                         ),
-                        HomeCard(
-                          cardcolor: homeCard21,
-                          iconcolor: homeCard22,
-                          cardtitle: favorites,
-                          cardicon: Icons.favorite,
-                          pageindex: 1,
+                        InkWell(
+                          onTap: () {
+                            
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (ctx) => const ScreenFavorites()));
+                          },
+                          child: SizedBox(
+                            width: vww * 0.46,
+                            height: vwh * 0.08,
+                            child: Card(
+                              color: homeCard21,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.favorite,
+                                    size: 25,
+                                    color: homeCard22,
+                                  ),
+                                  Text(
+                                    favorites,
+                                    style: GoogleFonts.rubik(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),

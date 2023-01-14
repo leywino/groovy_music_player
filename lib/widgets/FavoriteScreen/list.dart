@@ -1,5 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/favorite_model.dart';
+import 'package:firstproject/screens/favorites.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:on_audio_query/on_audio_query.dart';
 
 class FavoriteLists extends StatefulWidget {
   const FavoriteLists({super.key});
-
   @override
   State<FavoriteLists> createState() => _FavoriteListsState();
 }
@@ -17,14 +17,14 @@ class FavoriteLists extends StatefulWidget {
 final favoritebox = FavoriteBox.getInstance();
 final player = AssetsAudioPlayer.withId('key');
 List<Favorite> favsongslist = [];
-List<Audio> allsongs = [];
+List<Audio> allfavaudio = [];
 
 class _FavoriteListsState extends State<FavoriteLists> {
   @override
   void initState() {
-    final favSongsdb = favoritebox.values.toList();
-    for (var item in favSongsdb) {
-      allsongs.add(
+    final List<Favorite> favouritesongs = favoritebox.values.toList();
+    for (var item in favouritesongs) {
+      allfavaudio.add(
         Audio.file(
           item.songurl.toString(),
           metas: Metas(
@@ -41,21 +41,20 @@ class _FavoriteListsState extends State<FavoriteLists> {
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
+    double vwh = MediaQuery.of(context).size.height;
     return ValueListenableBuilder<Box<Favorite>>(
       valueListenable: favoritebox.listenable(),
       builder: (context, Box<Favorite> allfavsongs, child) {
         List<Favorite> favdb = allfavsongs.values.toList();
         return favdb.isEmpty
-            ? Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: vww * 0.05),
-                    child: const Text(
-                      'You have no favorite songs!',
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
+            ? Padding(
+                padding: EdgeInsets.only(top: vwh * 0.25),
+                child: const Center(
+                  child: Text(
+                    'You have no favorite songs!',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
-                ],
+                ),
               )
             : ListView.builder(
                 shrinkWrap: true,
@@ -64,6 +63,13 @@ class _FavoriteListsState extends State<FavoriteLists> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () async {
+                      await player.open(
+                          Playlist(audios: allfavaudio, startIndex: index),
+                          showNotification: notificationBool,
+                          headPhoneStrategy:
+                              HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+                          loopMode: LoopMode.playlist);
+                      // ignore: use_build_context_synchronously
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -73,21 +79,17 @@ class _FavoriteListsState extends State<FavoriteLists> {
                           ),
                         ),
                       );
-                      player.open(Playlist(audios: allsongs, startIndex: index),
-                          showNotification: notificationBool,
-                          headPhoneStrategy:
-                              HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
-                          loopMode: LoopMode.playlist);
+
                       // player.play();
-                      await player.open(
-                        Audio.file(favdb[index].songurl!),
-                        showNotification: notificationBool,
-                        playInBackground: PlayInBackground.disabledPause,
-                        audioFocusStrategy: const AudioFocusStrategy.request(
-                          resumeAfterInterruption: true,
-                          resumeOthersPlayersAfterDone: true,
-                        ),
-                      );
+                      // await player.open(
+                      //   Audio.file(favdb[index].songurl!),
+                      //   showNotification: notificationBool,
+                      //   playInBackground: PlayInBackground.disabledPause,
+                      //   audioFocusStrategy: const AudioFocusStrategy.request(
+                      //     resumeAfterInterruption: true,
+                      //     resumeOthersPlayersAfterDone: true,
+                      //   ),
+                      // );
                     },
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
@@ -99,7 +101,7 @@ class _FavoriteListsState extends State<FavoriteLists> {
                         nullArtworkWidget: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: Image.asset(
-                            'assets/images/music.jpg',
+                            'assets/images/music.jpg',height: 50,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -123,12 +125,22 @@ class _FavoriteListsState extends State<FavoriteLists> {
                       child: IconButton(
                         onPressed: () {
                           favoritebox.deleteAt(index);
+                          allfavaudio.clear();
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             duration: Duration(seconds: 1),
                             behavior: SnackBarBehavior.floating,
                             content: Text("Removed from favorites"),
                           ));
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation1, animation2) =>
+                                  const ScreenFavorites(),
+                              transitionDuration: Duration.zero,
+                              reverseTransitionDuration: Duration.zero,
+                            ),
+                          );
                         },
                         icon: const Icon(
                           Icons.favorite,

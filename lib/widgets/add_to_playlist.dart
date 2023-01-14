@@ -251,10 +251,12 @@ showPlaylistList(BuildContext context, int songindex) {
                                       '${songdb[songindex].songname} is already added')));
                             }
                             Navigator.pop(context);
+                            Navigator.pop(context);
                           },
                           title: Text(
                             playdb[index].playlistname,
-                            style: const TextStyle(color: Colors.white, fontSize: 18),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 18),
                           ),
                         );
                       });

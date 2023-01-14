@@ -92,7 +92,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                             borderRadius:
                                                 BorderRadius.circular(5),
                                             child: Image.asset(
-                                              'assets/images/music.jpg',
+                                              'assets/images/music.jpg',height: 50,
                                               fit: BoxFit.cover,
                                             ),
                                           ),

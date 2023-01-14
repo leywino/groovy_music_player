@@ -31,12 +31,13 @@ class _NavBarBottomState extends State<NavBarBottom> {
       color: Colors.white.withOpacity(0),
       child: SafeArea(
         child: Scaffold(
-          body: widget.selectedIndex != 1
-              ? IndexedStack(
-                  index: widget.selectedIndex,
-                  children: pages,
-                )
-              : pages[1],
+          // body: widget.selectedIndex != 1
+          //     ? IndexedStack(
+          //         index: widget.selectedIndex,
+          //         children: pages,
+          //       )
+          //     : pages[1],
+          body: pages[widget.selectedIndex!],
           bottomNavigationBar: FlashyTabBar(
             backgroundColor: navbarcolor1,
             selectedIndex: widget.selectedIndex ?? 0,

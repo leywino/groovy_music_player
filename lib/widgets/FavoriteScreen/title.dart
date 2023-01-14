@@ -11,16 +11,14 @@ class FavoriteTitle extends StatefulWidget {
   State<FavoriteTitle> createState() => _FavoriteTitleState();
 }
 
-List<Audio> allsongs = [];
+List<Audio> allfavaudio = [];
 
 class _FavoriteTitleState extends State<FavoriteTitle> {
-  final player = AssetsAudioPlayer.withId('key');
-
   @override
   void initState() {
     final favSongsdb = favoritebox.values.toList();
     for (var item in favSongsdb) {
-      allsongs.add(
+      allfavaudio.add(
         Audio.file(
           item.songurl.toString(),
           metas: Metas(
@@ -64,7 +62,7 @@ class _FavoriteTitleState extends State<FavoriteTitle> {
               return GestureDetector(
                 onTap: () {
                   if (!isPlaying) {
-                    player.open(Playlist(audios: allsongs, startIndex: 0),
+                    player.open(Playlist(audios: allfavaudio, startIndex: 0),
                         showNotification: notificationBool,
                         headPhoneStrategy:
                             HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,

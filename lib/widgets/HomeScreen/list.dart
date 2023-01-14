@@ -6,6 +6,7 @@ import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
+import 'package:firstproject/widgets/FavoriteScreen/list.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:firstproject/widgets/functions.dart';
@@ -27,7 +28,7 @@ final favoritebox = FavoriteBox.getInstance();
 final mostbox = MostBox.getInstance();
 
 class _HomeMusicTilesState extends State<HomeMusicTiles> {
-  final player = AssetsAudioPlayer.withId('key');
+
   List<Audio> convert = [];
   bool favcolor = true;
   @override
@@ -70,7 +71,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
             Most mostsongs = mostlist[index];
             return ListTile(
               onTap: () async {
-                player.open(Playlist(audios: convert, startIndex: index),
+                await player.open(Playlist(audios: convert, startIndex: index),
                     showNotification: notificationBool,
                     headPhoneStrategy:
                         HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
@@ -98,6 +99,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                 // );
 
                 // player.play();
+                // ignore: use_build_context_synchronously
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -116,7 +118,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                 nullArtworkWidget: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: Image.asset(
-                    'assets/images/music.jpg',
+                    'assets/images/music.jpg',height: 50,
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -44,20 +44,17 @@ class _RecentlyListState extends State<RecentlyList> {
       valueListenable: box.listenable(),
       builder: ((context, Box<Recently> recentDB, child) {
         double vww = MediaQuery.of(context).size.width;
-        // double vwh = MediaQuery.of(context).size.height;
+        double vwh = MediaQuery.of(context).size.height;
         List<Recently> recentdb = recentDB.values.toList();
         return recentdb.isEmpty
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: vww * 0.05),
-                    child: const Text(
-                      'You have no recently played songs!',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
+            ? Padding(
+                padding: EdgeInsets.only(top: vwh * 0.25),
+                child: const Center(
+                  child: Text(
+                    'You have no recently played songs!',
+                    style: TextStyle(color: Colors.white, fontSize: 23),
                   ),
-                ],
+                ),
               )
             : ListView.builder(
                 reverse: true,
@@ -76,7 +73,7 @@ class _RecentlyListState extends State<RecentlyList> {
                         nullArtworkWidget: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: Image.asset(
-                            'assets/images/music.jpg',
+                            'assets/images/music.jpg',height: 50,
                             fit: BoxFit.cover,
                           ),
                         ),

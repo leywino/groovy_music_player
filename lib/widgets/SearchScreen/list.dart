@@ -3,7 +3,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/most_played_model.dart';
-import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/screens/splash.dart';
@@ -153,7 +152,7 @@ class _SearchListState extends State<SearchList> {
                         nullArtworkWidget: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: Image.asset(
-                            'assets/images/music.jpg',
+                            'assets/images/music.jpg',height: 50,
                             fit: BoxFit.cover,
                           ),
                         ),

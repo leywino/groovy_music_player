@@ -174,12 +174,20 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                       itemBuilder: ((context, index) {
                                         return ListTile(
                                           onTap: () async {
+                                            await player.open(
+                                                Playlist(
+                                                    audios: allsongs,
+                                                    startIndex: index),
+                                                showNotification:
+                                                    notificationBool,
+                                                loopMode: LoopMode.playlist);
                                             final songdb =
                                                 playdb[widget.intindex!]
                                                     .playlistsongs;
                                             HomeBottomTile.vindex.value = index;
                                             NowPlayingScreen.spindex.value =
                                                 index;
+                                            // ignore: use_build_context_synchronously
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -191,13 +199,6 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                                 },
                                               ),
                                             );
-                                            player.open(
-                                                Playlist(
-                                                    audios: allsongs,
-                                                    startIndex: index),
-                                                showNotification:
-                                                    notificationBool,
-                                                loopMode: LoopMode.playlist);
                                           },
                                           leading: ClipRRect(
                                             borderRadius:

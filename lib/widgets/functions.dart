@@ -20,7 +20,6 @@ checkRecentlyPlayed(Recently value) {
   // if (list.length >= 20) {
   //   recentlybox.deleteAt(0);
   // }
-  print('HElloOOo ooooo = ${list.length}');
 }
 
 final playlistbox = PlaylistBox.getInstance();
@@ -44,6 +43,7 @@ addToFavorites(int index, Favorite value, BuildContext context) async {
   bool isAlreadyThere =
       favdb.where((element) => element.songname == value.songname).isEmpty;
   if (isAlreadyThere == true) {
+    // if (true) {
     favoritebox.add(value);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       duration: Duration(seconds: 1),
@@ -51,9 +51,10 @@ addToFavorites(int index, Favorite value, BuildContext context) async {
       content: Text("Added to favorites"),
     ));
   } else {
-    int index =
+    int sindex =
         favdb.indexWhere((element) => element.songname == value.songname);
-    favoritebox.deleteAt(index);
+    favoritebox.deleteAt(sindex);
+
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       duration: Duration(seconds: 1),
       behavior: SnackBarBehavior.floating,

@@ -6,8 +6,7 @@ import 'package:firstproject/widgets/PlaylistScreen/appbar.dart';
 import 'package:flutter/material.dart';
 
 class ScreenFavorites extends StatelessWidget {
-  const ScreenFavorites({super.key});
-
+  const ScreenFavorites({super.key , allfavaudio});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +18,7 @@ class ScreenFavorites extends StatelessWidget {
           backgroundColor: mainBgColor,
           body: SingleChildScrollView(
             child: Column(
-              children: const [
+              children:  const [
                 FavoriteTitle(),
                 FavoriteLists(),
               ],

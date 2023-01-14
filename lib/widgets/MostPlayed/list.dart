@@ -49,15 +49,16 @@ class _MostListsState extends State<MostLists> {
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
+    double vwh = MediaQuery.of(context).size.height;
     return mostsongslist.isEmpty
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
+        ? Padding(
+            padding: EdgeInsets.only(top: vwh * 0.25),
+            child: const Center(
+              child: Text(
                 'You have no most played songs!',
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style: TextStyle(color: Colors.white, fontSize: 25),
               ),
-            ],
+            ),
           )
         : ListView.builder(
             shrinkWrap: true,

@@ -23,21 +23,20 @@ class _PlaylistListState extends State<PlaylistList> {
   Widget build(BuildContext context) {
     final editController = TextEditingController();
     double vww = MediaQuery.of(context).size.width;
+    double vwh = MediaQuery.of(context).size.height;
     return ValueListenableBuilder(
         valueListenable: playlistbox.listenable(),
         builder: (context, playdbbox, child) {
           List<Playlists> playdbs = playdbbox.values.toList();
           return playdbs.isEmpty
-              ? Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: vww * 0.05),
-                      child: const Text(
-                        'You have no playlists!',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
-                      ),
+              ? Padding(
+                  padding: EdgeInsets.only(top: vwh * 0.25),
+                  child: const Center(
+                    child: Text(
+                      'You have no playlists!',
+                      style: TextStyle(color: Colors.white, fontSize: 25),
                     ),
-                  ],
+                  ),
                 )
               : ValueListenableBuilder<Box<Playlists>>(
                   valueListenable: playlistbox.listenable(),
@@ -71,7 +70,7 @@ class _PlaylistListState extends State<PlaylistList> {
                                       nullArtworkWidget: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
                                         child: Image.asset(
-                                          'assets/images/music.jpg',
+                                          'assets/images/music.jpg',height: 50,
                                           fit: BoxFit.cover,
                                         ),
                                       ),

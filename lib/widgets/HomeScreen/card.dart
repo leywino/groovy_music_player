@@ -26,7 +26,7 @@ class HomeCard extends StatelessWidget {
     const ScreenMosts(),
     const ScreenRecently(),
   ];
-
+  
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
