@@ -102,7 +102,6 @@ class _FavoriteListsState extends State<FavoriteLists> {
                           builder: (ctx) => NowPlayingScreen(),
                         ),
                       );
-                      print('afafafa ${allfavaudio.length}');
                       // player.play();
                       // await player.open(
                       //   Audio.file(favdb[index].songurl!),
