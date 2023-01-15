@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/most_played_model.dart';
@@ -11,6 +10,7 @@ import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/FavoriteScreen/list.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:firstproject/widgets/functions.dart';
+import 'package:firstproject/widgets/navbar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,6 +29,12 @@ List<Audio> allsongs = [];
 var searchController = TextEditingController();
 
 class _SearchListState extends State<SearchList> {
+  @override
+  void dispose() {
+    allsongs.clear();
+    super.dispose();
+  }
+
   @override
   void initState() {
     searchsongsdb = songbox.values.toList();
@@ -74,6 +80,15 @@ class _SearchListState extends State<SearchList> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     clearText();
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) =>
+                            NavBarBottom(selectedIndex: 1),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      ),
+                    );
                   },
                   icon: const Icon(
                     Icons.clear,
@@ -130,6 +145,25 @@ class _SearchListState extends State<SearchList> {
                       //     songurl: searchlist[index].songurl,
                       //     id: searchlist[index].id);
                       // checkRecentlyPlayed(recsongs, index);
+                      if (allsongs.isEmpty) {
+                        for (var item in searchlist) {
+                          allsongs.add(
+                            Audio.file(
+                              item.songurl.toString(),
+                              metas: Metas(
+                                artist: item.artist,
+                                title: item.songname,
+                                id: item.id.toString(),
+                              ),
+                            ),
+                          );
+                        }
+                        await player.open(
+                            Playlist(audios: allsongs, startIndex: index),
+                            showNotification: notificationBool,
+                            headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+                            loopMode: LoopMode.playlist);
+                      }
                       await player.open(
                           Playlist(audios: allsongs, startIndex: index),
                           showNotification: notificationBool,

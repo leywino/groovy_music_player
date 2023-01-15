@@ -113,6 +113,17 @@ class _NPButtonsState extends State<NPButtons> {
                                 await player.pause();
                               }
                               await player.previous();
+                              int songindex = songdb.indexWhere((element) =>
+                                  element.songname ==
+                                  playing.audio.audio.metas.title);
+                              Recently recsongs = Recently(
+                                  songname: songdb[songindex].songname,
+                                  artist: songdb[songindex].artist,
+                                  duration: songdb[songindex].duration,
+                                  songurl: songdb[songindex].songurl,
+                                  id: songdb[songindex].id,
+                                  index: songindex);
+                              checkRecentlyPlayed(recsongs);
                             },
                       child: Icon(
                         prevSeekBool
@@ -164,6 +175,17 @@ class _NPButtonsState extends State<NPButtons> {
                                 await player.pause();
                               }
                               await player.next();
+                              int songindex = songdb.indexWhere((element) =>
+                                  element.songname ==
+                                  playing.audio.audio.metas.title);
+                              Recently recsongs = Recently(
+                                  songname: songdb[songindex].songname,
+                                  artist: songdb[songindex].artist,
+                                  duration: songdb[songindex].duration,
+                                  songurl: songdb[songindex].songurl,
+                                  id: songdb[songindex].id,
+                                  index: songindex);
+                              checkRecentlyPlayed(recsongs);
                             },
                       child: Icon(
                         skipSeekBool

@@ -85,7 +85,7 @@ class _MostListsState extends State<MostLists> {
                       ),
                     ),
                   );
-                  
+
                   // await player.open(
                   //   Audio.file(mostsongslist[index].songurl),
                   //   showNotification: notificationBool,
@@ -101,6 +101,14 @@ class _MostListsState extends State<MostLists> {
                   child: QueryArtworkWidget(
                     artworkBorder: BorderRadius.circular(8),
                     keepOldArtwork: true,
+                    nullArtworkWidget: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Image.asset(
+                        'assets/images/music.jpg',
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     id: mostsongslist[index].id,
                     type: ArtworkType.AUDIO,
                   ),
