@@ -21,6 +21,12 @@ List<Audio> allfavaudio = [];
 
 class _FavoriteListsState extends State<FavoriteLists> {
   @override
+  void dispose() {
+    allfavaudio.clear();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     final List<Favorite> favouritesongs = favoritebox.values.toList();
     for (var item in favouritesongs) {
@@ -36,12 +42,6 @@ class _FavoriteListsState extends State<FavoriteLists> {
       );
     }
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    allfavaudio.clear();
-    super.dispose();
   }
 
   @override
@@ -69,6 +69,26 @@ class _FavoriteListsState extends State<FavoriteLists> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () async {
+                      if (allfavaudio.isEmpty) {
+                        for (var item in favdb) {
+                          allfavaudio.add(
+                            Audio.file(
+                              item.songurl.toString(),
+                              metas: Metas(
+                                artist: item.artist,
+                                title: item.songname,
+                                id: item.id.toString(),
+                              ),
+                            ),
+                          );
+                        }
+                        await player.open(
+                            Playlist(audios: allfavaudio, startIndex: index),
+                            showNotification: notificationBool,
+                            headPhoneStrategy:
+                                HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+                            loopMode: LoopMode.playlist);
+                      }
                       await player.open(
                           Playlist(audios: allfavaudio, startIndex: index),
                           showNotification: notificationBool,
@@ -82,7 +102,7 @@ class _FavoriteListsState extends State<FavoriteLists> {
                           builder: (ctx) => NowPlayingScreen(),
                         ),
                       );
-
+                      print('afafafa ${allfavaudio.length}');
                       // player.play();
                       // await player.open(
                       //   Audio.file(favdb[index].songurl!),
@@ -127,15 +147,17 @@ class _FavoriteListsState extends State<FavoriteLists> {
                     trailing: Padding(
                       padding: EdgeInsets.only(bottom: vww * 0.035),
                       child: IconButton(
-                        onPressed: () {
-                          favoritebox.deleteAt(index);
+                        onPressed: () async {
                           allfavaudio.clear();
+                          await favoritebox.deleteAt(index);
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             duration: Duration(seconds: 1),
                             behavior: SnackBarBehavior.floating,
                             content: Text("Removed from favorites"),
                           ));
+                          // ignore: use_build_context_synchronously
                           Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
