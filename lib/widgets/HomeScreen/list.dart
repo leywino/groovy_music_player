@@ -28,7 +28,6 @@ final favoritebox = FavoriteBox.getInstance();
 final mostbox = MostBox.getInstance();
 
 class _HomeMusicTilesState extends State<HomeMusicTiles> {
-
   List<Audio> convert = [];
   bool favcolor = true;
   @override
@@ -118,30 +117,25 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                 nullArtworkWidget: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: Image.asset(
-                    'assets/images/music.jpg',height: 50,
+                    'assets/images/music.jpg',
+                    height: 50,
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              title: SizedBox(
-                height: 20,
-                child: Text(
-                  songs.songname!,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
-                ),
+              title: Text(
+                songs.songname!,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
               ),
               subtitle: Padding(
                 padding: EdgeInsets.only(bottom: vww * 0.035),
-                child: SizedBox(
-                  height: 20,
-                  child: Text(
-                    songs.artist ?? "No Artist",
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.rubik(
-                      color: Colors.grey,
-                      fontSize: 18,
-                    ),
+                child: Text(
+                  songs.artist ?? "No Artist",
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.rubik(
+                    color: Colors.grey,
+                    fontSize: 18,
                   ),
                 ),
               ),

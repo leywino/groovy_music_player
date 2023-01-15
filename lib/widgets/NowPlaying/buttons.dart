@@ -26,6 +26,7 @@ class NPButtons extends StatefulWidget {
 
 bool skipSeekBool = true;
 bool prevSeekBool = true;
+
 bool willRepeat = false;
 List<Audio> convert = [];
 AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
@@ -56,138 +57,145 @@ class _NPButtonsState extends State<NPButtons> {
     final box = SongBox.getInstance();
     List<Songs> songdb = box.values.toList();
 
-    return PlayerBuilder.isPlaying(
-        player: player,
-        builder: (context, isPlaying) {
-          return Column(
-            children: [
-              Wrap(
-                spacing: 20,
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        willRepeat = !willRepeat;
-                      });
-                      !willRepeat
-                          ? player.setLoopMode(LoopMode.none)
-                          : player.setLoopMode(LoopMode.single);
-                    },
-                    child: willRepeat
-                        ? const Icon(
-                            Icons.repeat,
-                            color: Colors.green,
-                            size: 35,
-                          )
-                        : const Icon(
-                            Icons.repeat,
-                            color: Colors.white,
-                            size: 35,
-                          ),
-                  ),
-                  GestureDetector(
-                    onHorizontalDragStart: (details) async {
-                      await player.seekBy(const Duration(seconds: -10));
-                      setState(() {
-                        prevSeekBool = !prevSeekBool;
-                      });
-                      await Future.delayed(const Duration(seconds: 1), () {
+    return player.builderCurrent(builder: (context, playing) {
+      return PlayerBuilder.isPlaying(
+          player: player,
+          builder: (context, isPlaying) {
+            return Column(
+              children: [
+                Wrap(
+                  spacing: 20,
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          willRepeat = !willRepeat;
+                        });
+                        !willRepeat
+                            ? player.setLoopMode(LoopMode.none)
+                            : player.setLoopMode(LoopMode.single);
+                      },
+                      child: willRepeat
+                          ? const Icon(
+                              Icons.repeat,
+                              color: Colors.green,
+                              size: 35,
+                            )
+                          : const Icon(
+                              Icons.repeat,
+                              color: Colors.white,
+                              size: 35,
+                            ),
+                    ),
+                    GestureDetector(
+                      onHorizontalDragStart: (details) async {
+                        await player.seekBy(const Duration(seconds: -10));
                         setState(() {
                           prevSeekBool = !prevSeekBool;
                         });
-                      });
-                      // setState(() {
-                      //   prevSeekBool = !prevSeekBool;
-                      // });
-                    },
-                    onTap: checkIndexPrev(widget.intindex, songdb)
-                        ? null
-                        : () async {
-                            previousMusic(
-                                isPlaying, player, songdb, widget.intindex);
-                            if (isPlaying == false) {
-                              await player.pause();
-                            }
-                            await player.previous();
-                          },
-                    child: Icon(
-                      prevSeekBool
-                          ? Icons.skip_previous
-                          : Icons.fast_rewind_rounded,
-                      color: checkIndexPrev(widget.intindex, songdb)
-                          ? Colors.white.withOpacity(0.5)
-                          : Colors.white,
-                      size: 35,
+                        await Future.delayed(const Duration(seconds: 1), () {
+                          setState(() {
+                            prevSeekBool = !prevSeekBool;
+                          });
+                        });
+                        // setState(() {
+                        //   prevSeekBool = !prevSeekBool;
+                        // });
+                      },
+                      onTap: checkIndexPrev(widget.intindex, playing)
+                          ? null
+                          : () async {
+                              previousMusic(
+                                  isPlaying, player, songdb, widget.intindex);
+                              if (isPlaying == false) {
+                                await player.pause();
+                              }
+                              await player.previous();
+                            },
+                      child: Icon(
+                        prevSeekBool
+                            ? Icons.skip_previous
+                            : Icons.fast_rewind_rounded,
+                        color: checkIndexPrev(widget.intindex, playing)
+                            ? Colors.white.withOpacity(0.5)
+                            : Colors.white,
+                        size: 35,
+                      ),
                     ),
-                  ),
-                  PlayerBuilder.isPlaying(
-                      player: player,
-                      builder: (context, isPlaying) {
-                        return GestureDetector(
-                          onTap: () async {
-                            player.playOrPause();
-                          },
-                          child: Icon(
-                            isPlaying
-                                ? Icons.pause_circle_filled
-                                : Icons.play_circle_filled,
-                            color: Colors.white,
-                            size: 60,
-                          ),
-                        );
-                      }),
-                  GestureDetector(
-                    onHorizontalDragStart: (details) async {
-                      await player.seekBy(const Duration(seconds: 10));
-                      setState(() {
-                        skipSeekBool = !skipSeekBool;
-                      });
-                      await Future.delayed(const Duration(seconds: 1), () {
+                    PlayerBuilder.isPlaying(
+                        player: player,
+                        builder: (context, isPlaying) {
+                          return GestureDetector(
+                            onTap: () async {
+                              player.playOrPause();
+                            },
+                            child: Icon(
+                              isPlaying
+                                  ? Icons.pause_circle_filled
+                                  : Icons.play_circle_filled,
+                              color: Colors.white,
+                              size: 60,
+                            ),
+                          );
+                        }),
+                    GestureDetector(
+                      onHorizontalDragStart: (details) async {
+                        await player.seekBy(const Duration(seconds: 10));
                         setState(() {
                           skipSeekBool = !skipSeekBool;
                         });
-                      });
-                      // setState(() {
-                      //   prevSeekBool = !prevSeekBool;
-                      // });
-                    },
-                    onTap: checkIndexSkip(widget.intindex, songdb)
-                        ? null
-                        : () async {
-                            skipMusic(
-                                isPlaying, player, songdb, widget.intindex);
-                            if (isPlaying == false) {
-                              await player.pause();
-                            }
-                            await player.next();
-                          },
-                    child: Icon(
-                      skipSeekBool
-                          ? Icons.skip_next
-                          : Icons.fast_forward_rounded,
-                      color: checkIndexSkip(widget.intindex, songdb)
-                          ? Colors.white.withOpacity(0.5)
-                          : Colors.white,
-                      size: 35,
+                        await Future.delayed(const Duration(seconds: 1), () {
+                          setState(() {
+                            skipSeekBool = !skipSeekBool;
+                          });
+                        });
+                        // setState(() {
+                        //   prevSeekBool = !prevSeekBool;
+                        // });
+                      },
+                      onTap: checkIndexSkip(widget.intindex, playing)
+                          ? null
+                          : () async {
+                              skipMusic(
+                                  isPlaying, player, songdb, widget.intindex);
+                              if (isPlaying == false) {
+                                await player.pause();
+                              }
+                              await player.next();
+                            },
+                      child: Icon(
+                        skipSeekBool
+                            ? Icons.skip_next
+                            : Icons.fast_forward_rounded,
+                        color: checkIndexSkip(widget.intindex, playing)
+                            ? Colors.white.withOpacity(0.5)
+                            : Colors.white,
+                        size: 35,
+                      ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      addPlaylist(context, widget.intindex);
-                    },
-                    child: const Icon(
-                      Icons.playlist_add,
-                      color: Colors.white,
-                      size: 35,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          );
-        });
+                    player.builderCurrent(builder: (context, playing) {
+                      return GestureDetector(
+                        onTap: () {
+                          int songindex = songdb.indexWhere((element) =>
+                              element.songname ==
+                              playing.audio.audio.metas.title);
+                          addPlaylist(context, songindex);
+                        },
+                        child: const Icon(
+                          Icons.playlist_add,
+                          color: Colors.white,
+                          size: 35,
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+              ],
+            );
+          });
+    });
   }
 }
 
@@ -272,10 +280,10 @@ playMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
   // isPlaying ? await player.pause() : await player.play();
 }
 
-bool checkIndexSkip(int intindex, List<Songs> songdb) {
-  return (intindex < songdb.length - 1) ? false : true;
+bool checkIndexSkip(int intindex, Playing playing) {
+  return (intindex < playing.playlist.audios.length - 1) ? false : true;
 }
 
-bool checkIndexPrev(int intindex, List<Songs> songdb) {
+bool checkIndexPrev(int intindex, Playing playing) {
   return (intindex <= 0) ? true : false;
 }

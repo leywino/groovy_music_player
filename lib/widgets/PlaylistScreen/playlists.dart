@@ -28,6 +28,12 @@ List<Audio> allsongs = [];
 
 class _PlaylistSongListState extends State<PlaylistSongList> {
   @override
+  void dispose() {
+    allsongs.clear();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     for (var item in widget.playlistsongs!) {
       allsongs.add(
@@ -134,7 +140,7 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                           );
                                         }),
                                     GestureDetector(
-                                      onTap: () async{
+                                      onTap: () async {
                                         await player.open(
                                             Playlist(
                                                 audios: allsongs,
@@ -174,6 +180,28 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                       itemBuilder: ((context, index) {
                                         return ListTile(
                                           onTap: () async {
+                                            if (allsongs.isEmpty) {
+                                              for (var item
+                                                  in widget.playlistsongs!) {
+                                                allsongs.add(
+                                                  Audio.file(
+                                                    item.songurl.toString(),
+                                                    metas: Metas(
+                                                      artist: item.artist,
+                                                      title: item.songname,
+                                                      id: item.id.toString(),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              await player.open(
+                                                  Playlist(
+                                                      audios: allsongs,
+                                                      startIndex: index),
+                                                  showNotification:
+                                                      notificationBool,
+                                                  loopMode: LoopMode.playlist);
+                                            }
                                             await player.open(
                                                 Playlist(
                                                     audios: allsongs,
@@ -250,7 +278,6 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                                   visible: !hideEdits,
                                                   child: IconButton(
                                                     onPressed: () {
-                                                      allsongs.clear();
                                                       setState(() {
                                                         songs.removeAt(index);
                                                         playdb.removeAt(
@@ -284,6 +311,20 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                                               Duration.zero,
                                                         ),
                                                       );
+
+                                                      // Navigator.pushReplacement(
+                                                      //     context,
+                                                      //     MaterialPageRoute(
+                                                      //       builder: (context) =>
+                                                      //           PlaylistSongList(
+                                                      //         intindex: widget
+                                                      //             .intindex,
+                                                      //         playlistname: widget
+                                                      //             .playlistname,
+                                                      //         playlistsongs: widget
+                                                      //             .playlistsongs,
+                                                      //       ),
+                                                      //     ));
                                                     },
                                                     icon: const Icon(
                                                       Icons.delete,

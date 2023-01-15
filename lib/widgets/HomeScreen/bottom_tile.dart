@@ -54,7 +54,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                             MaterialPageRoute(
                               builder: (ctx) => NowPlayingScreen(
                                 intindex: HomeBottomTile.intindex,
-                                opendb: songdb,
+                                opendb: songdb
                               ),
                             ),
                           );
@@ -92,7 +92,8 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                             borderRadius:
                                                 BorderRadius.circular(5),
                                             child: Image.asset(
-                                              'assets/images/music.jpg',height: 50,
+                                              'assets/images/music.jpg',
+                                              height: 50,
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -139,7 +140,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                   crossAxisAlignment: WrapCrossAlignment.center,
                                   children: [
                                     GestureDetector(
-                                      onTap: checkIndexPrev(intindex, songdb)
+                                      onTap: checkIndexPrev(intindex, playing)
                                           ? null
                                           : () {
                                               if (isPlaying) {}
@@ -150,7 +151,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                             },
                                       child: Icon(
                                         Icons.skip_previous,
-                                        color: checkIndexPrev(intindex, songdb)
+                                        color: checkIndexPrev(intindex, playing)
                                             ? Colors.white.withOpacity(0.5)
                                             : Colors.white,
                                       ),
@@ -168,7 +169,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: checkIndexSkip(intindex, songdb)
+                                      onTap: checkIndexSkip(intindex, playing)
                                           ? null
                                           : () {
                                               HomeBottomTile.intindex++;
@@ -178,7 +179,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                             },
                                       child: Icon(
                                         Icons.skip_next,
-                                        color: checkIndexSkip(intindex, songdb)
+                                        color: checkIndexSkip(intindex, playing)
                                             ? Colors.white.withOpacity(0.5)
                                             : Colors.white,
                                       ),

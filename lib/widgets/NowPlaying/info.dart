@@ -16,13 +16,17 @@ class NPInfo extends StatefulWidget {
   @override
   State<NPInfo> createState() => _NPInfoState();
 }
+
 List<Songs> songsdb = songbox.values.toList();
+
 class _NPInfoState extends State<NPInfo> {
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
     return widget.player.builderCurrent(
       builder: (context, playing) {
+        int songindex = songsdb.indexWhere(
+            (element) => element.songname == playing.audio.audio.metas.title);
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -63,19 +67,19 @@ class _NPInfoState extends State<NPInfo> {
               IconButton(
                 onPressed: () {
                   Favorite favval = Favorite(
-                      songname: songsdb[widget.intindex!].songname,
-                      artist: songsdb[widget.intindex!].artist,
-                      duration: songsdb[widget.intindex!].duration,
-                      songurl: songsdb[widget.intindex!].songurl,
-                      id: songsdb[widget.intindex!].id);
-                  addToFavorites(widget.intindex!, favval, context);
+                      songname: songsdb[songindex].songname,
+                      artist: songsdb[songindex].artist,
+                      duration: songsdb[songindex].duration,
+                      songurl: songsdb[songindex].songurl,
+                      id: songsdb[songindex].id);
+                  addToFavorites(songindex, favval, context);
                   setState(() {});
                 },
                 icon: Icon(
-                  checkFavoriteStatus(playing.index, context)
+                  checkFavoriteStatus(songindex, context)
                       ? Icons.favorite
                       : Icons.favorite_outline,
-                  color: checkFavoriteStatus(playing.index, context)
+                  color: checkFavoriteStatus(songindex, context)
                       ? Colors.pink
                       : Colors.white,
                 ),

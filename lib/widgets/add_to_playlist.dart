@@ -243,7 +243,7 @@ showPlaylistList(BuildContext context, int songindex) {
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   backgroundColor: Colors.black,
                                   content: Text(
-                                      '${songdb[songindex].songname}Added to ${playdb[index].playlistname}')));
+                                      '${songdb[songindex].songname} Added to ${playdb[index].playlistname}')));
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   backgroundColor: Colors.black,

@@ -79,10 +79,7 @@ class _FavoriteListsState extends State<FavoriteLists> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (ctx) => NowPlayingScreen(
-                            intindex: index,
-                            opendb: favdb,
-                          ),
+                          builder: (ctx) => NowPlayingScreen(),
                         ),
                       );
 
