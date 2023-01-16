@@ -1,6 +1,6 @@
 **Privacy Policy**
 
-Arshad built the Groovy app as a Free app. This SERVICE is provided by Arshad at no cost and is intended for use as is.
+Muhammad Arshad built the Groovy app as a Free app. This SERVICE is provided by Muhammad Arshad at no cost and is intended for use as is.
 
 This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.
 
@@ -17,7 +17,6 @@ The app does use third-party services that may collect information used to ident
 Link to the privacy policy of third-party service providers used by the app
 
 *   [Google Play Services](https://www.google.com/policies/privacy/)
-*   [Google Analytics for Firebase](https://firebase.google.com/policies/analytics)
 
 **Log Data**
 
@@ -56,8 +55,8 @@ These Services do not address anyone under the age of 13. I do not knowingly col
 
 I may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. I will notify you of any changes by posting the new Privacy Policy on this page.
 
-This policy is effective as of 13-01-2022
+This policy is effective as of 2023-01-16
 
 **Contact Us**
 
-If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at connect muhammadarshadv2@gmail.com.
+If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at arshadkotakaran2@gmail.com.
