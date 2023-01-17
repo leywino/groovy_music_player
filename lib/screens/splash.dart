@@ -21,46 +21,47 @@ List<SongModel> getSongs = [];
 class _ScreenSplashState extends State<ScreenSplash> {
   @override
   void initState() {
-    reqStoragePerm();
+    // reqStoragePerm();
     navigateToHome(context);
     super.initState();
   }
+  
+  // reqStoragePerm() async {
+  //   bool permissionStatus = await audioquery.permissionsStatus();
+  //   if (!permissionStatus) {
+  //     await audioquery.permissionsRequest();
+  //   }
 
-  reqStoragePerm() async {
-    bool permissionStatus = await audioquery.permissionsStatus();
-    if (!permissionStatus) {
-      await audioquery.permissionsRequest();
+  //   getSongs = await audioquery.querySongs();
+  //   for (var element in getSongs) {
+  //     if (element.fileExtension == "mp3") {
+  //       allSongs.add(element);
+  //     }
+  //   }
+  //   for (var element in allSongs) {
+  //     mostbox.add(
+  //       Most(
+  //           songname: element.title,
+  //           artist: element.artist!,
+  //           duration: element.duration!,
+  //           id: element.id,
+  //           songurl: element.uri!,
+  //           count: 1),
+  //     );
+  //   }
+  //   for (var element in allSongs) {
+  //     box.add(Songs(
+  //       songname: element.title,
+  //       artist: element.artist,
+  //       duration: element.duration,
+  //       id: element.id,
+  //       songurl: element.uri,
+  //     ));
+  //   }
 
-      getSongs = await audioquery.querySongs();
-      for (var element in getSongs) {
-        if (element.fileExtension == "mp3") {
-          allSongs.add(element);
-        }
-      }
-      for (var element in allSongs) {
-        mostbox.add(
-          Most(
-              songname: element.title,
-              artist: element.artist!,
-              duration: element.duration!,
-              id: element.id,
-              songurl: element.uri!,
-              count: 1),
-        );
-      }
-      for (var element in allSongs) {
-        box.add(Songs(
-          songname: element.title,
-          artist: element.artist,
-          duration: element.duration,
-          id: element.id,
-          songurl: element.uri,
-        ));
-      }
-    }
-    if (!mounted) return;
-    setState(() {});
-  }
+  //   if (!mounted) return;
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +90,36 @@ class _ScreenSplashState extends State<ScreenSplash> {
 }
 
 navigateToHome(BuildContext ctx) async {
+  bool permissionStatus = await audioquery.permissionsStatus();
+  if (!permissionStatus) {
+    await audioquery.permissionsRequest();
+  }
+  getSongs = await audioquery.querySongs();
+  for (var element in getSongs) {
+    if (element.fileExtension == "mp3") {
+      allSongs.add(element);
+    }
+  }
+  for (var element in allSongs) {
+    mostbox.add(
+      Most(
+          songname: element.title,
+          artist: element.artist!,
+          duration: element.duration!,
+          id: element.id,
+          songurl: element.uri!,
+          count: 1),
+    );
+  }
+  for (var element in allSongs) {
+    box.add(Songs(
+      songname: element.title,
+      artist: element.artist,
+      duration: element.duration,
+      id: element.id,
+      songurl: element.uri,
+    ));
+  }
   await Future.delayed(
     const Duration(milliseconds: 1500),
     () {
