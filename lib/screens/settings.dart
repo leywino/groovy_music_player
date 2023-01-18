@@ -29,7 +29,8 @@ class ScreenSettings extends StatelessWidget {
                   // ),
                   TextButton.icon(
                     onPressed: () {
-                      Share.share("https://github.com/leywino/music_player",
+                      Share.share(
+                          "https://github.com/leywino/groovy_music_player",
                           subject: "Github Repo");
                     },
                     icon: const Icon(
