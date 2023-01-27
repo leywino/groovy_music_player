@@ -7,7 +7,7 @@ import Foundation
 
 import assets_audio_player
 import assets_audio_player_web
-import path_provider_macos
+import path_provider_foundation
 import share_plus
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {

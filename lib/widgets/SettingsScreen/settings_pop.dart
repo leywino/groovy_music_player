@@ -27,6 +27,7 @@ class SettingsMenuPop extends StatelessWidget {
                       return Markdown(
                           styleSheet: MarkdownStyleSheet.fromTheme(ThemeData(
                               textTheme: const TextTheme(
+                                  // ignore: deprecated_member_use
                                   bodyText2: TextStyle(
                                       fontFamily: "Inter",
                                       fontSize: 15.0,
