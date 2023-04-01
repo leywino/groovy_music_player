@@ -1,4 +1,6 @@
 part of 'all_songs_bloc.dart';
 
-@immutable
-abstract class AllSongsEvent {}
+@freezed
+class AllSongsEvent with _$AllSongsEvent {
+  const factory AllSongsEvent.started() = _Started;
+}
