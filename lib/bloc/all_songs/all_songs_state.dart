@@ -1,6 +1,6 @@
 part of 'all_songs_bloc.dart';
 
-@immutable
-abstract class AllSongsState {}
-
-class AllSongsInitial extends AllSongsState {}
+@freezed
+class AllSongsState with _$AllSongsState {
+  const factory AllSongsState.initial() = _Initial;
+}
