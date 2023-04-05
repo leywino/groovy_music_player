@@ -1,6 +1,15 @@
 part of 'all_songs_bloc.dart';
 
-@freezed
-class AllSongsEvent with _$AllSongsEvent {
-  const factory AllSongsEvent.started() = _Started;
+
+abstract class AllSongsEvent extends Equatable {
+  const AllSongsEvent();
+
+  @override
+  List<Object> get props => [];
+}
+class GetAllSongs extends AllSongsEvent {
+  const GetAllSongs();
+
+  @override
+  List<Object> get props => [];
 }

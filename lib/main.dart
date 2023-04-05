@@ -1,9 +1,4 @@
 import 'package:firstproject/bloc/all_songs/all_songs_bloc.dart';
-import 'package:firstproject/bloc/favorites/favorites_bloc.dart';
-import 'package:firstproject/bloc/most_played/most_played_bloc.dart';
-import 'package:firstproject/bloc/now_playing/now_playing_bloc.dart';
-import 'package:firstproject/bloc/playlist/playlist_bloc.dart';
-import 'package:firstproject/bloc/recently_played/recently_played_bloc.dart';
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/playlist_model.dart';
@@ -40,23 +35,23 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AllSongsBloc(),
         ),
-        BlocProvider(
-          create: (context) => FavoritesBloc(),
-        ),
-          BlocProvider(
-          create: (context) => MostPlayedBloc(),
-        ),
-        BlocProvider(
-          create: (context) => NowPlayingBloc(),
-        ),
-          BlocProvider(
-          create: (context) => PlaylistBloc(),
-        ),
-        BlocProvider(
-          create: (context) => RecentlyPlayedBloc(),
-        ),
+        // BlocProvider(
+        //   create: (context) => FavouritesBloc(),
+        // ),
+        // BlocProvider(
+        //   create: (context) => MostPlayedBloc(),
+        // ),
+        // BlocProvider(
+        //   create: (context) => NowPlayingBloc(),
+        // ),
+        // BlocProvider(
+        //   create: (context) => PlaylistBloc(),
+        // ),
+        // BlocProvider(
+        //   create: (context) => RecentlyPlayedBloc(),
+        // ),
       ],
-      child:MaterialApp(
+      child: MaterialApp(
         builder: (context, child) {
           return ScrollConfiguration(
             behavior: MyBehavior(),

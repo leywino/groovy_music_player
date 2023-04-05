@@ -4,6 +4,7 @@ import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ScreenSplash extends StatefulWidget {
   const ScreenSplash({super.key});
@@ -25,7 +26,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
     navigateToHome(context);
     super.initState();
   }
-  
+
   // reqStoragePerm() async {
   //   bool permissionStatus = await audioquery.permissionsStatus();
   //   if (!permissionStatus) {
@@ -61,6 +62,19 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   //   if (!mounted) return;
   //   setState(() {});
+  //   await Future.delayed(
+  //   const Duration(milliseconds: 1500),
+  //   () {
+  //     Navigator.of(context).pushReplacement(
+  //       MaterialPageRoute(
+  //         builder: (ctx) => NavBarBottom(
+  //           selectedIndex: 0,
+  //           allSongs: allSongs,
+  //         ),
+  //       ),
+  //     );
+  //   },
+  // );
   // }
 
   @override
