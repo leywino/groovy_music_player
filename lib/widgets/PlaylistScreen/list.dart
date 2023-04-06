@@ -1,9 +1,11 @@
+import 'package:firstproject/bloc/playlist/playlist_bloc.dart';
 import 'package:firstproject/database/playlist_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/widgets/PlaylistScreen/playlists.dart';
 import 'package:firstproject/widgets/PlaylistScreen/title.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -24,119 +26,111 @@ class _PlaylistListState extends State<PlaylistList> {
     final editController = TextEditingController();
     double vww = MediaQuery.of(context).size.width;
     double vwh = MediaQuery.of(context).size.height;
-    return ValueListenableBuilder(
-        valueListenable: playlistbox.listenable(),
-        builder: (context, playdbbox, child) {
-          List<Playlists> playdbs = playdbbox.values.toList();
-          return playdbs.isEmpty
-              ? Padding(
-                  padding: EdgeInsets.only(top: vwh * 0.25),
-                  child: const Center(
-                    child: Text(
-                      'You have no playlists!',
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
-                  ),
-                )
-              : ValueListenableBuilder<Box<Playlists>>(
-                  valueListenable: playlistbox.listenable(),
-                  builder: (context, playlistbox, child) {
-                    List<Playlists> playdb = playlistbox.values.toList();
-                    return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: playdb.length,
-                        shrinkWrap: true,
-                        itemBuilder: ((context, index) {
-                          return ListTile(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (ctx) {
-                                  return PlaylistSongList(
-                                    intindex: index,
-                                    playlistname: playdb[index].playlistname,
-                                    playlistsongs: playdb[index].playlistsongs,
-                                  );
-                                },
-                              ));
-                            },
-                            leading: playdb[index].playlistsongs.isNotEmpty
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: QueryArtworkWidget(
-                                      artworkBorder: BorderRadius.circular(8),
-                                      keepOldArtwork: true,
-                                      id: playdb[index].playlistsongs[0].id!,
-                                      type: ArtworkType.AUDIO,
-                                      nullArtworkWidget: ClipRRect(
-                                        borderRadius: BorderRadius.circular(5),
-                                        child: Image.asset(
-                                          'assets/images/music.jpg',height: 50,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : Image.asset('assets/images/music.jpg'),
-                            title: Text(
-                              playdb[index].playlistname,
-                              style: GoogleFonts.rubik(
-                                  fontSize: 20, color: Colors.white),
-                            ),
-                            subtitle: Padding(
-                              padding: EdgeInsets.only(bottom: vww * 0.035),
-                              child: Text(
-                                "${playdb[index].playlistsongs.length} songs",
-                                style: GoogleFonts.rubik(
-                                    color: Colors.grey, fontSize: 18),
+    return BlocBuilder<PlaylistBloc, PlaylistState>(
+      builder: (context, state) {
+        if (state is PlaylistListInitial) {
+          context.read<PlaylistBloc>().add(const GetAllPlaylist());
+        }
+        if (state is DisplayPlaylistList) {
+          return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: state.playdb.length,
+              shrinkWrap: true,
+              itemBuilder: ((context, index) {
+                return ListTile(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (ctx) {
+                        return PlaylistSongList();
+                      },
+                    ));
+                    context.read<PlaylistBloc>().add(DisplaySpecificPlaylist(
+                        intindex: index,
+                        playlistname: state.playdb[index].playlistname,
+                        playlistsongs: state.playdb[index].playlistsongs));
+                  },
+                  leading: state.playdb[index].playlistsongs.isNotEmpty
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: QueryArtworkWidget(
+                            artworkBorder: BorderRadius.circular(8),
+                            keepOldArtwork: true,
+                            id: state.playdb[index].playlistsongs[0].id!,
+                            type: ArtworkType.AUDIO,
+                            nullArtworkWidget: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Image.asset(
+                                'assets/images/music.jpg',
+                                height: 50,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                            trailing: ValueListenableBuilder(
-                                valueListenable:
-                                    PlaylistTitle.editPlaylistOrNot,
-                                builder: (context, editPlBool, child) {
-                                  return Visibility(
-                                    visible: editPlBool,
-                                    child: Wrap(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: vww * 0.035),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              editPlaylist(
-                                                  context,
-                                                  editController,
-                                                  index,
-                                                  playlistbox);
-                                            },
-                                            icon: const Icon(
-                                              Icons.edit,
-                                              color: Colors.white,
-                                              size: 25,
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              deletePlaylist(
-                                                  context, index, playlistbox);
-                                            });
-                                          },
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                            size: 25,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                          );
-                        }));
-                  });
-        });
+                          ),
+                        )
+                      : Image.asset('assets/images/music.jpg'),
+                  title: Text(
+                    state.playdb[index].playlistname,
+                    style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+                  ),
+                  subtitle: Padding(
+                    padding: EdgeInsets.only(bottom: vww * 0.035),
+                    child: Text(
+                      "${state.playdb[index].playlistsongs.length} songs",
+                      style:
+                          GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
+                    ),
+                  ),
+                  trailing: ValueListenableBuilder(
+                      valueListenable: PlaylistTitle.editPlaylistOrNot,
+                      builder: (context, editPlBool, child) {
+                        return Visibility(
+                          visible: editPlBool,
+                          child: Wrap(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(bottom: vww * 0.035),
+                                child: IconButton(
+                                  onPressed: () {
+                                    editPlaylist(context, editController, index,
+                                        playlistbox);
+                                  },
+                                  icon: const Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                    size: 25,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    deletePlaylist(context, index, playlistbox);
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                  size: 25,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                );
+              }));
+        }
+        return Padding(
+          padding: EdgeInsets.only(top: vwh * 0.25),
+          child: const Center(
+            child: Text(
+              'You have no playlists',
+              style: TextStyle(color: Colors.white, fontSize: 23),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -169,19 +163,24 @@ deletePlaylist(BuildContext context, int index, Box<Playlists> playlistbox) {
                     ),
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    playlistbox.deleteAt(index);
-                    Navigator.pop(context);
+                BlocBuilder<PlaylistBloc, PlaylistState>(
+                  builder: (ctx, state) {
+                    return TextButton(
+                      onPressed: () async {
+                        await playlistbox.deleteAt(index);
+                        Navigator.pop(context);
+                        ctx.read<PlaylistBloc>().add(const GetAllPlaylist());
+                      },
+                      child: Text(
+                        'Confirm',
+                        style: GoogleFonts.rubik(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    );
                   },
-                  child: Text(
-                    'Confirm',
-                    style: GoogleFonts.rubik(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
                 )
               ],
             ),
@@ -237,28 +236,35 @@ editPlaylist(BuildContext context, TextEditingController editController,
                 ValueListenableBuilder(
                     valueListenable: editController,
                     builder: (context, controller, child) {
-                      return TextButton(
-                        onPressed: controller.text.isEmpty
-                            ? null
-                            : () {
-                                playlistbox.putAt(
-                                    index,
-                                    Playlists(
-                                        playlistname: editController.text,
-                                        playlistsongs:
-                                            playdb[index].playlistsongs));
-                                Navigator.pop(context);
-                              },
-                        child: Text(
-                          'OK',
-                          style: GoogleFonts.rubik(
-                            fontSize: 18,
-                            color: controller.text.isEmpty
-                                ? Colors.white.withOpacity(0.5)
-                                : Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                      return BlocBuilder<PlaylistBloc, PlaylistState>(
+                        builder: (ctx, state) {
+                          return TextButton(
+                            onPressed: controller.text.isEmpty
+                                ? null
+                                : () {
+                                    playlistbox.putAt(
+                                        index,
+                                        Playlists(
+                                            playlistname: editController.text,
+                                            playlistsongs:
+                                                playdb[index].playlistsongs));
+                                    Navigator.pop(context);
+                                    ctx
+                                        .read<PlaylistBloc>()
+                                        .add(const GetAllPlaylist());
+                                  },
+                            child: Text(
+                              'OK',
+                              style: GoogleFonts.rubik(
+                                fontSize: 18,
+                                color: controller.text.isEmpty
+                                    ? Colors.white.withOpacity(0.5)
+                                    : Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          );
+                        },
                       );
                     }),
               ],

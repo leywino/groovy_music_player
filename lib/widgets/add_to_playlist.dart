@@ -1,7 +1,9 @@
+import 'package:firstproject/bloc/playlist/playlist_bloc.dart';
 import 'package:firstproject/database/playlist_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:core';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -217,47 +219,58 @@ showPlaylistList(BuildContext context, int songindex) {
                       shrinkWrap: true,
                       itemCount: playdb.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {
-                            List<Songs> playsongdb =
-                                playdb[index].playlistsongs;
-                            List<Songs> songdb = songbox.values.toList();
-                            bool isAlreadyAdded = playsongdb.any((element) =>
-                                element.id == songdb[songindex].id);
+                        return BlocBuilder<PlaylistBloc, PlaylistState>(
+                          builder: (ctx, state) {
+                            return ListTile(
+                              onTap: () {
+                                List<Songs> playsongdb =
+                                    playdb[index].playlistsongs;
+                                List<Songs> songdb = songbox.values.toList();
+                                bool isAlreadyAdded = playsongdb.any(
+                                    (element) =>
+                                        element.id == songdb[songindex].id);
 
-                            if (!isAlreadyAdded) {
-                              playsongdb.add(Songs(
-                                songname: songdb[songindex].songname,
-                                artist: songdb[songindex].artist,
-                                duration: songdb[songindex].duration,
-                                songurl: songdb[songindex].songurl,
-                                id: songdb[songindex].id,
-                              ));
+                                if (!isAlreadyAdded) {
+                                  playsongdb.add(Songs(
+                                    songname: songdb[songindex].songname,
+                                    artist: songdb[songindex].artist,
+                                    duration: songdb[songindex].duration,
+                                    songurl: songdb[songindex].songurl,
+                                    id: songdb[songindex].id,
+                                  ));
 
-                              playlistbox.putAt(
-                                  index,
-                                  Playlists(
-                                      playlistname: playdb[index].playlistname,
-                                      playlistsongs: playsongdb));
+                                  playlistbox.putAt(
+                                      index,
+                                      Playlists(
+                                          playlistname:
+                                              playdb[index].playlistname,
+                                          playlistsongs: playsongdb));
 
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  backgroundColor: Colors.black,
-                                  content: Text(
-                                      '${songdb[songindex].songname} Added to ${playdb[index].playlistname}')));
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  backgroundColor: Colors.black,
-                                  content: Text(
-                                      '${songdb[songindex].songname} is already added')));
-                            }
-                            Navigator.pop(context);
-                            Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          backgroundColor: Colors.black,
+                                          content: Text(
+                                              '${songdb[songindex].songname} Added to ${playdb[index].playlistname}')));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          backgroundColor: Colors.black,
+                                          content: Text(
+                                              '${songdb[songindex].songname} is already added')));
+                                }
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                ctx
+                                    .read<PlaylistBloc>()
+                                    .add(const GetAllPlaylist());
+                              },
+                              title: Text(
+                                playdb[index].playlistname,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            );
                           },
-                          title: Text(
-                            playdb[index].playlistname,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 18),
-                          ),
                         );
                       });
                 }),

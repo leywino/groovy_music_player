@@ -1,7 +1,9 @@
+import 'package:firstproject/bloc/playlist/playlist_bloc.dart';
 import 'package:firstproject/database/playlist_model.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PlaylistTitle extends StatefulWidget {
@@ -144,11 +146,14 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
                   ValueListenableBuilder<TextEditingValue>(
                       valueListenable: addController,
                       builder: (context, controller, child) {
-                        return TextButton(
+                        return BlocBuilder<PlaylistBloc, PlaylistState>(
+                          builder: (ctx, state) {
+                            return TextButton(
                           onPressed: addController.text.isEmpty
                               ? null
                               : !checkIfAlreadyExists(addController.text)
                                   ? () async {
+                                    ctx.read<PlaylistBloc>().add(const GetAllPlaylist());
                                       playlistbox.add(Playlists(
                                           playlistname: addController.text,
                                           playlistsongs: []));
@@ -172,6 +177,8 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
+                        );
+                          },
                         );
                       }),
                 ],
