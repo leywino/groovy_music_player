@@ -7,7 +7,7 @@ import 'dart:developer';
 part 'all_songs_event.dart';
 part 'all_songs_state.dart';
 
-@freezed
+
 class AllSongsBloc extends Bloc<AllSongsEvent, AllSongsState> {
   AllSongsBloc() : super(SongsInitial()) {
     on<GetAllSongs>((event, emit) {

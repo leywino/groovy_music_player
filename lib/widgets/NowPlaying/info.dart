@@ -1,9 +1,11 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:firstproject/bloc/favorites/favorites_bloc.dart';
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class NPInfo extends StatefulWidget {
@@ -64,26 +66,30 @@ class _NPInfoState extends State<NPInfo> {
                   ],
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  Favorite favval = Favorite(
-                      songname: songsdb[songindex].songname,
-                      artist: songsdb[songindex].artist,
-                      duration: songsdb[songindex].duration,
-                      songurl: songsdb[songindex].songurl,
-                      id: songsdb[songindex].id);
-                  addToFavorites(songindex, favval, context);
-                  setState(() {});
+              BlocBuilder<FavoritesBloc, FavoritesState>(
+                builder: (context, state) {
+                  return IconButton(
+                    onPressed: () {
+                      Favorite favval = Favorite(
+                          songname: songsdb[songindex].songname,
+                          artist: songsdb[songindex].artist,
+                          duration: songsdb[songindex].duration,
+                          songurl: songsdb[songindex].songurl,
+                          id: songsdb[songindex].id);
+                      context.read<FavoritesBloc>().add(AddToFavorite(favlist: favval));
+                      setState(() {});
+                    },
+                    icon: Icon(
+                      checkFavoriteStatus(songindex, context)
+                          ? Icons.favorite
+                          : Icons.favorite_outline,
+                      color: checkFavoriteStatus(songindex, context)
+                          ? Colors.pink
+                          : Colors.white,
+                    ),
+                  );
                 },
-                icon: Icon(
-                  checkFavoriteStatus(songindex, context)
-                      ? Icons.favorite
-                      : Icons.favorite_outline,
-                  color: checkFavoriteStatus(songindex, context)
-                      ? Colors.pink
-                      : Colors.white,
-                ),
-              ),
+              )
             ],
           ),
         );

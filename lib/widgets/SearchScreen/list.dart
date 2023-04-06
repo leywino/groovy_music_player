@@ -247,7 +247,7 @@ class _SearchListState extends State<SearchList> {
                       duration: searchlist[index].duration,
                       songurl: searchlist[index].songurl,
                       id: searchlist[index].id);
-                  await addToFavorites(index, favval, context);
+                  await addToFavorites(favval);
 
                   Navigator.pop(context);
                 },

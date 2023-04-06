@@ -1,5 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/bloc/all_songs/all_songs_bloc.dart';
+import 'package:firstproject/bloc/favorites/favorites_bloc.dart';
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/recently_played_model.dart';
@@ -24,6 +25,8 @@ class HomeMusicTiles extends StatefulWidget {
   State<HomeMusicTiles> createState() => _HomeMusicTilesState();
 }
 
+final GlobalKey<ScaffoldMessengerState> snackbarKey =
+    GlobalKey<ScaffoldMessengerState>();
 final recentlybox = RecentlyBox.getInstance();
 final songbox = SongBox.getInstance();
 final favoritebox = FavoriteBox.getInstance();
@@ -187,7 +190,11 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                       duration: songdb[index].duration,
                       songurl: songdb[index].songurl,
                       id: songdb[index].id);
-                  addToFavorites(index, favval, context);
+                  // addToFavorites(favval);
+                  context
+                      .read<FavoritesBloc>()
+                      .add(AddToFavorite(favlist: favval));
+
                   Navigator.pop(context);
                 },
                 icon: Icon(

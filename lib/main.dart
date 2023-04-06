@@ -1,10 +1,13 @@
 import 'package:firstproject/bloc/all_songs/all_songs_bloc.dart';
+import 'package:firstproject/bloc/favorites/favorites_bloc.dart';
+import 'package:firstproject/bloc/recently/recently_bloc.dart';
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/most_played_model.dart';
 import 'package:firstproject/database/playlist_model.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/database/song_model.dart';
 import 'package:firstproject/screens/splash.dart';
+import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,9 +38,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AllSongsBloc(),
         ),
-        // BlocProvider(
-        //   create: (context) => FavouritesBloc(),
-        // ),
+        BlocProvider(
+          create: (context) => FavoritesBloc(),
+        ),
         // BlocProvider(
         //   create: (context) => MostPlayedBloc(),
         // ),
@@ -47,11 +50,12 @@ class MyApp extends StatelessWidget {
         // BlocProvider(
         //   create: (context) => PlaylistBloc(),
         // ),
-        // BlocProvider(
-        //   create: (context) => RecentlyPlayedBloc(),
-        // ),
+        BlocProvider(
+          create: (context) => RecentlyBloc(),
+        ),
       ],
       child: MaterialApp(
+         scaffoldMessengerKey: snackbarKey,
         builder: (context, child) {
           return ScrollConfiguration(
             behavior: MyBehavior(),
