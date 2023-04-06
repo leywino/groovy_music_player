@@ -1,5 +1,6 @@
 import 'package:firstproject/bloc/all_songs/all_songs_bloc.dart';
 import 'package:firstproject/bloc/favorites/favorites_bloc.dart';
+import 'package:firstproject/bloc/playlist/playlist_bloc.dart';
 import 'package:firstproject/bloc/recently/recently_bloc.dart';
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/most_played_model.dart';
@@ -47,15 +48,15 @@ class MyApp extends StatelessWidget {
         // BlocProvider(
         //   create: (context) => NowPlayingBloc(),
         // ),
-        // BlocProvider(
-        //   create: (context) => PlaylistBloc(),
-        // ),
+        BlocProvider(
+          create: (context) => PlaylistBloc(),
+        ),
         BlocProvider(
           create: (context) => RecentlyBloc(),
         ),
       ],
       child: MaterialApp(
-         scaffoldMessengerKey: snackbarKey,
+        scaffoldMessengerKey: snackbarKey,
         builder: (context, child) {
           return ScrollConfiguration(
             behavior: MyBehavior(),

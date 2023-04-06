@@ -1,6 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/bloc/all_songs/all_songs_bloc.dart';
 import 'package:firstproject/bloc/favorites/favorites_bloc.dart';
+import 'package:firstproject/bloc/playlist/playlist_bloc.dart';
 import 'package:firstproject/bloc/recently/recently_bloc.dart';
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/most_played_model.dart';
@@ -91,7 +92,9 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                       songurl: state.songlist[index].songurl,
                       id: state.songlist[index].id,
                       index: index);
-                  context.read<RecentlyBloc>().add(UpdateRecently(recsongs: recsongs));
+                  context
+                      .read<RecentlyBloc>()
+                      .add(UpdateRecently(recsongs: recsongs));
                   HomeBottomTile.vindex.value = index;
                   NowPlayingScreen.spindex.value = index;
 
@@ -215,6 +218,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
               TextButton.icon(
                 onPressed: () {
                   addPlaylist(context, index);
+
                 },
                 icon: const Icon(
                   Icons.playlist_add,
