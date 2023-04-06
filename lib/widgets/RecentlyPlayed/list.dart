@@ -1,7 +1,9 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:firstproject/bloc/recently/recently_bloc.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -40,83 +42,82 @@ class _RecentlyListState extends State<RecentlyList> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<Box<Recently>>(
-      valueListenable: box.listenable(),
-      builder: ((context, Box<Recently> recentDB, child) {
-        double vww = MediaQuery.of(context).size.width;
-        double vwh = MediaQuery.of(context).size.height;
-        List<Recently> recentdb = recentDB.values.toList();
-        return recentdb.isEmpty
-            ? Padding(
-                padding: EdgeInsets.only(top: vwh * 0.25),
-                child: const Center(
-                  child: Text(
-                    'You have no recently played songs!',
-                    style: TextStyle(color: Colors.white, fontSize: 23),
+    final vww = MediaQuery.of(context).size.width;
+    final vwh = MediaQuery.of(context).size.height;
+    return BlocBuilder<RecentlyBloc, RecentlyState>(
+      builder: (context, state) {
+        if (state is RecentlyInitial) {
+          context.read<RecentlyBloc>().add(const GetAllRecently());
+        }
+        if (state is DisplayRecentlyState) {
+          return ListView.builder(
+            reverse: true,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: state.recentlylist.length,
+            itemBuilder: ((context, index) {
+              return ListTile(
+                leading: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: QueryArtworkWidget(
+                    artworkBorder: BorderRadius.circular(8),
+                    keepOldArtwork: true,
+                    id: state.recentlylist[index].id!,
+                    type: ArtworkType.AUDIO,
+                    nullArtworkWidget: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Image.asset(
+                        'assets/images/music.jpg',
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
-              )
-            : ListView.builder(
-                reverse: true,
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: recentdb.length,
-                itemBuilder: ((context, index) {
-                  return ListTile(
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: QueryArtworkWidget(
-                        artworkBorder: BorderRadius.circular(8),
-                        keepOldArtwork: true,
-                        id: recentdb[index].id!,
-                        type: ArtworkType.AUDIO,
-                        nullArtworkWidget: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: Image.asset(
-                            'assets/images/music.jpg',
-                            height: 50,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                title: Text(
+                  state.recentlylist[index].songname!,
+                  style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+                ),
+                subtitle: Padding(
+                  padding: EdgeInsets.only(bottom: vww * 0.035),
+                  child: Text(
+                    state.recentlylist[index].artist!,
+                    style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
+                  ),
+                ),
+                onTap: () async {
+                  // HomeBottomTile.vindex.value = index;
+                  // NowPlayingScreen.spindex.value = index;
+                  await player.open(
+                      Playlist(audios: recentplayedaudio, startIndex: index),
+                      showNotification: true,
+                      headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+                      loopMode: LoopMode.playlist);
+                  // ignore: use_build_context_synchronously
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => NowPlayingScreen(
+                        intindex: state.recentlylist[index].index!,
+                        opendb: state.recentlylist,
                       ),
                     ),
-                    title: Text(
-                      recentdb[index].songname!,
-                      style:
-                          GoogleFonts.rubik(fontSize: 20, color: Colors.white),
-                    ),
-                    subtitle: Padding(
-                      padding: EdgeInsets.only(bottom: vww * 0.035),
-                      child: Text(
-                        recentdb[index].artist!,
-                        style:
-                            GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
-                      ),
-                    ),
-                    onTap: () async {
-                      // HomeBottomTile.vindex.value = index;
-                      // NowPlayingScreen.spindex.value = index;
-                      await player.open(
-                          Playlist(
-                              audios: recentplayedaudio, startIndex: index),
-                          showNotification: true,
-                          headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-                          loopMode: LoopMode.playlist);
-                      // ignore: use_build_context_synchronously
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) => NowPlayingScreen(
-                            intindex: recentdb[index].index!,
-                            opendb: recentdb,
-                          ),
-                        ),
-                      );
-                    },
                   );
-                }),
+                },
               );
-      }),
+            }),
+          );
+        }
+        return Padding(
+          padding: EdgeInsets.only(top: vwh * 0.25),
+          child: const Center(
+            child: Text(
+              'You have no recently played songs!',
+              style: TextStyle(color: Colors.white, fontSize: 23),
+            ),
+          ),
+        );
+      },
     );
   }
 }

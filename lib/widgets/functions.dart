@@ -4,6 +4,7 @@ import 'package:firstproject/database/playlist_model.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 checkRecentlyPlayed(Recently value) {
   List<Recently> list = recentlybox.values.toList();
@@ -38,14 +39,14 @@ checkMostPlayed(Most value, index) {
   value.count++;
 }
 
-addToFavorites(int index, Favorite value, BuildContext context) async {
+addToFavorites(Favorite value) async {
   List<Favorite> favdb = favoritebox.values.toList();
   bool isAlreadyThere =
       favdb.where((element) => element.songname == value.songname).isEmpty;
   if (isAlreadyThere == true) {
-    // if (true) {
     favoritebox.add(value);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    ScaffoldMessenger.of(snackbarKey.currentContext!)
+        .showSnackBar(const SnackBar(
       duration: Duration(seconds: 1),
       behavior: SnackBarBehavior.floating,
       content: Text("Added to favorites"),
@@ -55,7 +56,8 @@ addToFavorites(int index, Favorite value, BuildContext context) async {
         favdb.indexWhere((element) => element.songname == value.songname);
     favoritebox.deleteAt(sindex);
 
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    ScaffoldMessenger.of(snackbarKey.currentContext!)
+        .showSnackBar(const SnackBar(
       duration: Duration(seconds: 1),
       behavior: SnackBarBehavior.floating,
       content: Text("Removed from favorites"),
