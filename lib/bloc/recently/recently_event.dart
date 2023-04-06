@@ -12,3 +12,12 @@ class GetAllRecently extends RecentlyEvent {
   @override
   List<Object> get props => [];
 }
+
+class UpdateRecently extends RecentlyEvent {
+  final Recently recsongs;
+  const UpdateRecently({
+    required this.recsongs,
+  });
+  @override
+  List<Object> get props => [recsongs];
+}
