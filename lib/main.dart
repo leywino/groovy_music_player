@@ -1,5 +1,6 @@
 import 'package:firstproject/bloc/all_songs/all_songs_bloc.dart';
 import 'package:firstproject/bloc/favorites/favorites_bloc.dart';
+import 'package:firstproject/bloc/most/most_bloc.dart';
 import 'package:firstproject/bloc/playlist/playlist_bloc.dart';
 import 'package:firstproject/bloc/recently/recently_bloc.dart';
 import 'package:firstproject/database/favorite_model.dart';
@@ -42,9 +43,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => FavoritesBloc(),
         ),
-        // BlocProvider(
-        //   create: (context) => MostPlayedBloc(),
-        // ),
+        BlocProvider(
+          create: (context) => MostBloc(),
+        ),
         // BlocProvider(
         //   create: (context) => NowPlayingBloc(),
         // ),
