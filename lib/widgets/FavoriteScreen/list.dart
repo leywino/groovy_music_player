@@ -1,13 +1,11 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/bloc/favorites/favorites_bloc.dart';
 import 'package:firstproject/database/favorite_model.dart';
-import 'package:firstproject/screens/favorites.dart';
 import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class FavoriteLists extends StatefulWidget {
@@ -23,30 +21,6 @@ List<Audio> allfavaudio = [];
 
 class _FavoriteListsState extends State<FavoriteLists> {
   @override
-  void dispose() {
-    allfavaudio.clear();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    final List<Favorite> favouritesongs = favoritebox.values.toList();
-    for (var item in favouritesongs) {
-      allfavaudio.add(
-        Audio.file(
-          item.songurl.toString(),
-          metas: Metas(
-            artist: item.artist,
-            title: item.songname,
-            id: item.id.toString(),
-          ),
-        ),
-      );
-    }
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
     double vwh = MediaQuery.of(context).size.height;
@@ -57,6 +31,19 @@ class _FavoriteListsState extends State<FavoriteLists> {
           context.read<FavoritesBloc>().add(const GetAllFavs());
         }
         if (state is DisplayAllFavs) {
+          final List<Favorite> favouritesongs = favoritebox.values.toList();
+          for (var item in favouritesongs) {
+            allfavaudio.add(
+              Audio.file(
+                item.songurl.toString(),
+                metas: Metas(
+                  artist: item.artist,
+                  title: item.songname,
+                  id: item.id.toString(),
+                ),
+              ),
+            );
+          }
           return state.favlist.isEmpty
               ? Padding(
                   padding: EdgeInsets.only(top: vwh * 0.25),
@@ -74,6 +61,7 @@ class _FavoriteListsState extends State<FavoriteLists> {
                   itemBuilder: (context, index) {
                     return ListTile(
                       onTap: () async {
+                        // getFavoriteSongs();
                         if (allfavaudio.isEmpty) {
                           for (var item in state.favlist) {
                             allfavaudio.add(
@@ -153,7 +141,9 @@ class _FavoriteListsState extends State<FavoriteLists> {
                         child: IconButton(
                           onPressed: () async {
                             allfavaudio.clear();
-                            context.read<FavoritesBloc>().add(RemoveFromFavorite(index: index));
+                            context
+                                .read<FavoritesBloc>()
+                                .add(RemoveFromFavorite(index: index));
                             // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(

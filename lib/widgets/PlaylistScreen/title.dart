@@ -8,8 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class PlaylistTitle extends StatefulWidget {
   static ValueNotifier<bool> editPlaylistOrNot =
-      ValueNotifier(editPlaylistBool);
-  static bool editPlaylistBool = false;
+      ValueNotifier(false);
   const PlaylistTitle({super.key});
 
   @override
@@ -18,17 +17,6 @@ class PlaylistTitle extends StatefulWidget {
 
 class _PlaylistTitleState extends State<PlaylistTitle> {
   final addController = TextEditingController();
-  @override
-  void initState() {
-    PlaylistTitle.editPlaylistOrNot.value = false;
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    addController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,30 +48,34 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
             children: [
               GestureDetector(
                 onTap: () {
-                  setState(() {
+                  
                     PlaylistTitle.editPlaylistOrNot.value =
                         !PlaylistTitle.editPlaylistOrNot.value;
-                  });
+                  
                 },
-                child: Center(
-                  child: !PlaylistTitle.editPlaylistOrNot.value
-                      ? Container(
-                          decoration: const BoxDecoration(
-                              color: Colors.white, shape: BoxShape.circle),
-                          child: const Padding(
-                            padding: EdgeInsets.all(4),
-                            child: Icon(
-                              Icons.edit,
-                              color: mainBgColor,
-                              size: 22,
+                child: ValueListenableBuilder(
+                  valueListenable: PlaylistTitle.editPlaylistOrNot,
+                  builder: (context, editPlaylistbool, child) => Center(
+                    child: !editPlaylistbool
+                        ? Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.white, shape: BoxShape.circle),
+                            child: const Padding(
+                              padding: EdgeInsets.all(4),
+                              child: Icon(
+                                Icons.edit,
+                                color: mainBgColor,
+                                size: 22,
+                              ),
                             ),
+                          )
+                        : const Icon(
+                            Icons.check_circle_rounded,
+                            size: 36,
+                            color: Colors.green,
                           ),
-                        )
-                      : const Icon(
-                          Icons.check_circle_rounded,
-                          size: 36,
-                          color: Colors.green,
-                        ),
+                  ),
+                  
                 ),
               ),
               IconButton(

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:firstproject/database/recently_played_model.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+// ignore: depend_on_referenced_packages
 import 'package:equatable/equatable.dart';
 part 'recently_event.dart';
 part 'recently_state.dart';

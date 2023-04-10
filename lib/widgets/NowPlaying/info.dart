@@ -76,8 +76,9 @@ class _NPInfoState extends State<NPInfo> {
                           duration: songsdb[songindex].duration,
                           songurl: songsdb[songindex].songurl,
                           id: songsdb[songindex].id);
-                      context.read<FavoritesBloc>().add(AddToFavorite(favlist: favval));
-                      setState(() {});
+                      context
+                          .read<FavoritesBloc>()
+                          .add(AddToFavorite(favlist: favval));
                     },
                     icon: Icon(
                       checkFavoriteStatus(songindex, context)

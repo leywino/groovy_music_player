@@ -13,7 +13,7 @@ class FavoriteInitial extends FavoritesState {
 
 class DisplayAllFavs extends FavoritesState {
   final List<Favorite> favlist;
-  DisplayAllFavs({required this.favlist});
+  const DisplayAllFavs({required this.favlist});
   @override
   List<Object> get props => [favlist];
 }

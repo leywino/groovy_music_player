@@ -15,24 +15,6 @@ List<Audio> allfavaudio = [];
 
 class _FavoriteTitleState extends State<FavoriteTitle> {
   @override
-  void initState() {
-    final favSongsdb = favoritebox.values.toList();
-    for (var item in favSongsdb) {
-      allfavaudio.add(
-        Audio.file(
-          item.songurl.toString(),
-          metas: Metas(
-            artist: item.artist,
-            title: item.songname,
-            id: item.id.toString(),
-          ),
-        ),
-      );
-    }
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
     double vwh = MediaQuery.of(context).size.height;
@@ -59,6 +41,19 @@ class _FavoriteTitleState extends State<FavoriteTitle> {
           ),
           player.builderIsPlaying(
             builder: (context, isPlaying) {
+              final favSongsdb = favoritebox.values.toList();
+              for (var item in favSongsdb) {
+                allfavaudio.add(
+                  Audio.file(
+                    item.songurl.toString(),
+                    metas: Metas(
+                      artist: item.artist,
+                      title: item.songname,
+                      id: item.id.toString(),
+                    ),
+                  ),
+                );
+              }
               return GestureDetector(
                 onTap: () {
                   if (!isPlaying) {

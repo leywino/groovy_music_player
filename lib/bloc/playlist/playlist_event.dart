@@ -13,6 +13,7 @@ class GetAllPlaylist extends PlaylistEvent {
   List<Object> get props => [];
 }
 
+// ignore: must_be_immutable
 class DisplaySpecificPlaylist extends PlaylistEvent {
   int intindex;
   String playlistname;

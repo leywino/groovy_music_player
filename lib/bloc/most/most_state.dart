@@ -14,7 +14,7 @@ class MostInitial extends MostState {
 
 class DisplayMostSongs extends MostState {
   final List<Most> mostlist;
-  DisplayMostSongs({required this.mostlist});
+  const DisplayMostSongs({required this.mostlist});
   @override
   List<Object> get props => [mostlist];
 }

@@ -6,7 +6,6 @@ import 'package:firstproject/screens/now_playing.dart';
 import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/HomeScreen/bottom_tile.dart';
-import 'package:firstproject/widgets/PlaylistScreen/appbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 // ignore: must_be_immutable
 class PlaylistSongList extends StatefulWidget {
   static ValueNotifier<bool> hideEditNotifier = ValueNotifier(hideEdit);
-  PlaylistSongList({super.key});
+  const PlaylistSongList({super.key});
 
   @override
   State<PlaylistSongList> createState() => _PlaylistSongListState();
@@ -77,7 +76,9 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                         return IconButton(
                           onPressed: () {
                             Navigator.pop(context);
-                            ctx.read<PlaylistBloc>().add(const GetAllPlaylist());
+                            ctx
+                                .read<PlaylistBloc>()
+                                .add(const GetAllPlaylist());
                           },
                           icon: const Padding(
                             padding: EdgeInsets.only(left: 8.0),
@@ -314,19 +315,16 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                                     visible: !hideEdits,
                                                     child: IconButton(
                                                       onPressed: () {
-                                                        setState(() {
-                                                          songs.removeAt(index);
-                                                          playdb.removeAt(
-                                                              state.index);
-                                                          playlistbox.putAt(
-                                                              state.index,
-                                                              Playlists(
-                                                                  playlistname:
-                                                                      state
-                                                                          .playlistname,
-                                                                  playlistsongs:
-                                                                      songs));
-                                                        });
+                                                        songs.removeAt(index);
+                                                        playdb.removeAt(
+                                                            state.index);
+                                                        playlistbox.putAt(
+                                                            state.index,
+                                                            Playlists(
+                                                                playlistname: state
+                                                                    .playlistname,
+                                                                playlistsongs:
+                                                                    songs));
 
                                                         Navigator
                                                             .pushReplacement(
@@ -335,7 +333,7 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                                             pageBuilder: (context,
                                                                     animation1,
                                                                     animation2) =>
-                                                                PlaylistSongList(),
+                                                                const PlaylistSongList(),
                                                             transitionDuration:
                                                                 Duration.zero,
                                                             reverseTransitionDuration:

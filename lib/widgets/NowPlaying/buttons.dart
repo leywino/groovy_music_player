@@ -12,10 +12,8 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class NPButtons extends StatefulWidget {
-  static ValueNotifier<bool> playingOrNot = ValueNotifier(isPlaying);
   static bool isPlaying = false;
   NPButtons({super.key, required this.intindex});
-
   int intindex = HomeBottomTile.intindex;
   Duration duration = const Duration();
   Duration position = const Duration();
@@ -24,34 +22,14 @@ class NPButtons extends StatefulWidget {
   State<NPButtons> createState() => _NPButtonsState();
 }
 
-bool skipSeekBool = true;
-bool prevSeekBool = true;
+ValueNotifier<bool> willRepeatNotifier = ValueNotifier(false);
 
-bool willRepeat = false;
 List<Audio> convert = [];
 AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
 final recentlybox = RecentlyBox.getInstance();
 List<Most> mostdb = mostbox.values.toList();
 
 class _NPButtonsState extends State<NPButtons> {
-  @override
-  void initState() {
-    List<Songs> songdb = songbox.values.toList();
-    for (var item in songdb) {
-      convert.add(
-        Audio.file(
-          item.songurl!,
-          metas: Metas(
-            title: item.songname,
-            artist: item.artist,
-            id: item.id.toString(),
-          ),
-        ),
-      );
-    }
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final box = SongBox.getInstance();
@@ -68,42 +46,29 @@ class _NPButtonsState extends State<NPButtons> {
                   alignment: WrapAlignment.center,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          willRepeat = !willRepeat;
-                        });
-                        !willRepeat
-                            ? player.setLoopMode(LoopMode.none)
-                            : player.setLoopMode(LoopMode.single);
-                      },
-                      child: willRepeat
-                          ? const Icon(
-                              Icons.repeat,
-                              color: Colors.green,
-                              size: 35,
-                            )
-                          : const Icon(
-                              Icons.repeat,
-                              color: Colors.white,
-                              size: 35,
-                            ),
+                    ValueListenableBuilder(
+                      valueListenable: willRepeatNotifier,
+                      builder: (context, willRepeat, child) => GestureDetector(
+                        onTap: () {
+                          willRepeatNotifier.value = !willRepeatNotifier.value;
+                          !willRepeat
+                              ? player.setLoopMode(LoopMode.none)
+                              : player.setLoopMode(LoopMode.single);
+                        },
+                        child: willRepeat
+                            ? const Icon(
+                                Icons.repeat,
+                                color: Colors.green,
+                                size: 35,
+                              )
+                            : const Icon(
+                                Icons.repeat,
+                                color: Colors.white,
+                                size: 35,
+                              ),
+                      ),
                     ),
                     GestureDetector(
-                      onHorizontalDragStart: (details) async {
-                        await player.seekBy(const Duration(seconds: -10));
-                        setState(() {
-                          prevSeekBool = !prevSeekBool;
-                        });
-                        await Future.delayed(const Duration(seconds: 1), () {
-                          setState(() {
-                            prevSeekBool = !prevSeekBool;
-                          });
-                        });
-                        // setState(() {
-                        //   prevSeekBool = !prevSeekBool;
-                        // });
-                      },
                       onTap: checkIndexPrev(widget.intindex, playing)
                           ? null
                           : () async {
@@ -126,9 +91,7 @@ class _NPButtonsState extends State<NPButtons> {
                               checkRecentlyPlayed(recsongs);
                             },
                       child: Icon(
-                        prevSeekBool
-                            ? Icons.skip_previous
-                            : Icons.fast_rewind_rounded,
+                        Icons.skip_previous,
                         color: checkIndexPrev(widget.intindex, playing)
                             ? Colors.white.withOpacity(0.5)
                             : Colors.white,
@@ -152,20 +115,6 @@ class _NPButtonsState extends State<NPButtons> {
                           );
                         }),
                     GestureDetector(
-                      onHorizontalDragStart: (details) async {
-                        await player.seekBy(const Duration(seconds: 10));
-                        setState(() {
-                          skipSeekBool = !skipSeekBool;
-                        });
-                        await Future.delayed(const Duration(seconds: 1), () {
-                          setState(() {
-                            skipSeekBool = !skipSeekBool;
-                          });
-                        });
-                        // setState(() {
-                        //   prevSeekBool = !prevSeekBool;
-                        // });
-                      },
                       onTap: checkIndexSkip(widget.intindex, playing)
                           ? null
                           : () async {
@@ -188,9 +137,7 @@ class _NPButtonsState extends State<NPButtons> {
                               checkRecentlyPlayed(recsongs);
                             },
                       child: Icon(
-                        skipSeekBool
-                            ? Icons.skip_next
-                            : Icons.fast_forward_rounded,
+                        Icons.skip_next,
                         color: checkIndexSkip(widget.intindex, playing)
                             ? Colors.white.withOpacity(0.5)
                             : Colors.white,
