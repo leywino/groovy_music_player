@@ -5,7 +5,6 @@ import 'package:firstproject/screens/now_playing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class RecentlyList extends StatefulWidget {
@@ -21,24 +20,6 @@ class _RecentlyListState extends State<RecentlyList> {
   final List<Recently> recentplay = [];
   final box = RecentlyBox.getInstance();
   List<Audio> recentplayedaudio = [];
-  @override
-  void initState() {
-    final List<Recently> recentdb = box.values.toList();
-    for (var item in recentdb) {
-      recentplayedaudio.add(
-        Audio.file(
-          item.songurl.toString(),
-          metas: Metas(
-            artist: item.artist,
-            title: item.songname,
-            id: item.id.toString(),
-          ),
-        ),
-      );
-      setState(() {});
-    }
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +31,19 @@ class _RecentlyListState extends State<RecentlyList> {
           context.read<RecentlyBloc>().add(const GetAllRecently());
         }
         if (state is DisplayRecentlyState) {
+          final List<Recently> recentdb = box.values.toList();
+          for (var item in recentdb) {
+            recentplayedaudio.add(
+              Audio.file(
+                item.songurl.toString(),
+                metas: Metas(
+                  artist: item.artist,
+                  title: item.songname,
+                  id: item.id.toString(),
+                ),
+              ),
+            );
+          }
           return ListView.builder(
             reverse: true,
             physics: const NeverScrollableScrollPhysics(),

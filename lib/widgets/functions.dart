@@ -4,7 +4,6 @@ import 'package:firstproject/database/playlist_model.dart';
 import 'package:firstproject/database/recently_played_model.dart';
 import 'package:firstproject/widgets/HomeScreen/list.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 checkRecentlyPlayed(Recently value) {
   List<Recently> list = recentlybox.values.toList();

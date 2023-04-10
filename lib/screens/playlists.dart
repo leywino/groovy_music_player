@@ -19,8 +19,8 @@ class ScreenPlaylists extends StatelessWidget {
           appBar: const CustomAppbar(),
           body: SingleChildScrollView(
             child: Column(
-              children: const [
-                PlaylistTitle(),
+              children:  [
+                const PlaylistTitle(),
                 PlaylistList(),
               ],
             ),

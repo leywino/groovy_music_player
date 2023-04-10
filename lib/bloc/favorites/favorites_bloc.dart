@@ -1,12 +1,13 @@
 import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:firstproject/database/favorite_model.dart';
+// ignore: depend_on_referenced_packages
 import 'package:equatable/equatable.dart';
 part 'favorites_event.dart';
 part 'favorites_state.dart';
 
 class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
-  FavoritesBloc() : super(FavoriteInitial()) {
+  FavoritesBloc() : super(const FavoriteInitial()) {
     on<GetAllFavs>((event, emit) {
       try {
         final favbox = FavoriteBox.getInstance();

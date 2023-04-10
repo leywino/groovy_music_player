@@ -10,8 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable
 class ScreenHome extends StatefulWidget {
-  ScreenHome({super.key, this.allSongs});
-  dynamic allSongs;
+  const ScreenHome({super.key});
   @override
   State<ScreenHome> createState() => _ScreenHomeState();
 }
@@ -109,7 +108,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                       EdgeInsets.only(top: vwh * 0.015, bottom: vwh * 0.015),
                   child: const HomeTitle(titletexthome: allsongs),
                 ),
-                const HomeMusicTiles(),
+                HomeMusicTiles(),
               ],
             ),
           ),

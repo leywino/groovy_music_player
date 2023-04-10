@@ -14,7 +14,7 @@ class SongsInitial extends AllSongsState {
 
 class DisplayAllSongs extends AllSongsState {
   final List<Songs> songlist;
-  DisplayAllSongs({required this.songlist});
+  const DisplayAllSongs({required this.songlist});
   @override
   List<Object> get props => [songlist];
 }

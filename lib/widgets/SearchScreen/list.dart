@@ -10,51 +10,13 @@ import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/FavoriteScreen/list.dart';
 import 'package:firstproject/widgets/add_to_playlist.dart';
 import 'package:firstproject/widgets/functions.dart';
-import 'package:firstproject/widgets/navbar.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class SearchList extends StatefulWidget {
+class SearchList extends StatelessWidget {
   const SearchList({super.key});
-  @override
-  State<SearchList> createState() => _SearchListState();
-}
-
-final songbox = SongBox.getInstance();
-List<Most> mostlist = mostbox.values.toList();
-List<Songs>? searchsongsdb = songbox.values.toList();
-List<Audio> allsongs = [];
-var searchController = TextEditingController();
-
-class _SearchListState extends State<SearchList> {
-  @override
-  void dispose() {
-    allsongs.clear();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    searchsongsdb = songbox.values.toList();
-    super.initState();
-    for (var item in searchlist) {
-      allsongs.add(
-        Audio.file(
-          item.songurl.toString(),
-          metas: Metas(
-            artist: item.artist,
-            title: item.songname,
-            id: item.id.toString(),
-          ),
-        ),
-      );
-    }
-  }
-
-  List<Songs> searchlist = List.from(searchsongsdb!);
-
+  // List<Songs> searchlist = List.from(searchsongsdb!);
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
@@ -65,12 +27,16 @@ class _SearchListState extends State<SearchList> {
           child: SizedBox(
             height: vww * 0.15,
             child: TextFormField(
-              onSaved: (value) => setState(() {
-                updateSearch(value!);
-              }),
-              onChanged: (value) => setState(() {
-                updateSearch(value);
-              }),
+              // onSaved: (value) =>  (value!),
+              onChanged: (value) {
+                displaySearchSongNotifier.value = searchsongsdb!
+                    .where(
+                      (element) => element.songname!.toLowerCase().contains(
+                            value.toLowerCase(),
+                          ),
+                    )
+                    .toList();
+              },
               style: GoogleFonts.rubik(color: Colors.white),
               controller: searchController,
               decoration: InputDecoration(
@@ -80,15 +46,6 @@ class _SearchListState extends State<SearchList> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     clearText();
-                    Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            NavBarBottom(selectedIndex: 1),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      ),
-                    );
                   },
                   icon: const Icon(
                     Icons.clear,
@@ -117,113 +74,213 @@ class _SearchListState extends State<SearchList> {
             ),
           ),
         ),
-        searchlist.isEmpty
-            ? Padding(
-                padding: EdgeInsets.symmetric(horizontal: vww * 0.03),
-                child: Row(
-                  children: const [
-                    Text(
-                      'No songs found',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    )
-                  ],
-                ),
-              )
-            : ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: searchlist.length,
-                itemBuilder: (context, index) {
-                  // Most mostsongs = mostlist[index];
-                  return ListTile(
-                    onTap: () async {
-                      // checkMostPlayed(mostsongs, index);
-                      // Recently recsongs = Recently(
-                      //     songname: searchlist[index].songname,
-                      //     artist: searchlist[index].artist,
-                      //     duration: searchlist[index].duration,
-                      //     songurl: searchlist[index].songurl,
-                      //     id: searchlist[index].id);
-                      // checkRecentlyPlayed(recsongs, index);
-                      if (allsongs.isEmpty) {
-                        for (var item in searchlist) {
-                          allsongs.add(
-                            Audio.file(
-                              item.songurl.toString(),
-                              metas: Metas(
-                                artist: item.artist,
-                                title: item.songname,
-                                id: item.id.toString(),
+        ValueListenableBuilder<List<Songs>>(
+            valueListenable: displaySearchSongNotifier,
+            builder: (context, searchlist, child) {
+              return ValueListenableBuilder<TextEditingValue>(
+                valueListenable: searchController,
+                builder: (context, searchString, child) {
+                  return searchString.text.isEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: searchsongsdb!.length,
+                          itemBuilder: (context, index) {
+                            // Most mostsongs = mostlist[index];
+                            return ListTile(
+                              onTap: () async {
+                                for (var item in searchsongsdb!) {
+                                  allsongs.add(
+                                    Audio.file(
+                                      item.songurl!,
+                                      metas: Metas(
+                                        title: item.songname,
+                                        artist: item.artist,
+                                        id: item.id.toString(),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                // print(
+                                //     " ahjfjkshdjkfhadjkfhajksdhf ${allsongs.length}");
+                                // print(
+                                //     " ahjfjkshdjkfhadjkfhajksdhf ${searchlist.length}");
+                                // checkMostPlayed(mostsongs, index);
+                                // Recently recsongs = Recently(
+                                //     songname: searchlist[index].songname,
+                                //     artist: searchlist[index].artist,
+                                //     duration: searchlist[index].duration,
+                                //     songurl: searchlist[index].songurl,
+                                //     id: searchlist[index].id);
+                                // checkRecentlyPlayed(recsongs, index);
+                                await player.open(
+                                    Playlist(
+                                        audios: allsongs, startIndex: index),
+                                    showNotification: notificationBool,
+                                    headPhoneStrategy:
+                                        HeadPhoneStrategy.pauseOnUnplug,
+                                    loopMode: LoopMode.playlist);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => NowPlayingScreen(),
+                                  ),
+                                );
+                                allsongs.clear();
+                              },
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: QueryArtworkWidget(
+                                  artworkBorder: BorderRadius.circular(8),
+                                  keepOldArtwork: true,
+                                  id: searchsongsdb![index].id!,
+                                  type: ArtworkType.AUDIO,
+                                  nullArtworkWidget: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Image.asset(
+                                      'assets/images/music.jpg',
+                                      height: 50,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          );
-                        }
-                        await player.open(
-                            Playlist(audios: allsongs, startIndex: index),
-                            showNotification: notificationBool,
-                            headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-                            loopMode: LoopMode.playlist);
-                      }
-                      await player.open(
-                          Playlist(audios: allsongs, startIndex: index),
-                          showNotification: notificationBool,
-                          headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-                          loopMode: LoopMode.playlist);
-                      setState(() {});
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) => NowPlayingScreen(),
-                        ),
-                      );
-                    },
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: QueryArtworkWidget(
-                        artworkBorder: BorderRadius.circular(8),
-                        keepOldArtwork: true,
-                        id: searchlist[index].id!,
-                        type: ArtworkType.AUDIO,
-                        nullArtworkWidget: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: Image.asset(
-                            'assets/images/music.jpg',
-                            height: 50,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    title: Text(
-                      searchlist[index].songname!,
-                      style:
-                          GoogleFonts.rubik(fontSize: 20, color: Colors.white),
-                    ),
-                    subtitle: Padding(
-                      padding: EdgeInsets.only(bottom: vww * 0.035),
-                      child: Text(
-                        searchlist[index].artist!,
-                        style:
-                            GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
-                      ),
-                    ),
-                    // trailing: Wrap(
-                    //   children: [
-                    //     IconButton(
-                    //       onPressed: () {
-                    //         // showOptions(context, index);
-                    //       },
-                    //       icon: const Icon(
-                    //         Icons.more_vert,
-                    //         color: Colors.white,
-                    //         size: 25,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                  );
+                              title: Text(
+                                searchsongsdb![index].songname!,
+                                style: GoogleFonts.rubik(
+                                    fontSize: 20, color: Colors.white),
+                              ),
+                              subtitle: Padding(
+                                padding: EdgeInsets.only(bottom: vww * 0.035),
+                                child: Text(
+                                  searchsongsdb![index].artist!,
+                                  style: GoogleFonts.rubik(
+                                      color: Colors.grey, fontSize: 18),
+                                ),
+                              ),
+                              // trailing: Wrap(
+                              //   children: [
+                              //     IconButton(
+                              //       onPressed: () {
+                              //         // showOptions(context, index);
+                              //       },
+                              //       icon: const Icon(
+                              //         Icons.more_vert,
+                              //         color: Colors.white,
+                              //         size: 25,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                            );
+                          },
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: searchlist.length,
+                          itemBuilder: (context, index) {
+                            // Most mostsongs = mostlist[index];
+                            return ListTile(
+                              onTap: () async {
+                                for (var item in searchlist) {
+                                  allsongs.add(
+                                    Audio.file(
+                                      item.songurl!,
+                                      metas: Metas(
+                                        title: item.songname,
+                                        artist: item.artist,
+                                        id: item.id.toString(),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                // print(
+                                //     " ahjfjkshdjkfhadjkfhajksdhf ${allsongs.length}");
+                                // print(
+                                //     " ahjfjkshdjkfhadjkfhajksdhf ${searchlist.length}");
+                                // checkMostPlayed(mostsongs, index);
+                                // Recently recsongs = Recently(
+                                //     songname: searchlist[index].songname,
+                                //     artist: searchlist[index].artist,
+                                //     duration: searchlist[index].duration,
+                                //     songurl: searchlist[index].songurl,
+                                //     id: searchlist[index].id);
+                                // checkRecentlyPlayed(recsongs, index);
+                                // if (searchlist.isEmpty) {
+                                //   await player.open(
+                                //       Playlist(
+                                //           audios: allsongs, startIndex: index),
+                                //       showNotification: notificationBool,
+                                //       headPhoneStrategy:
+                                //           HeadPhoneStrategy.pauseOnUnplug,
+                                //       loopMode: LoopMode.playlist);
+                                // }
+                                await player.open(
+                                    Playlist(
+                                        audios: allsongs, startIndex: index),
+                                    showNotification: notificationBool,
+                                    headPhoneStrategy:
+                                        HeadPhoneStrategy.pauseOnUnplug,
+                                    loopMode: LoopMode.playlist);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => NowPlayingScreen(),
+                                  ),
+                                );
+                                allsongs.clear();
+                              },
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: QueryArtworkWidget(
+                                  artworkBorder: BorderRadius.circular(8),
+                                  keepOldArtwork: true,
+                                  id: searchlist[index].id!,
+                                  type: ArtworkType.AUDIO,
+                                  nullArtworkWidget: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Image.asset(
+                                      'assets/images/music.jpg',
+                                      height: 50,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              title: Text(
+                                searchlist[index].songname!,
+                                style: GoogleFonts.rubik(
+                                    fontSize: 20, color: Colors.white),
+                              ),
+                              subtitle: Padding(
+                                padding: EdgeInsets.only(bottom: vww * 0.035),
+                                child: Text(
+                                  searchlist[index].artist!,
+                                  style: GoogleFonts.rubik(
+                                      color: Colors.grey, fontSize: 18),
+                                ),
+                              ),
+                              // trailing: Wrap(
+                              //   children: [
+                              //     IconButton(
+                              //       onPressed: () {
+                              //         // showOptions(context, index);
+                              //       },
+                              //       icon: const Icon(
+                              //         Icons.more_vert,
+                              //         color: Colors.white,
+                              //         size: 25,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                            );
+                          },
+                        );
                 },
-              ),
+              );
+            }),
       ],
     );
   }
@@ -242,11 +299,11 @@ class _SearchListState extends State<SearchList> {
                 // ignore: duplicate_ignore
                 onPressed: () async {
                   Favorite favval = Favorite(
-                      songname: searchlist[index].songname,
-                      artist: searchlist[index].artist,
-                      duration: searchlist[index].duration,
-                      songurl: searchlist[index].songurl,
-                      id: searchlist[index].id);
+                      songname: searchsongsdb![index].songname,
+                      artist: searchsongsdb![index].artist,
+                      duration: searchsongsdb![index].duration,
+                      songurl: searchsongsdb![index].songurl,
+                      id: searchsongsdb![index].id);
                   await addToFavorites(favval);
 
                   Navigator.pop(context);
@@ -287,33 +344,16 @@ class _SearchListState extends State<SearchList> {
       ),
     );
   }
-
-  void updateSearch(String value) {
-    List<Songs> songssdb = songbox.values.toList();
-    setState(() {
-      if (value.isEmpty) {
-        searchlist = songssdb;
-      }
-      searchlist = searchsongsdb!
-          .where((element) =>
-              element.songname!.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-      allsongs.clear();
-      for (var item in searchlist) {
-        allsongs.add(
-          Audio.file(
-            item.songurl.toString(),
-            metas: Metas(
-              artist: item.artist,
-              title: item.songname,
-              id: item.id.toString(),
-            ),
-          ),
-        );
-      }
-    });
-  }
 }
+
+final songbox = SongBox.getInstance();
+List<Most> mostlist = mostbox.values.toList();
+List<Songs>? searchsongsdb = songbox.values.toList();
+List<Audio> allsongs = [];
+var searchController = TextEditingController();
+
+ValueNotifier<List<Songs>> displaySearchSongNotifier =
+    ValueNotifier(searchsongsdb!);
 
 void clearText() {
   searchController.clear();

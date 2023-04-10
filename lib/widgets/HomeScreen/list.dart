@@ -1,7 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firstproject/bloc/all_songs/all_songs_bloc.dart';
 import 'package:firstproject/bloc/favorites/favorites_bloc.dart';
-import 'package:firstproject/bloc/playlist/playlist_bloc.dart';
 import 'package:firstproject/bloc/recently/recently_bloc.dart';
 import 'package:firstproject/database/favorite_model.dart';
 import 'package:firstproject/database/most_played_model.dart';
@@ -17,44 +16,17 @@ import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class HomeMusicTiles extends StatefulWidget {
-  const HomeMusicTiles({super.key});
+// ignore: must_be_immutable
+class HomeMusicTiles extends StatelessWidget {
+  HomeMusicTiles({super.key});
 
-  @override
-  State<HomeMusicTiles> createState() => _HomeMusicTilesState();
-}
-
-final GlobalKey<ScaffoldMessengerState> snackbarKey =
-    GlobalKey<ScaffoldMessengerState>();
-final recentlybox = RecentlyBox.getInstance();
-final songbox = SongBox.getInstance();
-final favoritebox = FavoriteBox.getInstance();
-final mostbox = MostBox.getInstance();
-
-class _HomeMusicTilesState extends State<HomeMusicTiles> {
   List<Audio> convert = [];
-  bool favcolor = true;
-  @override
-  void initState() {
-    List<Songs> songdb = songbox.values.toList();
-    for (var item in songdb) {
-      convert.add(
-        Audio.file(
-          item.songurl!,
-          metas: Metas(
-            title: item.songname,
-            artist: item.artist,
-            id: item.id.toString(),
-          ),
-        ),
-      );
-    }
-    super.initState();
-  }
 
+  bool favcolor = true;
+
+  // @override
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
@@ -69,22 +41,38 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
               child: CircularProgressIndicator(),
             );
           }
+          List<Songs> songdb = songbox.values.toList();
+          for (var item in songdb) {
+            convert.add(
+              Audio.file(
+                item.songurl!,
+                metas: Metas(
+                  title: item.songname,
+                  artist: item.artist,
+                  id: item.id.toString(),
+                ),
+              ),
+            );
+          }
           return ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: state.songlist.length,
             itemBuilder: (context, index) {
+              final mostlist = mostbox.values.toList();
               Songs songs = state.songlist[index];
-              // Most mostsongs = mostlist[index];
+              Most mostsongs = mostlist[index];
               return ListTile(
                 onTap: () async {
+                  // convertSongs();
                   await player.open(
                       Playlist(audios: convert, startIndex: index),
                       showNotification: notificationBool,
                       headPhoneStrategy:
                           HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
                       loopMode: LoopMode.playlist);
-                  // checkMostPlayed(mostsongs, index);
+
+                  checkMostPlayed(mostsongs, index);
                   Recently recsongs = Recently(
                       songname: state.songlist[index].songname,
                       artist: state.songlist[index].artist,
@@ -92,6 +80,7 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
                       songurl: state.songlist[index].songurl,
                       id: state.songlist[index].id,
                       index: index);
+                  // ignore: use_build_context_synchronously
                   context
                       .read<RecentlyBloc>()
                       .add(UpdateRecently(recsongs: recsongs));
@@ -218,7 +207,6 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
               TextButton.icon(
                 onPressed: () {
                   addPlaylist(context, index);
-
                 },
                 icon: const Icon(
                   Icons.playlist_add,
@@ -237,3 +225,10 @@ class _HomeMusicTilesState extends State<HomeMusicTiles> {
     );
   }
 }
+
+final GlobalKey<ScaffoldMessengerState> snackbarKey =
+    GlobalKey<ScaffoldMessengerState>();
+final recentlybox = RecentlyBox.getInstance();
+final songbox = SongBox.getInstance();
+final favoritebox = FavoriteBox.getInstance();
+final mostbox = MostBox.getInstance();

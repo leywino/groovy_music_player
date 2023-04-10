@@ -8,18 +8,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 // ignore: must_be_immutable
-class HomeBottomTile extends StatefulWidget {
+class HomeBottomTile extends StatelessWidget {
   static ValueNotifier<int> vindex = ValueNotifier(intindex);
   static int intindex = 0;
   AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
 
   HomeBottomTile({super.key});
 
-  @override
-  State<HomeBottomTile> createState() => _HomeBottomTileState();
-}
-
-class _HomeBottomTileState extends State<HomeBottomTile> {
   List<Songs> songsdb = box.values.toList();
 
   @override
@@ -29,11 +24,11 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
     double vwh = MediaQuery.of(context).size.height;
     double vww = MediaQuery.of(context).size.width;
     return PlayerBuilder.isPlaying(
-      player: widget.player,
+      player: player,
       builder: (context, isPlaying) {
         return player.builderCurrent(builder: (context, playing) {
           return ValueListenableBuilder(
-              valueListenable: HomeBottomTile.vindex,
+              valueListenable: vindex,
               builder: (BuildContext context, int intindex, child) {
                 return ValueListenableBuilder<Box<Songs>>(
                   valueListenable: box.listenable(),
@@ -53,7 +48,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                             context,
                             MaterialPageRoute(
                               builder: (ctx) => NowPlayingScreen(
-                                intindex: HomeBottomTile.intindex,
+                                intindex: intindex,
                                 opendb: songdb
                               ),
                             ),
@@ -109,7 +104,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            widget.player.getCurrentAudioTitle,
+                                            player.getCurrentAudioTitle,
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
@@ -117,7 +112,7 @@ class _HomeBottomTileState extends State<HomeBottomTile> {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Text(
-                                            widget.player.getCurrentAudioArtist,
+                                            player.getCurrentAudioArtist,
                                             style: TextStyle(
                                               color:
                                                   Colors.white.withOpacity(0.5),

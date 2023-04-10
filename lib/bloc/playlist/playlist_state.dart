@@ -14,14 +14,14 @@ class PlaylistListInitial extends PlaylistState {
 
 class DisplayPlaylistList extends PlaylistState {
   final List<Playlists> playdb;
-  DisplayPlaylistList({required this.playdb});
+  const DisplayPlaylistList({required this.playdb});
   @override
   List<Object> get props => [playdb];
 }
 
 class SpecificPlaylistIntitial extends PlaylistState {
   final List<Playlists> playdb;
-  SpecificPlaylistIntitial({required this.playdb});
+  const SpecificPlaylistIntitial({required this.playdb});
   @override
   List<Object> get props => [playdb];
 }

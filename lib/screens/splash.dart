@@ -4,7 +4,6 @@ import 'package:firstproject/utilities/colors.dart';
 import 'package:firstproject/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class ScreenSplash extends StatefulWidget {
   const ScreenSplash({super.key});
@@ -20,13 +19,6 @@ List<SongModel> allSongs = [];
 List<SongModel> getSongs = [];
 
 class _ScreenSplashState extends State<ScreenSplash> {
-  @override
-  void initState() {
-    // reqStoragePerm();
-    navigateToHome(context);
-    super.initState();
-  }
-
   // reqStoragePerm() async {
   //   bool permissionStatus = await audioquery.permissionsStatus();
   //   if (!permissionStatus) {
@@ -79,6 +71,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   @override
   Widget build(BuildContext context) {
+    navigateToHome(context);
     return Container(
       color: Colors.white.withOpacity(0),
       child: SafeArea(
@@ -125,14 +118,16 @@ navigateToHome(BuildContext ctx) async {
           count: 1),
     );
   }
-  for (var element in allSongs) {
-    box.add(Songs(
-      songname: element.title,
-      artist: element.artist,
-      duration: element.duration,
-      id: element.id,
-      songurl: element.uri,
-    ));
+  if (box.isEmpty) {
+    for (var element in allSongs) {
+      box.add(Songs(
+        songname: element.title,
+        artist: element.artist,
+        duration: element.duration,
+        id: element.id,
+        songurl: element.uri,
+      ));
+    }
   }
   await Future.delayed(
     const Duration(milliseconds: 1500),
