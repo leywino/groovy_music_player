@@ -30,8 +30,8 @@ class ScreenSettings extends StatelessWidget {
                   TextButton.icon(
                     onPressed: () {
                       Share.share(
-                          "https://github.com/leywino/groovy_music_player",
-                          subject: "Github Repo");
+                          "https://play.google.com/store/apps/details?id=com.groovy.music",
+                          subject: "PlayStore Link");
                     },
                     icon: const Icon(
                       Icons.share,
