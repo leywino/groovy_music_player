@@ -44,63 +44,76 @@ class _RecentlyListState extends State<RecentlyList> {
               ),
             );
           }
-          return ListView.builder(
-            reverse: true,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: state.recentlylist.length,
-            itemBuilder: ((context, index) {
-              return ListTile(
-                leading: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: QueryArtworkWidget(
-                    artworkBorder: BorderRadius.circular(8),
-                    keepOldArtwork: true,
-                    id: state.recentlylist[index].id!,
-                    type: ArtworkType.AUDIO,
-                    nullArtworkWidget: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Image.asset(
-                        'assets/images/music.jpg',
-                        height: 50,
-                        fit: BoxFit.cover,
-                      ),
+          return state.recentlylist.isEmpty
+              ? Padding(
+                  padding: EdgeInsets.only(top: vwh * 0.25),
+                  child: const Center(
+                    child: Text(
+                      'You have no recently played songs!',
+                      style: TextStyle(color: Colors.white, fontSize: 23),
                     ),
                   ),
-                ),
-                title: Text(
-                  state.recentlylist[index].songname!,
-                  style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
-                ),
-                subtitle: Padding(
-                  padding: EdgeInsets.only(bottom: vww * 0.035),
-                  child: Text(
-                    state.recentlylist[index].artist!,
-                    style: GoogleFonts.rubik(color: Colors.grey, fontSize: 18),
-                  ),
-                ),
-                onTap: () async {
-                  // HomeBottomTile.vindex.value = index;
-                  // NowPlayingScreen.spindex.value = index;
-                  await player.open(
-                      Playlist(audios: recentplayedaudio, startIndex: index),
-                      showNotification: true,
-                      headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-                      loopMode: LoopMode.playlist);
-                  // ignore: use_build_context_synchronously
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) => NowPlayingScreen(
-                        intindex: state.recentlylist[index].index!,
-                        opendb: state.recentlylist,
+                )
+              : ListView.builder(
+                  reverse: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: state.recentlylist.length,
+                  itemBuilder: ((context, index) {
+                    return ListTile(
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: QueryArtworkWidget(
+                          artworkBorder: BorderRadius.circular(8),
+                          keepOldArtwork: true,
+                          id: state.recentlylist[index].id!,
+                          type: ArtworkType.AUDIO,
+                          nullArtworkWidget: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Image.asset(
+                              'assets/images/music.jpg',
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  );
-                },
-              );
-            }),
-          );
+                      title: Text(
+                        state.recentlylist[index].songname!,
+                        style: GoogleFonts.rubik(
+                            fontSize: 20, color: Colors.white),
+                      ),
+                      subtitle: Padding(
+                        padding: EdgeInsets.only(bottom: vww * 0.035),
+                        child: Text(
+                          state.recentlylist[index].artist!,
+                          style: GoogleFonts.rubik(
+                              color: Colors.grey, fontSize: 18),
+                        ),
+                      ),
+                      onTap: () async {
+                        // HomeBottomTile.vindex.value = index;
+                        // NowPlayingScreen.spindex.value = index;
+                        await player.open(
+                            Playlist(
+                                audios: recentplayedaudio, startIndex: index),
+                            showNotification: true,
+                            headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+                            loopMode: LoopMode.playlist);
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (ctx) => NowPlayingScreen(
+                              intindex: state.recentlylist[index].index!,
+                              opendb: state.recentlylist,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }),
+                );
         }
         return Padding(
           padding: EdgeInsets.only(top: vwh * 0.25),
