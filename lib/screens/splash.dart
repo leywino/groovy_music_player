@@ -74,6 +74,17 @@ navigateToHome(BuildContext ctx) async {
         songurl: element.uri,
       ));
     }
+  } else if (allSongs.length != box.length) {
+    await box.clear();
+    for (var element in allSongs) {
+      box.add(Songs(
+        songname: element.title,
+        artist: element.artist,
+        duration: element.duration,
+        id: element.id,
+        songurl: element.uri,
+      ));
+    }
   }
   await Future.delayed(
     const Duration(milliseconds: 1500),
