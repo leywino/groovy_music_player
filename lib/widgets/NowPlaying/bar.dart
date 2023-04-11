@@ -2,18 +2,9 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 
-class NPBar extends StatefulWidget {
+class NPBar extends StatelessWidget {
   const NPBar({super.key});
 
-  @override
-  State<NPBar> createState() => _NPBarState();
-}
-
-AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
-Duration duration = Duration.zero;
-Duration position = Duration.zero;
-
-class _NPBarState extends State<NPBar> {
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
@@ -49,3 +40,7 @@ class _NPBarState extends State<NPBar> {
     );
   }
 }
+
+AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
+Duration duration = Duration.zero;
+Duration position = Duration.zero;

@@ -20,7 +20,7 @@ class ScreenPlaylists extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children:  [
-                const PlaylistTitle(),
+                PlaylistTitle(),
                 PlaylistList(),
               ],
             ),

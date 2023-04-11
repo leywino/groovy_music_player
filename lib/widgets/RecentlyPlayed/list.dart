@@ -7,18 +7,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class RecentlyList extends StatefulWidget {
-  const RecentlyList({super.key});
+class RecentlyList extends StatelessWidget {
+  RecentlyList({super.key});
 
-  @override
-  State<RecentlyList> createState() => _RecentlyListState();
-}
-
-class _RecentlyListState extends State<RecentlyList> {
   final player = AssetsAudioPlayer.withId('key');
 
   final List<Recently> recentplay = [];
+
   final box = RecentlyBox.getInstance();
+
   List<Audio> recentplayedaudio = [];
 
   @override

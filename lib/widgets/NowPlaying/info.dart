@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
-class NPInfo extends StatefulWidget {
+class NPInfo extends StatelessWidget {
   NPInfo({super.key, this.intindex, this.opendb});
 
   int? intindex;
@@ -16,16 +16,9 @@ class NPInfo extends StatefulWidget {
   final player = AssetsAudioPlayer.withId('key');
 
   @override
-  State<NPInfo> createState() => _NPInfoState();
-}
-
-List<Songs> songsdb = songbox.values.toList();
-
-class _NPInfoState extends State<NPInfo> {
-  @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
-    return widget.player.builderCurrent(
+    return player.builderCurrent(
       builder: (context, playing) {
         int songindex = songsdb.indexWhere(
             (element) => element.songname == playing.audio.audio.metas.title);
@@ -44,7 +37,7 @@ class _NPInfoState extends State<NPInfo> {
                       width: vww * 0.75,
                       child: Text(
                         // widget.opendb[widget.intindex].songname!,
-                        widget.player.getCurrentAudioTitle,
+                        player.getCurrentAudioTitle,
                         style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: 22,
@@ -55,7 +48,7 @@ class _NPInfoState extends State<NPInfo> {
                     SizedBox(
                       width: vww * 0.75,
                       child: Text(
-                        widget.player.getCurrentAudioArtist,
+                        player.getCurrentAudioArtist,
                         style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: 22,
@@ -98,3 +91,5 @@ class _NPInfoState extends State<NPInfo> {
     );
   }
 }
+
+List<Songs> songsdb = songbox.values.toList();

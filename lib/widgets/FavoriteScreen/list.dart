@@ -8,18 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class FavoriteLists extends StatefulWidget {
+class FavoriteLists extends StatelessWidget {
   const FavoriteLists({super.key});
-  @override
-  State<FavoriteLists> createState() => _FavoriteListsState();
-}
-
-final favoritebox = FavoriteBox.getInstance();
-final player = AssetsAudioPlayer.withId('key');
-List<Favorite> favsongslist = [];
-List<Audio> allfavaudio = [];
-
-class _FavoriteListsState extends State<FavoriteLists> {
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
@@ -181,6 +171,11 @@ class _FavoriteListsState extends State<FavoriteLists> {
     );
   }
 }
+
+final favoritebox = FavoriteBox.getInstance();
+final player = AssetsAudioPlayer.withId('key');
+List<Favorite> favsongslist = [];
+List<Audio> allfavaudio = [];
 
 bool checkIndexSkip(int intindex, List<Favorite> favdb) {
   return (intindex < favdb.length - 1) ? false : true;

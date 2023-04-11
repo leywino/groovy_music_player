@@ -40,7 +40,7 @@ class PlaylistList extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (ctx) {
-                            return const PlaylistSongList();
+                            return  PlaylistSongList();
                           },
                         ));
                         context.read<PlaylistBloc>().add(

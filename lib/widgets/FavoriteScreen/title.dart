@@ -4,16 +4,9 @@ import 'package:firstproject/utilities/texts.dart';
 import 'package:firstproject/widgets/FavoriteScreen/list.dart';
 import 'package:flutter/material.dart';
 
-class FavoriteTitle extends StatefulWidget {
+class FavoriteTitle extends StatelessWidget {
   const FavoriteTitle({super.key});
 
-  @override
-  State<FavoriteTitle> createState() => _FavoriteTitleState();
-}
-
-List<Audio> allfavaudio = [];
-
-class _FavoriteTitleState extends State<FavoriteTitle> {
   @override
   Widget build(BuildContext context) {
     double vww = MediaQuery.of(context).size.width;
@@ -79,3 +72,5 @@ class _FavoriteTitleState extends State<FavoriteTitle> {
     );
   }
 }
+
+List<Audio> allfavaudio = [];
