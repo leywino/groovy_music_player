@@ -21,16 +21,17 @@ class PlaylistBloc extends Bloc<PlaylistEvent, PlaylistState> {
       }
     });
 
-        on<DisplaySpecificPlaylist>((event, emit) {
+    on<DisplaySpecificPlaylist>((event, emit) {
       try {
         final playlistbox = PlaylistBox.getInstance();
         final playdb = playlistbox.values.toList();
-        emit(SpecificPlaylistShow(songdb: playdb[event.intindex].playlistsongs,index: event.intindex, playlistname: event.playlistname
-        ));
+        emit(SpecificPlaylistShow(
+            songdb: playdb[event.intindex].playlistsongs,
+            index: event.intindex,
+            playlistname: event.playlistname));
       } catch (e) {
         log("$e");
       }
     });
   }
 }
-

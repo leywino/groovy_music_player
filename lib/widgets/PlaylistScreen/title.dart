@@ -6,16 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PlaylistTitle extends StatefulWidget {
+class PlaylistTitle extends StatelessWidget {
   static ValueNotifier<bool> editPlaylistOrNot =
       ValueNotifier(false);
-  const PlaylistTitle({super.key});
+  PlaylistTitle({super.key});
 
-  @override
-  State<PlaylistTitle> createState() => _PlaylistTitleState();
-}
-
-class _PlaylistTitleState extends State<PlaylistTitle> {
   final addController = TextEditingController();
 
   @override
@@ -49,12 +44,12 @@ class _PlaylistTitleState extends State<PlaylistTitle> {
               GestureDetector(
                 onTap: () {
                   
-                    PlaylistTitle.editPlaylistOrNot.value =
-                        !PlaylistTitle.editPlaylistOrNot.value;
+                    editPlaylistOrNot.value =
+                        !editPlaylistOrNot.value;
                   
                 },
                 child: ValueListenableBuilder(
-                  valueListenable: PlaylistTitle.editPlaylistOrNot,
+                  valueListenable: editPlaylistOrNot,
                   builder: (context, editPlaylistbool, child) => Center(
                     child: !editPlaylistbool
                         ? Container(

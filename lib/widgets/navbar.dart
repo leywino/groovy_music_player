@@ -9,17 +9,12 @@ import 'package:google_fonts/google_fonts.dart';
 ValueNotifier<int> navBottomBarNotifier = ValueNotifier(0);
 
 // ignore: must_be_immutable
-class NavBarBottom extends StatefulWidget {
+class NavBarBottom extends StatelessWidget {
   NavBarBottom(
       {super.key, this.songlength, required this.selectedIndex, this.allSongs});
   dynamic allSongs;
   int? songlength;
   int? selectedIndex;
-  @override
-  State<NavBarBottom> createState() => _NavBarBottomState();
-}
-
-class _NavBarBottomState extends State<NavBarBottom> {
   @override
   Widget build(BuildContext context) {
     final pages = [

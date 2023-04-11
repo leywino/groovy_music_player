@@ -11,25 +11,13 @@ import 'package:firstproject/widgets/functions.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class NPButtons extends StatefulWidget {
+class NPButtons extends StatelessWidget {
   static bool isPlaying = false;
   NPButtons({super.key, required this.intindex});
   int intindex = HomeBottomTile.intindex;
   Duration duration = const Duration();
   Duration position = const Duration();
 
-  @override
-  State<NPButtons> createState() => _NPButtonsState();
-}
-
-ValueNotifier<bool> willRepeatNotifier = ValueNotifier(false);
-
-List<Audio> convert = [];
-AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
-final recentlybox = RecentlyBox.getInstance();
-List<Most> mostdb = mostbox.values.toList();
-
-class _NPButtonsState extends State<NPButtons> {
   @override
   Widget build(BuildContext context) {
     final box = SongBox.getInstance();
@@ -69,11 +57,11 @@ class _NPButtonsState extends State<NPButtons> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: checkIndexPrev(widget.intindex, playing)
+                      onTap: checkIndexPrev(intindex, playing)
                           ? null
                           : () async {
                               previousMusic(
-                                  isPlaying, player, songdb, widget.intindex);
+                                  isPlaying, player, songdb, intindex);
                               if (isPlaying == false) {
                                 await player.pause();
                               }
@@ -92,7 +80,7 @@ class _NPButtonsState extends State<NPButtons> {
                             },
                       child: Icon(
                         Icons.skip_previous,
-                        color: checkIndexPrev(widget.intindex, playing)
+                        color: checkIndexPrev(intindex, playing)
                             ? Colors.white.withOpacity(0.5)
                             : Colors.white,
                         size: 35,
@@ -115,11 +103,11 @@ class _NPButtonsState extends State<NPButtons> {
                           );
                         }),
                     GestureDetector(
-                      onTap: checkIndexSkip(widget.intindex, playing)
+                      onTap: checkIndexSkip(intindex, playing)
                           ? null
                           : () async {
                               skipMusic(
-                                  isPlaying, player, songdb, widget.intindex);
+                                  isPlaying, player, songdb, intindex);
                               if (isPlaying == false) {
                                 await player.pause();
                               }
@@ -138,7 +126,7 @@ class _NPButtonsState extends State<NPButtons> {
                             },
                       child: Icon(
                         Icons.skip_next,
-                        color: checkIndexSkip(widget.intindex, playing)
+                        color: checkIndexSkip(intindex, playing)
                             ? Colors.white.withOpacity(0.5)
                             : Colors.white,
                         size: 35,
@@ -167,6 +155,13 @@ class _NPButtonsState extends State<NPButtons> {
     });
   }
 }
+
+ValueNotifier<bool> willRepeatNotifier = ValueNotifier(false);
+
+List<Audio> convert = [];
+AssetsAudioPlayer player = AssetsAudioPlayer.withId('key');
+final recentlybox = RecentlyBox.getInstance();
+List<Most> mostdb = mostbox.values.toList();
 
 skipMusic(bool isPlaying, AssetsAudioPlayer player, List<Songs> songdb,
     int intindex) async {

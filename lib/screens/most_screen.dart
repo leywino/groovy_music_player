@@ -5,14 +5,9 @@ import 'package:firstproject/widgets/MostPlayed/title.dart';
 import 'package:firstproject/widgets/PlaylistScreen/appbar.dart';
 import 'package:flutter/material.dart';
 
-class ScreenMosts extends StatefulWidget {
+class ScreenMosts extends StatelessWidget {
   const ScreenMosts({super.key});
 
-  @override
-  State<ScreenMosts> createState() => _ScreenMostsState();
-}
-
-class _ScreenMostsState extends State<ScreenMosts> {
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -13,41 +13,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 // ignore: must_be_immutable
-class PlaylistSongList extends StatefulWidget {
+class PlaylistSongList extends StatelessWidget {
   static ValueNotifier<bool> hideEditNotifier = ValueNotifier(hideEdit);
-  const PlaylistSongList({super.key});
-
-  @override
-  State<PlaylistSongList> createState() => _PlaylistSongListState();
-}
-
-bool hideEdit = true;
-List<Audio> allsongs = [];
-
-class _PlaylistSongListState extends State<PlaylistSongList> {
-  @override
-  void dispose() {
-    allsongs.clear();
-    super.dispose();
-  }
+  PlaylistSongList({super.key});
 
   // @override
-  // void initState() {
-  //   for (var item in widget.playlistsongs!) {
-  //     allsongs.add(
-  //       Audio.file(
-  //         item.songurl.toString(),
-  //         metas: Metas(
-  //           artist: item.artist,
-  //           title: item.songname,
-  //           id: item.id.toString(),
-  //         ),
-  //       ),
-  //     );
-  //   }
-  //   super.initState();
-  // }
-
   final playlistbox = PlaylistBox.getInstance();
 
   final player = AssetsAudioPlayer.withId('key');
@@ -137,15 +107,13 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                     children: [
                                       ValueListenableBuilder(
                                           valueListenable:
-                                              PlaylistSongList.hideEditNotifier,
+                                              hideEditNotifier,
                                           builder: (context, hideEdits, value) {
                                             return GestureDetector(
                                               onTap: () {
-                                                PlaylistSongList
-                                                        .hideEditNotifier
+                                                hideEditNotifier
                                                         .value =
-                                                    !PlaylistSongList
-                                                        .hideEditNotifier.value;
+                                                    !hideEditNotifier.value;
                                               },
                                               child: hideEdits
                                                   ? Container(
@@ -307,8 +275,7 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                             ),
                                             trailing: ValueListenableBuilder(
                                                 valueListenable:
-                                                    PlaylistSongList
-                                                        .hideEditNotifier,
+                                                    hideEditNotifier,
                                                 builder: (context, hideEdits,
                                                     child) {
                                                   return Visibility(
@@ -333,7 +300,7 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
                                                             pageBuilder: (context,
                                                                     animation1,
                                                                     animation2) =>
-                                                                const PlaylistSongList(),
+                                                                PlaylistSongList(),
                                                             transitionDuration:
                                                                 Duration.zero,
                                                             reverseTransitionDuration:
@@ -388,3 +355,6 @@ class _PlaylistSongListState extends State<PlaylistSongList> {
     );
   }
 }
+
+bool hideEdit = true;
+List<Audio> allsongs = [];
