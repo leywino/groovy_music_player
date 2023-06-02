@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
+// ignore: must_be_immutable
 class RecentlyList extends StatelessWidget {
   RecentlyList({super.key});
 
