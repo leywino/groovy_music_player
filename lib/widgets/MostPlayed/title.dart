@@ -11,7 +11,7 @@ class MostTitle extends StatelessWidget {
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: vww * 0.05, vertical: vwh * 0.03),
-      child: Row(
+      child: const Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -19,12 +19,12 @@ class MostTitle extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             // ignore: prefer_const_literals_to_create_immutables
             children: [
-              const Icon(
+              Icon(
                 Icons.repeat,
                 color: homeCard32,
                 size: 45,
               ),
-              const Text(
+              Text(
                 most,
                 style: TextStyle(fontSize: 35, color: Colors.white),
               ),

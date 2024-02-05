@@ -15,9 +15,9 @@ class ScreenSearch extends StatelessWidget {
           child: Scaffold(
             bottomSheet: HomeBottomTile(),
             backgroundColor: mainBgColor,
-            body: SingleChildScrollView(
+            body: const SingleChildScrollView(
               child: Column(
-                children: const [
+                children: [
                   SearchList(),
                 ],
               ),

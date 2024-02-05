@@ -18,9 +18,9 @@ class FavoriteTitle extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Wrap(
+          const Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            children: const [
+            children: [
               Icon(
                 Icons.favorite,
                 color: homeCard22,

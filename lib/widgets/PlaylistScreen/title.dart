@@ -7,8 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PlaylistTitle extends StatelessWidget {
-  static ValueNotifier<bool> editPlaylistOrNot =
-      ValueNotifier(false);
+  static ValueNotifier<bool> editPlaylistOrNot = ValueNotifier(false);
   PlaylistTitle({super.key});
 
   final addController = TextEditingController();
@@ -24,9 +23,9 @@ class PlaylistTitle extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Wrap(
+          const Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            children: const [
+            children: [
               Icon(
                 Icons.queue_music,
                 color: homeCard12,
@@ -43,10 +42,7 @@ class PlaylistTitle extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  
-                    editPlaylistOrNot.value =
-                        !editPlaylistOrNot.value;
-                  
+                  editPlaylistOrNot.value = !editPlaylistOrNot.value;
                 },
                 child: ValueListenableBuilder(
                   valueListenable: editPlaylistOrNot,
@@ -70,7 +66,6 @@ class PlaylistTitle extends StatelessWidget {
                             color: Colors.green,
                           ),
                   ),
-                  
                 ),
               ),
               IconButton(
@@ -136,35 +131,37 @@ class PlaylistTitle extends StatelessWidget {
                         return BlocBuilder<PlaylistBloc, PlaylistState>(
                           builder: (ctx, state) {
                             return TextButton(
-                          onPressed: addController.text.isEmpty
-                              ? null
-                              : !checkIfAlreadyExists(addController.text)
-                                  ? () async {
-                                    ctx.read<PlaylistBloc>().add(const GetAllPlaylist());
-                                      playlistbox.add(Playlists(
-                                          playlistname: addController.text,
-                                          playlistsongs: []));
-                                      Navigator.pop(context);
-                                      addController.clear();
-                                    }
-                                  : () {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              backgroundColor: Colors.black,
-                                              content: Text(
-                                                  'Playlist already exists')));
-                                    },
-                          child: Text(
-                            'OK',
-                            style: GoogleFonts.rubik(
-                              fontSize: 18,
-                              color: addController.text.isEmpty
-                                  ? Colors.white.withOpacity(0.5)
-                                  : Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        );
+                              onPressed: addController.text.isEmpty
+                                  ? null
+                                  : !checkIfAlreadyExists(addController.text)
+                                      ? () async {
+                                          ctx
+                                              .read<PlaylistBloc>()
+                                              .add(const GetAllPlaylist());
+                                          playlistbox.add(Playlists(
+                                              playlistname: addController.text,
+                                              playlistsongs: []));
+                                          Navigator.pop(context);
+                                          addController.clear();
+                                        }
+                                      : () {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  backgroundColor: Colors.black,
+                                                  content: Text(
+                                                      'Playlist already exists')));
+                                        },
+                              child: Text(
+                                'OK',
+                                style: GoogleFonts.rubik(
+                                  fontSize: 18,
+                                  color: addController.text.isEmpty
+                                      ? Colors.white.withOpacity(0.5)
+                                      : Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            );
                           },
                         );
                       }),

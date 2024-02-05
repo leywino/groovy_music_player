@@ -11,13 +11,13 @@ class RecentlyTitle extends StatelessWidget {
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: vww * 0.05, vertical: vwh * 0.03),
-      child: Row(
+      child: const Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            children: const [
+            children: [
               Icon(
                 Icons.history,
                 color: homeCard42,
