@@ -17,12 +17,12 @@ class ScreenMosts extends StatelessWidget {
           appBar: const CustomAppbar(),
           bottomSheet: HomeBottomTile(),
           backgroundColor: mainBgColor,
-          body: SingleChildScrollView(
+          body: const SingleChildScrollView(
             child: Column(
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                const MostTitle(),
-                const MostLists(),
+                MostTitle(),
+                MostLists(),
               ],
             ),
           ),

@@ -70,9 +70,9 @@ class PlaylistSongList extends StatelessWidget {
                 if (state is SpecificPlaylistShow) {
                   List<Songs> songs = state.songdb;
                   return songs.isEmpty
-                      ? Row(
+                      ? const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 15),
                               child: Text(
@@ -106,13 +106,11 @@ class PlaylistSongList extends StatelessWidget {
                                         WrapCrossAlignment.center,
                                     children: [
                                       ValueListenableBuilder(
-                                          valueListenable:
-                                              hideEditNotifier,
+                                          valueListenable: hideEditNotifier,
                                           builder: (context, hideEdits, value) {
                                             return GestureDetector(
                                               onTap: () {
-                                                hideEditNotifier
-                                                        .value =
+                                                hideEditNotifier.value =
                                                     !hideEditNotifier.value;
                                               },
                                               child: hideEdits
@@ -337,9 +335,9 @@ class PlaylistSongList extends StatelessWidget {
                           ],
                         );
                 }
-                return Row(
+                return const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 15),
                       child: Text(
